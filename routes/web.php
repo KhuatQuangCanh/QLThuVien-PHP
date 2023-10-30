@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Clients\HomeClientController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::prefix('')->name("clients.")->group(function () {
+
+    Route::get('/', [HomeClientController::class, 'index'])->name('homeClient');
+});
+Route::prefix('admin')->name('admin.')->group(function () {
 });
