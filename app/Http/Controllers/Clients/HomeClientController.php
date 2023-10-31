@@ -12,4 +12,21 @@ class HomeClientController extends Controller
     {
         return view('clients.layout.home');
     }
+    public function about()
+    {
+        return view('clients.layout.about');
+    }
+    public function store()
+    {
+        return view('clients.layout.store');
+    }
+    public function contact()
+    {
+        return view('clients.layout.contact');
+    }
+    public function profile(Request $request)
+    {
+        // dd($request->id);
+        return view('clients.layout.users.profile');
+    }
 }
