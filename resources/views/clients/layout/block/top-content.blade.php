@@ -22,12 +22,7 @@
             </div>
             <div class="col-md-6">
                 <div class="right-element">
-                    <a href="#" class="user-account for-buy"><i class="icon icon-user"></i><span> Account</span></a>
-                    <a href="#" class="cart for-buy"><i class="icon icon-clipboard"></i><span>Cart:(0
-                            $)</span></a>
-
                     <div class="action-menu">
-
                         <div class="search-bar">
                             <a href="#" class="search-button search-toggle" data-selector="#header-wrap">
                                 <i class="icon icon-search"></i>
@@ -37,8 +32,31 @@
                             </form>
                         </div>
                     </div>
+                    <a href="#" class="cart for-buy"><i class="icon icon-clipboard"></i><span>Cart:(0 $)</span></a>
+
+                    <div class="taikhoan">
+                        <a class="user-account for-buy" id="account-link"><i class="icon icon-user"></i><span>
+                                Account </span></a>
+                        <div id="account-dropdown" class="account-dropdown">
+                            <a href="{{route('clients.profile')}}" class="dropdown-item">Thông tin tài khoản</a>
+                            <a class="dropdown-item">Đăng xuất</a>
+                        </div>
+                        <script>
+                            const accountLink = document.getElementById('account-link');
+                            const accountDropdown = document.getElementById('account-dropdown');
+
+                            accountLink.addEventListener('click', function() {
+                                if (accountDropdown.style.display === 'block') {
+                                    accountDropdown.style.display = 'none';
+                                } else {
+                                    accountDropdown.style.display = 'block';
+                                }
+                            });
+                        </script>
+                    </div>
 
                 </div>
+
                 <!--top-right-->
             </div>
 

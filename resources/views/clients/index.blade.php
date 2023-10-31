@@ -33,9 +33,6 @@
 
     </div>
     <!--header-wrap-->
-
-    @include('clients.layout.block.header')
-
     @yield('body')
 
     @include('clients/layout/block/footer')

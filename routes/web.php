@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Clients\HomeClientController;
+use App\Http\Controllers\Clients\Users\UsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +19,10 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('')->name("clients.")->group(function () {
 
     Route::get('/', [HomeClientController::class, 'index'])->name('homeClient');
+    Route::get('about', [HomeClientController::class, 'about'])->name('about');
+    Route::get('store', [HomeClientController::class, 'store'])->name('store');
+    Route::get('contact', [HomeClientController::class, 'contact'])->name('contact');
+    Route::get('profile/user', [HomeClientController::class, 'profile'])->name('profile');
 });
 Route::prefix('admin')->name('admin.')->group(function () {
 });

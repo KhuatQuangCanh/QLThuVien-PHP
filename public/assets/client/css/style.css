@@ -1863,3 +1863,26 @@ footer#footer {
     width: 100%;
   }
 }
+
+.account-dropdown {
+  display: none;
+  /* Thiết lập kiểu hiển thị của dropdown, ví dụ: */
+  position: absolute;
+  background-color: F3F2EC;
+  border: 1px solid #ccc;
+  text-align: left;
+  /* Thêm các kiểu khác tùy ý */
+}
+a.dropdown-item:hover{
+  background-color: yellow;
+}
+div.taikhoan{
+  display: inline-block;
+}
+div.taikhoan :hover{
+  cursor: pointer;
+}
+
+.custom-div{
+  border: 1px solid #EDEBE4;background-color: #F3F2EC; margin:10px;
+}
