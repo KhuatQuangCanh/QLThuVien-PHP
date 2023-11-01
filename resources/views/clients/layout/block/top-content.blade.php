@@ -32,13 +32,13 @@
                             </form>
                         </div>
                     </div>
-                    <a href="#" class="cart for-buy"><i class="icon icon-clipboard"></i><span>Cart:(0 $)</span></a>
+                    <a href="{{route('clients.user.cart')}}" class="cart for-buy"><i class="icon icon-clipboard"></i><span> Cart:(0 $)</span></a>
 
                     <div class="taikhoan">
                         <a class="user-account for-buy" id="account-link"><i class="icon icon-user"></i><span>
                                 Account </span></a>
                         <div id="account-dropdown" class="account-dropdown">
-                            <a href="{{route('clients.profile')}}" class="dropdown-item">Thông tin tài khoản</a>
+                            <a href="{{route('clients.user.profile')}}" class="dropdown-item">Thông tin tài khoản</a>
                             <a class="dropdown-item">Đăng xuất</a>
                         </div>
                         <script>

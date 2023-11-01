@@ -29,4 +29,9 @@ class HomeClientController extends Controller
         // dd($request->id);
         return view('clients.layout.users.profile');
     }
+    public function cart()
+    {
+        // dd($request->id);
+        return view('clients.layout.users.cart');
+    }
 }
