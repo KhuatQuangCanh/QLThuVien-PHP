@@ -33,6 +33,7 @@
     bottom: 0;
     display: flex;
     animation: fadeIn linear 0.1s;
+    z-index: 999;
     
 }
 
@@ -40,7 +41,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .modal__body {
@@ -129,7 +130,7 @@
 }
 
 .auth-form__aside {
-    margin-top: 18px;
+    margin-top: 10px;
 }
 
 .auth-form__policy-text {
@@ -210,4 +211,19 @@
 
 .auth-form__help-forgot {
     color: var(--primary-color);
+}
+.define-input{
+    width: 100%;
+}
+.center{
+    margin: 0 auto;
+    width: 50%;
+}
+.define-forget{
+    display: flex;
+    justify-content: center;
+}
+.define-forget a{
+    text-decoration-line: underline;
+    text-decoration-style: solid;
 }

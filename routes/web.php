@@ -26,6 +26,9 @@ Route::prefix('')->name("clients.")->group(function () {
     Route::prefix('user')->name('user.')->group(function () {
         Route::get('profile', [HomeClientController::class, 'profile'])->name('profile');
         Route::get('cart', [HomeClientController::class, 'cart'])->name('cart');
+        Route::get('login', function () {
+            return view('clients.layout.block.assets.login');
+        })->name('login');
     });
 });
 Route::prefix('admin')->name('admin.')->group(function () {
