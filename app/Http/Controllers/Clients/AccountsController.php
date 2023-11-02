@@ -31,8 +31,8 @@ class AccountsController extends Controller
 
         $result = $this->account->login($request->taikhoan, $request->matkhau);
 
-        if ($result == true) {
-            $request->session()->put('user', $request->taikhoan);
+        if ($result->count() == 1) {
+            $request->session()->put('user', $result[0]->TenTK);
             return view('clients.layout.home');
         } else {
             dd($result);
