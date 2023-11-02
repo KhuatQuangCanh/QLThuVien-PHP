@@ -36,18 +36,18 @@
                     </div>
 
                     <div class="auth-form__controls">
-                        <button class="btn btn--normal auth-form__controls-back">TRỞ LẠI</button>
-                        <button class="btn btn--primary">ĐẰNG NHẬP</button>
+                        <button class="btn-a btn--normal auth-form__controls-back">TRỞ LẠI</button>
+                        <button class="btn-a btn--primary">ĐẰNG NHẬP</button>
                     </div>
                 </div>
 
 
                 <div class="auth-form__socials">
-                    <a href="" class=" auth-form__socials--facebook btn btn--size-s btn--width-icon">
+                    <a href="" class=" auth-form__socials--facebook btn-a btn--size-s btn--width-icon">
                         <i class="auth-form__socials-icon fa-brands fa-square-facebook"></i>
                         <span class="auth-form__socials-title">Kết nối với Facebook</span>
                     </a>
-                    <a href="" class="auth-form__socials--google btn btn--size-s btn--width-icon">
+                    <a href="" class="auth-form__socials--google btn-a btn--size-s btn--width-icon">
                         <i class="auth-form__socials-icon fa-brands fa-google"></i>
                         <span class="auth-form__socials-title">Kết nối với Google</span>
                     </a>
@@ -59,21 +59,3 @@
 </div>
 
 
-<!-- <script>
-    const registerLink = document.querySelector('.auth-form__text-link');
-    const loginForm = document.getElementById('login-form');
-
-    registerLink.addEventListener('click', function(event) {
-        event.preventDefault();
-        fetch('resources/views/clients/layout/block/Register.blade.php') 
-            .then(response => response.text())
-            .then(html => {
-                const registerFormContainer = document.createElement('div');
-                registerFormContainer.innerHTML = html;
-
-                const registerForm = registerFormContainer.querySelector('.auth-form');
-                loginForm.style.display = 'none';
-                document.body.appendChild(registerForm);
-            });
-    });
-</script> -->
