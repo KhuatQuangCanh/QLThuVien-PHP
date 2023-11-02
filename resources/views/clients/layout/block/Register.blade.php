@@ -25,7 +25,7 @@
                     </div>
 
                     <div class="auth-form__aside">
-                        <p class="auth-form__policy-text">Bằng việc đăng kí, bạn đã đồng ý với F8-Shop về
+                        <p class="auth-form__policy-text">Bằng việc đăng kí, bạn đã đồng ý với chúng tôi về
                             <a href="" class="auth-form__text-link">Điều khoản dịch vụ</a> &
                             <a href="" class="auth-form__text-link">Chính sách bảo mật</a>
                         </p>
