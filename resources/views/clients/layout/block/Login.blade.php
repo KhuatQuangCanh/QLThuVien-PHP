@@ -36,7 +36,7 @@
                     </div>
 
                     <div class="auth-form__controls">
-                        <button class="btn-a btn--normal auth-form__controls-back">TRỞ LẠI</button>
+                        <a href="{{route('clients.homeClient')}}" class="btn-a btn--normal auth-form__controls-back">TRỞ LẠzI</button>
                         <button class="btn-a btn--primary">ĐẰNG NHẬP</button>
                     </div>
                 </div>
