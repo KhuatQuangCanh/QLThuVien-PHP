@@ -1,26 +1,8 @@
 <div class="top-content">
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
-                <div class="social-links">
-                    <ul>
-                        <li>
-                            <a href="#"><i class="icon icon-facebook"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="icon icon-twitter"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="icon icon-youtube-play"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="icon icon-behance-square"></i></a>
-                        </li>
-                    </ul>
-                </div>
-                <!--social-links-->
-            </div>
-            <div class="col-md-6">
+
+            <div class="col-md-12">
                 <div class="right-element">
                     <div class="action-menu">
                         <div class="search-bar">
@@ -32,12 +14,13 @@
                             </form>
                         </div>
                     </div>
-                    <a href="{{route('clients.user.cart')}}" class="cart for-buy"><i class="icon icon-clipboard"></i><span> Cart:(0 $)</span></a>
+                    <a href="{{route('clients.user.cart')}}" class="cart for-buy"><i
+                            class="icon icon-clipboard"></i><span> Cart:(0 $)</span></a>
 
-                    @if(!Empty(Session()->user))
+                    @if(!Empty(session('user')))
                     <div class="taikhoan">
                         <a class="user-account for-buy" id="account-link"><i class="icon icon-user"></i><span>
-                                {{$user->username}} </span></a>
+                                {{session('user')}} </span></a>
                         <div id="account-dropdown" class="account-dropdown">
                             <a href="{{route('clients.user.profile')}}" class="dropdown-item">Thông tin tài khoản</a>
                             <a class="dropdown-item">Đăng xuất</a>
@@ -45,16 +28,16 @@
 
                     </div>
                     <script>
-                        const accountLink = document.getElementById('account-link');
-                        const accountDropdown = document.getElementById('account-dropdown');
+                    const accountLink = document.getElementById('account-link');
+                    const accountDropdown = document.getElementById('account-dropdown');
 
-                        accountLink.addEventListener('click', function() {
-                            if (accountDropdown.style.display === 'block') {
-                                accountDropdown.style.display = 'none';
-                            } else {
-                                accountDropdown.style.display = 'block';
-                            }
-                        });
+                    accountLink.addEventListener('click', function() {
+                        if (accountDropdown.style.display === 'block') {
+                            accountDropdown.style.display = 'none';
+                        } else {
+                            accountDropdown.style.display = 'block';
+                        }
+                    });
                     </script>
                     @else
                     <div class="taikhoan">
@@ -72,30 +55,42 @@
                                         <p class="suth-form-switch-btn" style="margin: 0 auto; text-align: center;">Đăng
                                             nhập</p>
                                     </div>
-                                    <form>
+                                    <form action="{{route('clients.user.login')}}" method="post">
                                         <div class="auth-form__form">
                                             <div class="auth-form__group">
                                                 <label for="" style="text-align: left;">Tài khoản</label>
-                                                <input type="text" class="define-input" placeholder="Nhập tài khoản ...">
+                                                <input type="text" class="define-input" placeholder="Nhập tài khoản ..."
+                                                    name="taikhoan">
+                                                @error('taikhoan')
+                                                <span style="color: red;">{{$message}}</span>
+                                                @enderror
                                             </div>
                                             <div class="auth-form__group">
                                                 <label for="" style="text-align: left;">Mật khẩu</label>
-                                                <input type="password" class="define-input" placeholder="Nhập mật khẩu ...">
+                                                <input type="password" class="define-input"
+                                                    placeholder="Nhập mật khẩu ..." name="matkhau">
+                                                @error('matkhau')
+                                                <span style="color: red;">{{$message}}</span>
+                                                @enderror
                                             </div>
                                             <div class="auth-form__group" style="display: flex;">
                                                 <input type="checkbox" id="check-box">
-                                                <label for="check-box" style="margin-left: 10px; margin-bottom: 20px;">Remember
+                                                <label for="check-box"
+                                                    style="margin-left: 10px; margin-bottom: 20px;">Remember
                                                     me.</label>
                                             </div>
                                         </div>
                                         <div class="auth-form__controls" style="margin-top: 10px;">
-                                            <button class="btn btn-primary" style="border-radius: 20px; margin: 0 auto; width: 100%;">Đăng
+                                            <button type="submit" class="btn btn-primary"
+                                                style="border-radius: 20px; margin: 0 auto; width: 100%;">Đăng
                                                 nhập</button>
                                         </div>
-                                        <div class="auth-form__help define-forget" style="justify-content: flex-end; margin-top: 20px;">
-                                            <a href="#">Quên mật khẩu?</a>
-                                        </div>
+                                        @csrf
                                     </form>
+                                    <div class="auth-form__help define-forget"
+                                        style="justify-content: flex-end; margin-top: 20px;">
+                                        <a href="#">Quên mật khẩu?</a>
+                                    </div>
 
 
                                     <div class="define-forget">
@@ -106,7 +101,8 @@
 
                                 <div class="auth-form__socials">
                                     <a href="#" class=" auth-form__socials--facebook btn-a btn--size-s btn--width-icon">
-                                        <span class="auth-form__socials-title" style="color: white;"><i class="bi bi-facebook"></i> Kết nối
+                                        <span class="auth-form__socials-title" style="color: white;"><i
+                                                class="bi bi-facebook"></i> Kết nối
                                             với
                                             Facebook</span>
                                     </a>
@@ -144,7 +140,8 @@
                                             </div>
                                             <div class="auth-form__group">
                                                 <label for="" style="text-align: left;">Tài khoản</label>
-                                                <input type="text" class="define-input" placeholder="Nhập tài khoản ...">
+                                                <input type="text" class="define-input"
+                                                    placeholder="Nhập tài khoản ...">
                                             </div>
                                             <div class="auth-form__group">
                                                 <label for="" style="text-align: left;">Mật khẩu</label>
@@ -152,24 +149,28 @@
                                             </div>
                                             <div class="auth-form__group">
                                                 <label for="" style="text-align: left;">Xác nhận lại mật khẩu</label>
-                                                <input type="text" class="define-input" placeholder="Nhập lại mật khẩu ...">
+                                                <input type="text" class="define-input"
+                                                    placeholder="Nhập lại mật khẩu ...">
                                             </div>
                                             <div style="display:flex; justify-content: left;">
-                                                <input type="checkbox" id="check-box">
-                                                <label for="check-box" style="margin-left: 10px; margin-bottom: 20px;">Đồng ý với tất cả
+                                                <input type="checkbox" id="confim-check-box">
+                                                <label for="confim-check-box"
+                                                    style="margin-left: 10px; margin-bottom: 20px;">Đồng ý với tất cả
                                                     điều khoản và dịch vu.</label>
                                             </div>
                                         </div>
                                         <div class="auth-form__controls" style="margin-top: 10px;">
 
-                                            <button class="btn btn-primary" style="border-radius: 20px; margin: 0 auto; width: 100%;">Đăng
+                                            <button class="btn btn-primary"
+                                                style="border-radius: 20px; margin: 0 auto; width: 100%;">Đăng
                                                 ký</button>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="auth-form__socials">
                                     <a href="#" class=" auth-form__socials--facebook btn-a btn--size-s btn--width-icon">
-                                        <span class="auth-form__socials-title" style="color: white;"><i class="bi bi-facebook"></i> Kết nối
+                                        <span class="auth-form__socials-title" style="color: white;"><i
+                                                class="bi bi-facebook"></i> Kết nối
                                             với
                                             Facebook</span>
                                     </a>
@@ -184,36 +185,36 @@
                     </div>
 
                     <script>
-                        const login_click = document.getElementById('login-click');
-                        const login_form_click = document.getElementById('login-form-click');
-                        const form_click = document.getElementById('form-click');
+                    const login_click = document.getElementById('login-click');
+                    const login_form_click = document.getElementById('login-form-click');
+                    const form_click = document.getElementById('form-click');
 
-                        const register_click = document.getElementById('register-click');
-                        const register_form_click = document.getElementById('register-form-click');
-                        const form_register_click = document.getElementById('form-register-click');
+                    const register_click = document.getElementById('register-click');
+                    const register_form_click = document.getElementById('register-form-click');
+                    const form_register_click = document.getElementById('form-register-click');
 
 
-                        login_click.addEventListener('click', function() {
-                            if (login_form_click.style.display === 'none') {
-                                login_form_click.style.display = 'flex';
-                            }
-                        });
-                        form_click.addEventListener('click', function() {
-                            if (event.target === form_click) {
-                                login_form_click.style.display = 'none';
-                            }
-                        });
+                    login_click.addEventListener('click', function() {
+                        if (login_form_click.style.display === 'none') {
+                            login_form_click.style.display = 'flex';
+                        }
+                    });
+                    form_click.addEventListener('click', function() {
+                        if (event.target === form_click) {
+                            login_form_click.style.display = 'none';
+                        }
+                    });
 
-                        register_click.addEventListener('click', function() {
-                            if (register_form_click.style.display === 'none') {
-                                register_form_click.style.display = 'flex';
-                            }
-                        });
-                        form_register_click.addEventListener('click', function() {
-                            if (event.target === form_register_click) {
-                                register_form_click.style.display = 'none';
-                            }
-                        });
+                    register_click.addEventListener('click', function() {
+                        if (register_form_click.style.display === 'none') {
+                            register_form_click.style.display = 'flex';
+                        }
+                    });
+                    form_register_click.addEventListener('click', function() {
+                        if (event.target === form_register_click) {
+                            register_form_click.style.display = 'none';
+                        }
+                    });
                     </script>
                     @endif
                 </div>
