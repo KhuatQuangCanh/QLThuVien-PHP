@@ -37,10 +37,13 @@
                     <div class="taikhoan">
                         <a class="user-account for-buy" id="account-link"><i class="icon icon-user"></i><span>
                                 Account </span></a>
-                        <div id="account-dropdown" class="account-dropdown">
+                        <!-- <div id="account-dropdown" class="account-dropdown">
                             <a href="{{route('clients.user.profile')}}" class="dropdown-item">Thông tin tài khoản</a>
-                            <a class="dropdown-item">Đăng xuất</a>
-                        </div>
+                            <a class="dropdown-item">Login</a>
+                        </div> -->
+                       
+                    </div>
+                    
                         <script>
                             const accountLink = document.getElementById('account-link');
                             const accountDropdown = document.getElementById('account-dropdown');
@@ -53,6 +56,8 @@
                                 }
                             });
                         </script>
+                    
+                        
                     </div>
 
                 </div>
