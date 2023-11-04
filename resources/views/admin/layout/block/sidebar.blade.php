@@ -21,11 +21,26 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#general-pages" aria-expanded="false"
+                aria-controls="general-pages">
+                <span class="menu-title">Quản lý Sách</span>
+                <i class="menu-arrow"></i>
+                <i class="bi bi-journal-album" style="color: #BEABC2;"></i>
+            </a>
+            <div class="collapse" id="general-pages">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="#">Danh mục Sách</a>
+                    </li>
+                    <li class="nav-item"> <a class="nav-link" href="#">Nhập sách</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
                 aria-controls="ui-basic">
-                <span class="menu-title">Quản lý tài khoản</span>
+                <span class="menu-title">Quản lý Tài khoản</span>
                 <i class="menu-arrow"></i>
-                <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+                <i class="bi bi-person-lines-fill" style="color: #BEABC2;"></i>
             </a>
             <div class="collapse" id="ui-basic">
                 <ul class="nav flex-column sub-menu">
@@ -57,12 +72,6 @@
 
         <li class="nav-item">
             <a class="nav-link" href="#">
-                <span class="menu-title">Quản lý nhập sách</span>
-                <i class="mdi mdi-format-list-bulleted menu-icon"></i>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">
                 <span class="menu-title">Thống kê</span>
                 <i class="mdi mdi-chart-bar menu-icon"></i>
             </a>
@@ -70,6 +79,7 @@
         <li class="nav-item">
             <a class="nav-link" href="{{route('admin.template-table')}}">
                 <span class="menu-title">Template table</span>
+                <i class="menu-icon bi bi-table" style="color: #BEABC2;"></i>
             </a>
         </li>
 
