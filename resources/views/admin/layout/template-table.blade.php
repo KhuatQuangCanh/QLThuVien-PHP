@@ -6,8 +6,9 @@
     <div class="card">
         <div class="card-body">
             <h1>Title ở đây</h1>
-            <button type="button" class="btn btn-gradient-success btn-fw"><i class="bi bi-plus-square-fill"></i>
-                Thêm mới</button>
+            <button type="button" class="btn btn-success btn-fw"><i class="bi bi-plus-square-fill"></i> Thêm
+                mới</button>
+
         </div>
         <div class="card-body">
             <table class="table table-hover">
@@ -20,7 +21,7 @@
                         <th>Vào</th>
                         <th>Chỗ</th>
                         <th>Này</th>
-                        <th></th>
+                        <th>Active</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,8 +34,8 @@
                         <td>Đẹp</td>
                         <td>Ok!</td>
                         <td>
-                            <button type="button" class="btn-sm btn-gradient-info btn-fw">Sửa</button>
-                            <button type="button" class="btn-sm btn-gradient-danger btn-fw">Xóa</button>
+                            <button type="button" class="btn-sm btn-info btn-fw">Sửa</button>
+                            <button type="button" class="btn-sm btn-danger btn-fw">Xóa</button>
 
                         </td>
                     </tr>
