@@ -17,11 +17,13 @@
     <link rel="stylesheet" type="text/css" href="{{asset('assets/client/css/style.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/client/css/auth_form.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/client/css/vendor.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/client/css/alert.css')}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
     <!-- script
 		================================================== -->
     <script src="{{asset('assets/client/js/modernizr.js')}}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </head>
 

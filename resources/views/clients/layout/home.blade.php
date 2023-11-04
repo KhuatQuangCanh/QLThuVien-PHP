@@ -1,7 +1,6 @@
 @extends('clients.index')
 
 @section('body')
-
 @include('clients.layout.block.header')
 <section id="popular-books" class="bookshelf">
     <div class="container">
@@ -399,8 +398,7 @@
                                     libero ipsum enim pharetra hac.</p>
                                 <div class="item-price">$ 45.00</div>
                                 <div class="btn-wrap">
-                                    <a href="#" class="btn-accent-arrow">shop it now <i
-                                            class="icon icon-ns-arrow-right"></i></a>
+                                    <a href="#" class="btn-accent-arrow">shop it now <i class="icon icon-ns-arrow-right"></i></a>
                                 </div>
                             </div>
 

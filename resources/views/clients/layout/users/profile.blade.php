@@ -1,6 +1,7 @@
 @extends('clients.index')
 @section('body')
 
+@if(!empty($info))
 <section>
     <div class="container" style="background-color: #EDEBE4; border: 1px solid #EDEBE4;">
         <div class=" row" style=" margin: 20px 5px 30px 10px;background-color: #F3F2EC;border: 1px solid #EDEBE4;">
@@ -8,11 +9,12 @@
                 <div class="col-4 col-lg-4 col-sm-4">
                     <div class=" card mb-4">
                         <div class="card-body text-center" style="margin-top: 20px;">
-                            <img src="{{asset('assets/images/users/Max-R_Headshot.jpg')}}" alt="avatar" class="img-thumbnail img-fluid" style="width: 200px;">
-                            <h5 class="my-3">username</h5>
-                            <p class="text-muted">FULL NAME</p>
-                            <a class="btn btn-outline-primary">Đổi ảnh đại diện</a>
-                            <a class="btn btn-outline-primary">Đổi mật khẩu</a>
+                            <img src="{{asset('assets/images/users/Max-R_Headshot.jpg')}}" alt="avatar"
+                                class="img-thumbnail img-fluid" style="width: 200px;">
+                            <h3 class="my-3">{{$info[0]->TenTK}}</h3>
+                            <h2 class="text-muted">{{$info[0]->Fullname}}</h2>
+                            <a href="#" class="btn btn-outline-primary">Đổi ảnh đại diện</a>
+                            <a href="#" class="btn btn-outline-primary">Đổi mật khẩu</a>
                             <br>
                             <a class="btn btn-outline-primary">Edit Profile</a>
                         </div>
@@ -28,23 +30,44 @@
                                             <label>User Name</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <p class="text-muted">@@User name</p>
+                                            <p class="text-muted">{{$info[0]->TenTK}}</p>
                                         </div>
                                     </div>
-                                    <div class="row custom-div">
+                                    <div class="row custom-div" style="height: 115px;">
                                         <div class="col-sm-3">
                                             <label>Password</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <p class="text-muted">@@Password</p>
+                                            <input type="password" id="passwordField" value="{{$info[0]->MatKhau}}"
+                                                style="width: 100%;">
+                                            <i class="bi bi-eye-slash" style="margin-left: -40px;" id="showPassword"
+                                                onclick="togglePasswordVisibility()"></i>
                                         </div>
+                                        <script>
+                                        function togglePasswordVisibility() {
+                                            var passwordField = document.getElementById("passwordField");
+                                            var showPasswordIcon = document.getElementById("showPassword");
+
+                                            if (passwordField.type === "password") {
+                                                passwordField.type = "text";
+                                                showPasswordIcon.classList.remove("bi-eye-slash");
+                                                showPasswordIcon.classList.add("bi-eye");
+
+                                            } else {
+                                                passwordField.type = "password";
+                                                showPasswordIcon.classList.remove("bi-eye");
+                                                showPasswordIcon.classList.add("bi-eye-slash");
+                                            }
+                                        }
+                                        </script>
+
                                     </div>
                                     <div class="row custom-div">
                                         <div class="col-sm-3">
                                             <label>Email</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <p class="text-muted">@@Email</p>
+                                            <p class="text-muted">{{$info[0]->Email}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -58,7 +81,7 @@
                                             <label>Full Name</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <p class="text-muted">@@Full name</p>
+                                            <p class="text-muted">{{$info[0]->Fullname}}</p>
                                         </div>
                                     </div>
                                     <div class="row custom-div">
@@ -66,7 +89,7 @@
                                             <label>Address</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <p class="text-muted">@@Address</p>
+                                            <p class="text-muted">{{$info[0]->DiaChi | NULL}}</p>
                                         </div>
                                     </div>
                                     <div class="row custom-div">
@@ -74,7 +97,7 @@
                                             <label>Phone number</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <p class="text-muted">@@Phone number</p>
+                                            <p class="text-muted">{{$info[0]->SDT | NULL }}</p>
                                         </div>
                                     </div>
                                     <div class="row custom-div">
@@ -82,7 +105,7 @@
                                             <label>Date of birthday</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <p class="text-muted">@@Date of birthday</p>
+                                            <p class="text-muted">{{$info[0]->Dob | NULL}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -135,6 +158,8 @@
         </div>
     </div>
 </section>
+@endif
+
 <!-- <script>
 // function togglePasswordVisibility() {
 //     var passwordInput = document.querySelector('.form-control');
