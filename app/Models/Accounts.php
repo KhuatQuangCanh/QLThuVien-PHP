@@ -11,18 +11,24 @@ class Accounts extends Model
     use HasFactory;
 
 
-    public function login($taikhoan, $matkhau)
-    {
-        // $account = DB::select('SELECT * FROM taikhoan WHERE TenTK = ? and MatKhau = ?', [$taikhoan, $matkhau]);
+    // public function login($taikhoan)
+    // {
+    //     // $account = DB::select('SELECT * FROM taikhoan WHERE TenTK = ? and MatKhau = ?', [$taikhoan, $matkhau]);
 
-        $account = DB::table('taikhoan')->where('TenTK', $taikhoan)->where('MatKhau', $matkhau)->get();
+    //     $account = DB::table('taikhoan')->where('TenTK', $taikhoan)->get();
 
-        return $account;
+    //     return $account;
 
-        // if ($account[0]->soluong == 1) {
-        //     return true;
-        // } else {
-        //     return false;
-        // }
-    }
+    //     // if ($account[0]->soluong == 1) {
+    //     //     return true;
+    //     // } else {
+    //     //     return false;
+    //     // }
+    // }
+
+
+    // public function register($data)
+    // {
+    //     return DB::insert("INSERT INTO taikhoan (TenTK,MatKhau,DiaChi,SDT,LoaiTK,Fullname,Email,Dob,AnhDaiDien) VALUES (?,?,NULL,NULL,NULL,?,?,NULL,NULL)", $data);
+    // }
 }
