@@ -26,6 +26,20 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td>Đổáaaaaaaaaaaaaaaaaaaaaaaaa</td>
+                        <td>Dữ</td>
+                        <td>Liệu</td>
+                        <td>Nhớ</td>
+                        <td>Làmqqqqqqqqqqqqqqqqqqqqqq</td>
+                        <td>Đẹp</td>
+                        <td>Ok!</td>
+                        <td>
+                            <button type="button" class="btn-sm btn-info btn-fw">Sửa</button>
+                            <button type="button" class="btn-sm btn-danger btn-fw">Xóa</button>
+
+                        </td>
+                    </tr>
+                    <tr>
                         <td>Đổ</td>
                         <td>Dữ</td>
                         <td>Liệu</td>
@@ -39,10 +53,43 @@
 
                         </td>
                     </tr>
+                    <tr>
+                        <td>Đổ</td>
+                        <td>Dữ</td>
+                        <td>Liệu</td>
+                        <td>Nhớ</td>
+                        <td>Làm</td>
+                        <td>Đẹp</td>
+                        <td>Ok!</td>
+                        <td>
+                            <button type="button" class="btn-sm btn-info btn-fw">Sửa</button>
+                            <button type="button" class="btn-sm btn-danger btn-fw">Xóa</button>
 
+                        </td>
+                    </tr>
                 </tbody>
             </table>
+            <nav aria-label="Page navigation example" style="margin-top: 50px;">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
+
     </div>
+
 </div>
+
 @endsection
