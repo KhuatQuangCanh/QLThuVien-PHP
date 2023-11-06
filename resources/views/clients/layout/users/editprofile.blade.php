@@ -76,7 +76,8 @@
             </div>
             <div class="row" style="margin-left: 40px; margin-bottom: 40px;">
                 <div class="col-12">
-                    <button type="submit" class="btn-sm btn-submit"
+                    <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn sửa thông tin không?')"
+                        class="btn-sm btn-submit"
                         style="width: 150px;border-radius: 5px; font-size: 1rem; height: 41.5px;">Submit</button>
                     <a href="{{route('clients.user.profile',$profile[0]->MaTK )}}" class="btn btn-danger"
                         style="width: 150px; margin-left: 20px;border-radius: 5px; margin-bottom: 15px;">Cancel</a>

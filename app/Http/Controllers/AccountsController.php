@@ -25,7 +25,13 @@ class AccountsController extends Controller
     {
         return view('clients.layout.block.asset.login');
     }
-
+    public function logout()
+    {
+        Session::remove('fullname');
+        Session::remove('id');
+        Auth::logout();
+        return redirect()->route('clients.homeClient');
+    }
 
     public function postLogin(Request $request)
     {
@@ -45,7 +51,7 @@ class AccountsController extends Controller
         if ($user->count() == 1) {
             $mk = $user[0]->MatKhau;
             if (Hash::check($request->MatKhau, $mk)) {
-                Session::put('user', $user[0]->TenTK);
+                Session::put('fullname', $user[0]->Fullname);
                 Session::put('id', $user[0]->MaTK);
                 return redirect()->route('clients.homeClient')->with('msg-login', 'Đăng nhập thành công.');
             } else {
@@ -56,10 +62,6 @@ class AccountsController extends Controller
         }
     }
 
-    public function register()
-    {
-        return view('clients.layout.block.asset.registration');
-    }
     public function postRegister(Request $request)
     {
         $rules = [
@@ -92,14 +94,6 @@ class AccountsController extends Controller
         }
     }
 
-
-    public function logout()
-    {
-        Session::remove('user');
-        Session::remove('id');
-        Auth::logout();
-        return redirect()->route('clients.homeClient');
-    }
 
 
     public function profile(Request $request)
@@ -156,9 +150,13 @@ class AccountsController extends Controller
         return redirect()->route('clients.user.profile', $request->id)->with('success-edit', 'Cập nhật thông tin thành công.');
     }
 
-
     public function cart()
     {
         return view('clients.layout.users.cart');
+    }
+
+    public function getChangePassword()
+    {
+        return view('clients.layout.users.changepassword');
     }
 }

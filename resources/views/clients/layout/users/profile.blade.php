@@ -19,16 +19,13 @@
 
                             <h3 class="my-3">{{ $info[0]->TenTK }}</h3>
                             <h2 class="text-muted">{{ $info[0]->Fullname }}</h2>
-                            <!-- <form action="{{ route('clients.user.upload-avatar') }}" method="POST"
-                                enctype="multipart/form-data">
-                                @csrf
-                                <input type="file" name="avatar">
-                                <button type="submit" class="btn-sm btn-outline-primary">Đổi ảnh đại diện</button>
-                            </form> -->
-                            <a href="#" class="btn btn-outline-primary">Đổi mật khẩu</a>
-                            <a href="{{route('clients.user.edit-profile',$info[0]->MaTK)}}" class="btn btn-outline-primary">Edit Profile</a>
-                        </div>
 
+                            <button href="{{route('clients.user.change-password',$info[0]->MaTK)}}" class="btn btn-outline-primary" style="width: 150px;border-radius: 5px; height: 41.5px;">Đổi mật
+                                khẩu</button>
+
+                            <a href="{{route('clients.user.edit-profile',$info[0]->MaTK)}}" class="btn btn-outline-primary" style="width: 150px; margin-left: 20px;border-radius: 5px; margin-bottom: 15px;">Edit
+                                Profile</a>
+                        </div>
                     </div>
                 </div>
                 <div class="col-8 col-lg-8 col-sm-8" style="background-color: #EDEBE4; margin-bottom: 20px; ">
