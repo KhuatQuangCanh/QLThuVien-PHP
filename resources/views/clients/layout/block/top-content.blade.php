@@ -16,10 +16,10 @@
                     </div>
                     <a href="{{route('clients.user.cart')}}" class="cart for-buy"><i class="icon icon-clipboard"></i><span> Cart:(0 $)</span></a>
 
-                    @if(!Empty(session('user')))
+                    @if(!Empty(session('fullname')))
                     <div class="taikhoan">
                         <a class="user-account for-buy" id="account-link"><i class="icon icon-user"></i><span>
-                                {{session('user')}} </span></a>
+                                {{session('fullname')}} </span></a>
                         <div id="account-dropdown" class="account-dropdown" style="width: 180px; background-color: white;">
                             <a href="{{route('clients.user.profile',session('id'))}}" class="dropdown-item">Thông tin
                                 tài khoản</a>
@@ -47,18 +47,9 @@
                     </div>
 
                     @include('clients.layout.block.asset.login')
-                    @if (Session::has('msg-login'))
-                    <div class="alert success">
-                        {{ Session::get('msg-login') }}
-                    </div>
-                    @endif
 
                     @include('clients.layout.block.asset.registration')
-                    @if(session('msg-regis'))
-                    <div class="alert alert-success">
-                        {{ session('msg-regis') }}
-                    </div>
-                    @endif
+
                     <script>
                         const login_click = document.getElementById('login-click');
                         const login_form_click = document.getElementById('login-form-click');

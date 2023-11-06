@@ -1,8 +1,14 @@
+@if(session('msg-regis'))
+<div class="alert alert-success">
+    {{ session('msg-regis') }}
+</div>
+@endif
 <div class="modal" id="register-form-click" style="display: none;">
     <div class="modal__overlay" id="form-register-click">
 
         @if(session('err-regis'))
-        <div class="alert danger" style="background-color: white; color: black; width: 15%; margin-left: 78%; margin-top: 2%; color: red;">
+        <div class="alert alert-danger"
+            style="background-color: white; color: black; max-width: 10px; margin-left: 70%; margin-top: 2%; color: red;">
             <i class="bi bi-exclamation-triangle-fill"></i> {{ session('err-regis') }}
         </div>
         @endif
@@ -20,21 +26,24 @@
                     <div class="auth-form__form">
                         <div class="auth-form__group">
                             <label for="" style="text-align: left;">Họ tên</label>
-                            <input type="text" class="define-input" placeholder="Nhập họ tên ..." name="Fullname" value="{{old('Fullname')}}">
+                            <input type="text" class="define-input" placeholder="Nhập họ tên ..." name="Fullname"
+                                value="{{old('Fullname')}}">
                             @error('Fullname')
                             <span style="color: red;">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="auth-form__group">
                             <label for="" style="text-align: left;">Email</label>
-                            <input type="email" class="define-input" placeholder="Nhập email ..." name="Email" value="{{old('Email')}}">
+                            <input type="email" class="define-input" placeholder="Nhập email ..." name="Email"
+                                value="{{old('Email')}}">
                             @error('Email')
                             <span style="color: red;">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="auth-form__group">
                             <label for="" style="text-align: left;">Tài khoản</label>
-                            <input type="text" class="define-input" placeholder="Nhập tài khoản ..." name="TenTK" value="{{old('TenTK')}}">
+                            <input type="text" class="define-input" placeholder="Nhập tài khoản ..." name="TenTK"
+                                value="{{old('TenTK')}}">
                             @error('TenTK')
                             <span style="color: red;">{{ $message }}</span>
                             @enderror
@@ -48,7 +57,8 @@
                         </div>
                         <div class="auth-form__group">
                             <label for="" style="text-align: left;">Xác nhận lại mật khẩu</label>
-                            <input type="password" class="define-input" placeholder="Nhập lại mật khẩu ..." name="confirmMK">
+                            <input type="password" class="define-input" placeholder="Nhập lại mật khẩu ..."
+                                name="confirmMK">
                             @error('confirmMK')
                             <span style="color: red;">{{ $message }}</span>
                             @enderror
@@ -61,7 +71,8 @@
                         </div>
                     </div>
                     <div class="auth-form__controls" style="margin-top: 10px;">
-                        <button class="btn btn-primary" id="register-button" style="border-radius: 20px; margin: 0 auto; width: 100%;" disabled>Đăng
+                        <button class="btn btn-primary" id="register-button"
+                            style="border-radius: 20px; margin: 0 auto; width: 100%;" disabled>Đăng
                             ký</button>
                     </div>
                     @csrf
@@ -82,18 +93,18 @@
 </div>
 
 <script>
-    $(document).ready(function() {
-        // Lắng nghe sự kiện khi người dùng thay đổi trạng thái của check box
-        $('#confirm-check-box').on('change', function() {
-            var agreeTerms = $('#confirm-check-box').is(':checked');
+$(document).ready(function() {
+    // Lắng nghe sự kiện khi người dùng thay đổi trạng thái của check box
+    $('#confirm-check-box').on('change', function() {
+        var agreeTerms = $('#confirm-check-box').is(':checked');
 
-            if (agreeTerms) {
-                // Nếu check box "Đồng ý với tất cả điều khoản và dịch vụ" được chọn, bật nút "Đăng ký"
-                $('#register-button').prop('disabled', false);
-            } else {
-                // Nếu check box không được chọn, tắt nút "Đăng ký"
-                $('#register-button').prop('disabled', true);
-            }
-        });
+        if (agreeTerms) {
+            // Nếu check box "Đồng ý với tất cả điều khoản và dịch vụ" được chọn, bật nút "Đăng ký"
+            $('#register-button').prop('disabled', false);
+        } else {
+            // Nếu check box không được chọn, tắt nút "Đăng ký"
+            $('#register-button').prop('disabled', true);
+        }
     });
+});
 </script>

@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\HomeAdminController;
-use App\Http\Controllers\Clients\AccountsController;
+use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\Clients\HomeClientController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +26,13 @@ Route::prefix('')->name("clients.")->group(function () {
 
     Route::prefix('/user')->name('user.')->group(function () {
         Route::get('/profile/{id}', [AccountsController::class, 'profile'])->name('profile');
+        Route::get('/profile/edit-profile/{id}', [AccountsController::class, 'getEditProfile'])->name('edit-profile');
+        Route::post('/profile/post-edit-profile/{id}', [AccountsController::class, 'postEditProfile'])->name('post-edit-profile');
+
+        // Route::get('/c')
+
+
+        Route::post('/upload-avatar', [AccountsController::class, 'uploadAvatar'])->name('upload-avatar');
 
         Route::get('/cart', [AccountsController::class, 'cart'])->name('cart');
 
@@ -39,6 +46,7 @@ Route::prefix('')->name("clients.")->group(function () {
     });
 });
 Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [HomeAdminController::class, 'index'])->name('home');
     Route::get('/home', [HomeAdminController::class, 'index'])->name('home');
 
     Route::get('/template-table', [HomeAdminController::class, 'table'])->name('template-table');

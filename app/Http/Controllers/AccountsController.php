@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Clients;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Accounts;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
-use Illuminate\Auth\Events\Login;
+use Illuminate\Support\Facades\Storage;
 
 class AccountsController extends Controller
 {
@@ -108,6 +108,55 @@ class AccountsController extends Controller
 
         return view('clients.layout.users.profile', compact('info'));
     }
+
+    public function getEditProfile($id)
+    {
+        $profile = DB::table('taikhoan')->where('MaTK', $id)->get();
+        return view('clients.layout.users.editprofile', compact('profile'));
+    }
+
+    public function postEditProfile(Request $request)
+    {
+
+        $request->validate([
+            'Fullname' => 'required',
+        ], [
+            'Fullname.required' => 'Cần phải nhập đầy đủ Họ tên.'
+        ]);
+
+        // dd($request->all(), $request->id);
+        if ($request->hasFile('AnhDaiDien')) {
+
+            // $oldFile = DB::table('taikhoan')->where('MaTK', $request->id)->select('AnhDaiDien')->get();
+            // dd(Storage::exists('avatars/' . $oldFile[0]->AnhDaiDien));
+            // if (Storage::exists($oldFile[0]->AnhDaiDien)) {
+            //     // Storage::delete('avatars/' . $oldFile[0]->AnhDaiDien);
+            //     $path = Storage::path($oldFile);
+            //     // dd($path);
+            // }
+
+            $file = $request->file('AnhDaiDien');
+            $fileName = $file->hashName();
+            $file->store('avatars', 'public');
+
+            DB::table('taikhoan')->where('MaTK', $request->id)->update([
+                'AnhDaiDien' => $fileName
+            ]);
+        }
+        DB::table('taikhoan')->where('MaTK', $request->id)->update([
+            'Fullname' => $request->Fullname,
+            'GioiTinh' => $request->GioiTinh,
+            'SDT' => $request->SDT,
+            'Email' => $request->Email,
+            'DiaChi' => $request->DiaChi,
+            'Dob' => $request->Dob
+        ]);
+        $info = DB::table('taikhoan')->where('MaTK', $request->id)->get();
+
+        return redirect()->route('clients.user.profile', $request->id)->with('success-edit', 'Cập nhật thông tin thành công.');
+    }
+
+
     public function cart()
     {
         return view('clients.layout.users.cart');
