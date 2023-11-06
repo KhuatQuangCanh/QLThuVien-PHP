@@ -1,7 +1,12 @@
+@if (Session::has('msg-login'))
+<div class="alert alert-success">
+    {{ Session::get('msg-login') }}
+</div>
+@endif
 <div class="modal" id="login-form-click" style="display: none;">
     <div class="modal__overlay" id="form-click">
         @if (Session::has('error-login'))
-        <div class="alert danger" style="background-color: white; color: black; max-width: 30%; margin-left: 68%; margin-top: 2%; color: red;">
+        <div class="alert alert-danger" style="background-color: white; color: black; max-width: 425px; margin-left: 68%; margin-top: 2%; color: red;">
             <i class="bi bi-exclamation-triangle-fill"></i> {{ Session::get('error-login') }}
         </div>
         @endif
