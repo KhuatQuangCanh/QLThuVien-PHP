@@ -15,15 +15,41 @@
                 <div class="col-4 col-lg-4 col-sm-4">
                     <div class=" card mb-4">
                         <div class="card-body text-center" style="margin-top: 20px;">
-                            <img src="{{ asset('storage/avatars/' . $info[0]->AnhDaiDien) }}" alt="avatar" class="img-thumbnail img-fluid" style="width: 150px; height: 180px;">
-
+                            @if($info[0]->AnhDaiDien)
+                            <img src="{{ asset('storage/avatars/' . $info[0]->AnhDaiDien) }}" alt="avatar"
+                                class="img-thumbnail img-fluid" style="width: 150px; height: 180px;">
+                            @else
+                            <img src="{{ asset('storage/avatars/avatar-trang.jpg') }}" alt="avatar"
+                                class="img-thumbnail img-fluid" style="width: 150px; height: 180px;">
+                            @endif
                             <h3 class="my-3">{{ $info[0]->TenTK }}</h3>
                             <h2 class="text-muted">{{ $info[0]->Fullname }}</h2>
 
-                            <button href="{{route('clients.user.change-password',$info[0]->MaTK)}}" class="btn btn-outline-primary" style="width: 150px;border-radius: 5px; height: 41.5px;">Đổi mật
+                            <button id="button-changepass" class="btn btn-outline-primary"
+                                style="width: 150px;border-radius: 5px; height: 41.5px;">Đổi mật
                                 khẩu</button>
+                            @include('clients.layout.users.changepassword')
+                            <script>
+                            const button_change = document.getElementById('button-changepass');
+                            const form_change = document.getElementById('form-changepass-click');
+                            const form_change_one = document.getElementById('form-change-one-click');
 
-                            <a href="{{route('clients.user.edit-profile',$info[0]->MaTK)}}" class="btn btn-outline-primary" style="width: 150px; margin-left: 20px;border-radius: 5px; margin-bottom: 15px;">Edit
+                            button_change.addEventListener('click', function() {
+                                if (form_change.style.display === 'flex') {
+                                    form_change.style.display = 'none';
+                                } else {
+                                    form_change.style.display = 'flex';
+                                }
+                            });
+                            form_change_one.addEventListener('click', function(event) {
+                                if (event.target === form_change_one) {
+                                    form_change.style.display = 'none';
+                                }
+                            });
+                            </script>
+                            <a href="{{route('clients.user.edit-profile',$info[0]->MaTK)}}"
+                                class="btn btn-outline-primary"
+                                style="width: 150px; margin-left: 20px;border-radius: 5px; margin-bottom: 15px;">Edit
                                 Profile</a>
                         </div>
                     </div>
@@ -38,7 +64,8 @@
                                             <label>User Name</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" value="{{$info[0]->TenTK}}" style="width: 100%;" disabled>
+                                            <input type="text" value="{{$info[0]->TenTK}}" style="width: 100%;"
+                                                disabled>
                                         </div>
                                     </div>
                                     <div class="row custom-div">
@@ -46,7 +73,8 @@
                                             <label>Password</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="password" value="{{$info[0]->MatKhau}}" style="width: 100%;" disabled>
+                                            <input type="password" value="{{$info[0]->MatKhau}}" style="width: 100%;"
+                                                disabled>
                                             <!-- <i class="bi bi-eye-slash" style="margin-left: -40px;" id="showPassword"
                                                 onclick="togglePasswordVisibility()"></i> -->
                                         </div>
@@ -74,7 +102,17 @@
                                             <label>Email</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" value="{{$info[0]->Email}}" style="width: 100%;" disabled>
+                                            <input type="text" value="{{$info[0]->Email}}" style="width: 100%;"
+                                                disabled>
+                                        </div>
+                                    </div>
+                                    <div class="row custom-div">
+                                        <div class="col-sm-3">
+                                            <label>Giới tính</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="text" value="{{$info[0]->GioiTinh}}" style="width: 100%;"
+                                                disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -88,7 +126,8 @@
                                             <label>Full Name</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" value="{{$info[0]->Fullname}}" style="width: 100%;" disabled>
+                                            <input type="text" value="{{$info[0]->Fullname}}" style="width: 100%;"
+                                                disabled>
 
                                         </div>
                                     </div>
@@ -97,7 +136,8 @@
                                             <label>Address</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" value="{{$info[0]->DiaChi}}" style="width: 100%;" disabled>
+                                            <input type="text" value="{{$info[0]->DiaChi}}" style="width: 100%;"
+                                                disabled>
 
                                         </div>
                                     </div>
@@ -170,45 +210,6 @@
     </div>
 </section>
 @endif
-
-<!-- <script>
-// function togglePasswordVisibility() {
-//     var passwordInput = document.querySelector('.form-control');
-//     var passwordToggle = document.getElementById('password-toggle');
-//     if (passwordInput.type === 'password') {
-//         passwordInput.type = 'text';
-//         passwordToggle.classList.remove('fa-eye-slash');
-//         passwordToggle.classList.add('fa-eye');
-//     } else {
-//         passwordInput.type = 'password';
-//         passwordToggle.classList.remove('fa-eye');
-//         passwordToggle.classList.add('fa-eye-slash');
-//     }
-// }
-// </script> -->
-<!-- <script>
-    document.getElementById('uploadForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        var form = e.target;
-        var formData = new FormData(form);
-
-        fetch('/api/UploadImageApi/uploadUser', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Xử lý dữ liệu trả về từ server
-                var imageUrl = data.imageUrl;
-                // ...
-                // Sau khi tải ảnh xong, load lại form
-                location.reload();
-
-            })
-            .catch(error => console.error(error));
-    });
-</script> -->
 
 
 @endsection
