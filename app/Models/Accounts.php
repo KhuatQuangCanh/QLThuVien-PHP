@@ -10,6 +10,9 @@ class Accounts extends Model
 {
     use HasFactory;
 
+    public function them_moi_nhan_vien($data){
+        return DB::insert("INSERT INTO taikhoan (TenTK,MatKhau,DiaChi,SDT,LoaiTK,Fullname,Email,Dob,AnhDaiDien) VALUES (?,?,NULL,NULL,NULL,?,?,NULL,NULL)", $data);
+    }
 
     // public function login($taikhoan)
     // {

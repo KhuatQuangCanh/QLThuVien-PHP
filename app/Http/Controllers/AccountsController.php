@@ -118,16 +118,7 @@ class AccountsController extends Controller
             'Fullname.required' => 'Cần phải nhập đầy đủ Họ tên.'
         ]);
 
-        // dd($request->all(), $request->id);
         if ($request->hasFile('AnhDaiDien')) {
-
-            // $oldFile = DB::table('taikhoan')->where('MaTK', $request->id)->select('AnhDaiDien')->get();
-            // dd(Storage::exists('avatars/' . $oldFile[0]->AnhDaiDien));
-            // if (Storage::exists($oldFile[0]->AnhDaiDien)) {
-            //     // Storage::delete('avatars/' . $oldFile[0]->AnhDaiDien);
-            //     $path = Storage::path($oldFile);
-            //     // dd($path);
-            // }
 
             $file = $request->file('AnhDaiDien');
             $fileName = $file->hashName();
@@ -150,13 +141,44 @@ class AccountsController extends Controller
         return redirect()->route('clients.user.profile', $request->id)->with('success-edit', 'Cập nhật thông tin thành công.');
     }
 
+
+    public function postChangePassword(Request $request)
+    {
+        $request->validate([
+            'currentpass' => 'min:6',
+            'newpass' => 'required|min:6',
+            'enterpass' => 'required|min:6'
+        ], [
+            'newpass.required' => 'Bạn chưa nhập mật khẩu mới.',
+            'enterpass.required' => 'Bạn chưa nhập mật khẩu mới.',
+            'newpass.min' => 'Độ dài mật khẩu >= 6 ký tự.',
+            'enterpass.min' => 'Độ dài mật khẩu >= 6 ký tự.',
+            'currentpass.min' => 'Độ dài mật khẩu >= 6 ký tự.',
+        ]);
+
+        $pass = DB::table('taikhoan')->where('MaTK', $request->id)->select('MatKhau')->get();
+        // dd($pass);
+        if (Hash::check($request->currentpass, $pass[0]->MatKhau)) {
+            if ($request->newpass == $request->enterpass) {
+                $data = ['MatKhau' => Hash::make($request->newpass)];
+
+                DB::table('taikhoan')->where('MaTk', $request->id)->update($data);
+
+                Session::remove('fullname');
+                Session::remove('id');
+                Auth::logout();
+                return redirect()->route('clients.homeClient')->with('noti', 'Đổi mật khẩu thành công. Vui lòng đăng nhập lại.');
+            } else {
+                return back()->with('noti-err', 'Mật khẩu mới nhập lại không đúng. Vui lòng thử lại.');
+            }
+        } else {
+            return back()->with('noti-err', 'Mật khẩu cũ không đúng. Vui lòng thử lại.');
+        }
+    }
+
+
     public function cart()
     {
         return view('clients.layout.users.cart');
-    }
-
-    public function getChangePassword()
-    {
-        return view('clients.layout.users.changepassword');
     }
 }
