@@ -53,6 +53,9 @@ class AccountsController extends Controller
             if (Hash::check($request->MatKhau, $mk)) {
                 Session::put('fullname', $user[0]->Fullname);
                 Session::put('id', $user[0]->MaTK);
+                if ($user[0]->LoaiTK != NULL || $user[0]->LoaiTK != 'Người dùng') {
+                    return redirect()->route('admin.home')->with('msg-login', 'Đăng nhập thành công.');
+                }
                 return redirect()->route('clients.homeClient')->with('msg-login', 'Đăng nhập thành công.');
             } else {
                 return redirect()->route('clients.homeClient')->with('error-login', 'Thông tin tài khoản hoặc mật khẩu chưa chính xác.Vui lòng kiểm tra lại.');
