@@ -2282,3 +2282,46 @@ div.taikhoan :hover {
   background-color: #fe90a6;
   border-color: #fe89a1;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination ul {
+  list-style: none;
+  display: flex;
+}
+
+.pagination li {
+  margin-right: 10px;
+}
+
+.pagination a,
+.pagination span {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  text-decoration: none;
+  color: #333;
+  border-radius: 4px;
+}
+
+.pagination a:hover {
+  background-color: #eee;
+}
+
+.pagination .active {
+  background-color: #C5A992;
+  color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 40px;
+  height: 35px;
+  text-align: center;
+}
+
+.pagination .disabled {
+  color: #ccc;
+  pointer-events: none;
+}
