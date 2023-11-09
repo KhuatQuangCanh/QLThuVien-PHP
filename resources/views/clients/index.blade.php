@@ -34,7 +34,7 @@
         @include('clients.layout.block.top-content')
         <!--top-content-->
 
-        @include('clients.layout.block.sidebar')
+        @include('clients.layout.block.navbar')
 
     </div>
     <!--header-wrap-->

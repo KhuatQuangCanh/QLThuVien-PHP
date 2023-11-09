@@ -15,8 +15,7 @@
                             @else
                             <img src="{{ asset('storage/avatars/avatar-trang.jpg') }}" alt="avatar" class="img-thumbnail img-fluid" style=" width: 250px;height: 281px;">
                             @endif
-                            <!-- <img id="previewImage" src="{{ asset('storage/avatars/' . $profile[0]->AnhDaiDien) }}"
-                                alt="Ảnh xem trước" style=" width: 250px;height: 281px;"> -->
+
                             <input type="file" name="AnhDaiDien" id="previewImageInput">
                         </div>
                     </center>
