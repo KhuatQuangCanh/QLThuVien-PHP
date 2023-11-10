@@ -57,5 +57,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/template-table', [HomeAdminController::class, 'table'])->name('template-table');
     Route::prefix('/danhmucsach')->name('danhmucsach.')->group(function(){
         Route::get('',[AdminAdminBookController::class,'index'])->name('index');
+        Route::get('/nhap-sach',[AdminAdminBookController::class,'getFormNhapSach'])->name('nhap-sach');
     });
 });

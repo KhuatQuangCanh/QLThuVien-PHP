@@ -44,7 +44,6 @@
     <script src="{{asset('assets/client/js/jquery-1.11.0.min.js')}}"></script>
     <script src="{{asset('assets/client/js/plugins.js')}}"></script>
     <script src="{{asset('assets/client/js/script.js')}}"></script>
-
 </body>
 
 </html>

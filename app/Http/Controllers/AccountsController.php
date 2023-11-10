@@ -57,7 +57,10 @@ class AccountsController extends Controller
                 if ($user[0]->LoaiTK == 'Người dùng' || $user[0]->LoaiTK == NULL) {
                     return redirect()->route('clients.homeClient')->with('msg-login', 'Đăng nhập thành công.');
                 }
-                return redirect()->route('admin.home')->with('msg-login', 'Đăng nhập thành công.');
+                else{
+                    Session::put('loaiTk',$user[0]->LoaiTK);
+                    return redirect()->route('admin.home')->with('msg-login', 'Đăng nhập thành công.');
+                }
             } else {
                 return redirect()->route('clients.homeClient')->with('error-login', 'Thông tin tài khoản hoặc mật khẩu chưa chính xác.Vui lòng kiểm tra lại.');
             }
@@ -192,17 +195,15 @@ class AccountsController extends Controller
 
     public function cart()
     {
-        // Session::remove('cart');
-        $list_id_book = Session::get('cart');
-        // dd($list_id_book);
-        // dd($list_id_book);
+        $list_id = Session::get('cart-id');
+        $list_idtap = Session::get('cart-idtap');
+
         $list_book = [];
-        if (!empty($list_book)) {
-            foreach ($list_id_book as $key => $id) {
+        if (!empty($list_id)) {
+            foreach ($list_id as $key => $id) {
                 $list_book[] = Db::table('sach')->where('MaSach', $id)->get();
             }
-            // Session::remove('cart');
-            // dd($list_book);
+            // dd($list_book);   
             return view('clients.layout.users.cart', compact('list_book'));
         }
         return view('clients.layout.users.cart', compact('list_book'));

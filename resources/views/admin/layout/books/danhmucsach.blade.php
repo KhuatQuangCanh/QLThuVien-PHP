@@ -6,13 +6,13 @@
     <div class="card">
         
         <div class="card-body">
-            <table class="table table-hover">
+            <table class="table table-hover" style="text-align: center;">
                 <thead>
                     <tr>
                         <th>Tên sách</th>
                         <th>Tên tập</th>
                         <th>Nội dung</th>
-                        <th>Số lượng</th>
+                        <th>Số lượng bản sao</th>
                         <th>Giá sách</th>
                         <th>Số trang</th>
                         <th>Thể loại</th>
@@ -25,12 +25,13 @@
                     <tr>
                         <td>{{$item->TenSach}}</td>
                         <td>{{$item->TenTap}}</td>
-                        <td>{{$item->NoiDung}}</td>
-                        <td>{{$item->SoLuong}}</td>
-                        <td>{{$item->GiaSach}}</td>
+                        <td style="text-align: left;">{{$item->NoiDung}}</td>
+                        <td >{{$item->SoLuong}}</td>
+                        <td>{{$item->GiaSach}} $</td>
                         <td>{{$item->SoTrang}}</td>
                         <td>{{$item->MaTL}}</td>
                         <td>
+                            <button type="button" class="btn-sm btn-primary btn-fw">Thêm tập</button>
                             <button type="button" class="btn-sm btn-info btn-fw">Sửa</button>
                             <button type="button" class="btn-sm btn-danger btn-fw">Xóa</button>
 

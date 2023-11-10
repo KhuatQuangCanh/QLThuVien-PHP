@@ -3528,7 +3528,7 @@ progress {
   color: #212529;
   background-color: color(white);
   background-clip: padding-box;
-  border: 1px solid #ced4da;
+  border: 1px solid rgb(0, 0, 0);
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;

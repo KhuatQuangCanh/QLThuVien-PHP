@@ -24,8 +24,7 @@ class BookController extends Controller
                 ->orderBy('TenTL', 'asc')
                 ->get();
             $all_book = DB::table('sach')
-                ->join('tacgia_sach', 'tacgia_sach.MaSach', '=', 'sach.MaSach')
-                ->join('tacgia', 'tacgia.MaTG', '=', 'tacgia_sach.MaTG')
+                ->join('sach_tap', 'sach_tap.MaSach', '=', 'sach.MaSach')
                 ->orderBy('TenSach', 'asc')
                 ->take(4)
                 ->get();
@@ -36,9 +35,7 @@ class BookController extends Controller
                 ->orderBy('TenTL', 'asc')
                 ->get();
             $all_book = DB::table('sach')
-                ->join('tacgia_sach', 'tacgia_sach.MaSach', '=', 'sach.MaSach')
                 ->join('sach_tap', 'sach_tap.MaSach', '=', 'sach.MaSach')
-                ->join('tacgia', 'tacgia.MaTG', '=', 'tacgia_sach.MaTG')
                 ->where('sach.MaTL', '=', $idTL)
                 ->orderBy('TenSach', 'asc')
                 ->take(4)
@@ -50,14 +47,14 @@ class BookController extends Controller
     {
         if ($idTL == 'all') {
             $list_TL = DB::table('theloai')
-                ->take(5)
+                ->take(4)
                 ->orderBy('TenTL', 'asc')
                 ->get();
             $list_books = DB::table('sach')
-                ->join('tacgia_sach', 'tacgia_sach.MaSach', '=', 'sach.MaSach')
-                ->join('tacgia', 'tacgia.MaTG', '=', 'tacgia_sach.MaTG')
+                ->join('sach_tap', 'sach_tap.MaSach', '=', 'sach.MaSach')
                 ->orderBy('TenSach', 'asc')
                 ->paginate(12);
+
             return view('clients.layout.bookcase', compact('list_books', 'list_TL'));
         } else {
             $list_TL = DB::table('theloai')
@@ -65,9 +62,7 @@ class BookController extends Controller
                 ->orderBy('TenTL', 'asc')
                 ->get();
             $list_books = DB::table('sach')
-                ->join('tacgia_sach', 'tacgia_sach.MaSach', '=', 'sach.MaSach')
                 ->join('sach_tap', 'sach_tap.MaSach', '=', 'sach.MaSach')
-                ->join('tacgia', 'tacgia.MaTG', '=', 'tacgia_sach.MaTG')
                 ->where('sach.MaTL', '=', $idTL)
                 ->orderBy('TenSach', 'asc')
                 ->paginate(12);
