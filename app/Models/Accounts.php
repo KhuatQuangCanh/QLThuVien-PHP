@@ -9,29 +9,15 @@ use Illuminate\Support\Facades\DB;
 class Accounts extends Model
 {
     use HasFactory;
+    protected $table = 'taikhoan';
 
-    public function them_moi_nhan_vien($data){
-        return DB::insert("INSERT INTO taikhoan (TenTK,MatKhau,DiaChi,SDT,LoaiTK,Fullname,Email,Dob,AnhDaiDien) VALUES (?,?,NULL,NULL,NULL,?,?,NULL,NULL)", $data);
+    public function getUserById($id)
+    {
+        return DB::table($this->table)->where('MaTK', $id)->get();
     }
 
-    // public function login($taikhoan)
-    // {
-    //     // $account = DB::select('SELECT * FROM taikhoan WHERE TenTK = ? and MatKhau = ?', [$taikhoan, $matkhau]);
-
-    //     $account = DB::table('taikhoan')->where('TenTK', $taikhoan)->get();
-
-    //     return $account;
-
-    //     // if ($account[0]->soluong == 1) {
-    //     //     return true;
-    //     // } else {
-    //     //     return false;
-    //     // }
-    // }
-
-
-    // public function register($data)
-    // {
-    //     return DB::insert("INSERT INTO taikhoan (TenTK,MatKhau,DiaChi,SDT,LoaiTK,Fullname,Email,Dob,AnhDaiDien) VALUES (?,?,NULL,NULL,NULL,?,?,NULL,NULL)", $data);
-    // }
+    public function getUserByTK($tenTK)
+    {
+        return DB::table($this->table)->where('TenTK', $tenTK)->get();
+    }
 }

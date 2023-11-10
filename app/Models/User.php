@@ -53,10 +53,4 @@ class User extends Authenticatable
     protected $casts = [
         'MatKhau' => 'hashed',
     ];
-
-
-    public function setPasswordAttribute($MatKhau)
-    {
-        $this->attributes['MatKhau'] = Hash::make($MatKhau);
-    }
 }

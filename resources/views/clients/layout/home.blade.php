@@ -17,7 +17,8 @@
                     </a>
                     @if(!empty($list_TL))
                     @foreach($list_TL as $key => $theloai)
-                    <a href="{{ route('clients.books.getBooksByGenre',$theloai->MaTL) }}" style="text-decoration-line: none;">
+                    <a href="{{ route('clients.books.getBooksByGenre',$theloai->MaTL) }}"
+                        style="text-decoration-line: none;">
                         <li class="tab">{{ $theloai->TenTL }}</li>
                     </a>
                     @endforeach
@@ -31,8 +32,13 @@
                             <div class="col-md-3">
                                 <figure class="product-style">
                                     <img src="{{asset('assets/images/'.$book->Anh)}}" alt="Books" class="product-item">
-                                    <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-                                        Cart</button>
+                                    <!-- Blade Template -->
+                                    <button type="button" class="add-to-cart" data-product-id="{{ $book->MaSach }}"
+                                        data-product-name="{{ $book->TenSach }}"
+                                        data-product-price="{{ $book->GiaSach }}">
+                                        Add to Cart
+                                    </button>
+
                                     <figcaption>
                                         <h3>{{$book->TenSach}}</h3>
                                         <p>{{$book->TenTG}}</p>
@@ -45,9 +51,31 @@
                         </div>
                     </div>
                 </div>
+                <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    document.addEventListener('click', function(event) {
+                        if (event.target.classList.contains('add-to-cart')) {
+                            const productId = event.target.getAttribute('data-product-id');
+                            const productName = event.target.getAttribute('data-product-name');
 
+                            // Send Ajax request to add the product to the cart
+                            axios.post('http://localhost:8000/book/add-to-cart', {
+                                    product_id: productId,
+                                    product_name: productName,
+                                })
+                                .then(function(response) {
+                                    alert(response.data.message);
+                                })
+                                .catch(function(error) {
+                                    console.error('Error adding to cart:', error);
+                                });
+                        }
+                    });
+                });
+                </script>
                 <div class="btn-wrap" style="text-align: right;">
-                    <a href="{{route('clients.bookcase')}}" class="btn btn-outline-accent btn-accent-arrow">View All<i class="icon icon-ns-arrow-right"></i></a>
+                    <a href="{{route('clients.bookcase')}}" class="btn btn-outline-accent btn-accent-arrow">View All<i
+                            class="icon icon-ns-arrow-right"></i></a>
                 </div>
             </div>
             <!--inner-tabs-->
@@ -81,7 +109,8 @@
                                     libero ipsum enim pharetra hac.</p>
                                 <div class="item-price">$ 45.00</div>
                                 <div class="btn-wrap">
-                                    <a href="#" class="btn-accent-arrow">shop it now <i class="icon icon-ns-arrow-right"></i></a>
+                                    <a href="#" class="btn-accent-arrow">shop it now <i
+                                            class="icon icon-ns-arrow-right"></i></a>
                                 </div>
                             </div>
 
