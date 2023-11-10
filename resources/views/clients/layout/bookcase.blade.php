@@ -20,12 +20,14 @@
             <div class="col-md-12">
 
                 <ul class="tabs">
-                    <a href="{{ route('clients.books.getBooksByGenreForBookCase', 'all') }}" style="text-decoration-line: none;">
+                    <a href="{{ route('clients.books.getBooksByGenreForBookCase', 'all') }}"
+                        style="text-decoration-line: none;">
                         <li class="active tab" data-tab-target="all-genre">All Genre</li>
                     </a>
                     @if(!empty($list_TL))
                     @foreach($list_TL as $key => $theloai)
-                    <a href="{{ route('clients.books.getBooksByGenreForBookCase',$theloai->MaTL) }}" style="text-decoration-line: none;">
+                    <a href="{{ route('clients.books.getBooksByGenreForBookCase',$theloai->MaTL) }}"
+                        style="text-decoration-line: none;">
                         <li class="tab">{{ $theloai->TenTL }}</li>
                     </a>
                     @endforeach
@@ -37,12 +39,16 @@
                         <div class="row">
                             @if(!empty($list_books))
                             @foreach($list_books as $key => $book)
-                            <div class="col-md-3">
+                            <div class="col-3 col-lg-3 col-md-3 col-sm-3">
                                 <!-- Hiển thị thông tin sách -->
                                 <figure class="product-style">
-                                    <img src="{{asset('assets/images/'.$book->Anh)}}" alt="Books" class="product-item" width="150px" height="100px">
-                                    <button type="button" class="add-to-cart" data-product-tile="add-to-cart">Add to
-                                        Cart</button>
+                                    <img src="{{asset('assets/images/'.$book->Anh)}}" alt="Books" class="product-item"
+                                        width="150px" height="100px">
+                                    <button type="button" class="add-to-cart" data-product-id="{{ $book->MaSach }}"
+                                        data-product-name="{{ $book->TenSach }}"
+                                        data-product-price="{{ $book->GiaSach }}">
+                                        Add to Cart
+                                    </button>
                                     <figcaption>
                                         <h3>{{$book->TenSach}}</h3>
                                         <p>{{$book->TenTG}}</p>
@@ -53,7 +59,28 @@
                             @endforeach
                             @endif
                         </div>
+                        <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            document.addEventListener('click', function(event) {
+                                if (event.target.classList.contains('add-to-cart')) {
+                                    const productId = event.target.getAttribute('data-product-id');
+                                    const productName = event.target.getAttribute('data-product-name');
 
+                                    // Send Ajax request to add the product to the cart
+                                    axios.post('http://localhost:8000/book/add-to-cart', {
+                                            product_id: productId,
+                                            product_name: productName,
+                                        })
+                                        .then(function(response) {
+                                            alert(response.data.message);
+                                        })
+                                        .catch(function(error) {
+                                            console.error('Error adding to cart:', error.message);
+                                        });
+                                }
+                            });
+                        });
+                        </script>
                         <div class="pagination">
                             <ul>
                                 @if ($list_books->onFirstPage())

@@ -47,16 +47,18 @@ class AccountsController extends Controller
 
         $request->validate($rules, $message);
 
-        $user = DB::table('taikhoan')->where('TenTK', $request->TenTK)->get();
+        // $user = DB::table('taikhoan')->where('TenTK', $request->TenTK)->get();
+        $user = $this->account->getUserByTK($request->TenTK);
+
         if ($user->count() == 1) {
             $mk = $user[0]->MatKhau;
             if (Hash::check($request->MatKhau, $mk)) {
                 Session::put('fullname', $user[0]->Fullname);
                 Session::put('id', $user[0]->MaTK);
-                if ($user[0]->LoaiTK != NULL || $user[0]->LoaiTK != 'Người dùng') {
-                    return redirect()->route('admin.home')->with('msg-login', 'Đăng nhập thành công.');
+                if ($user[0]->LoaiTK == 'Người dùng' || $user[0]->LoaiTK == NULL) {
+                    return redirect()->route('clients.homeClient')->with('msg-login', 'Đăng nhập thành công.');
                 }
-                return redirect()->route('clients.homeClient')->with('msg-login', 'Đăng nhập thành công.');
+                return redirect()->route('admin.home')->with('msg-login', 'Đăng nhập thành công.');
             } else {
                 return redirect()->route('clients.homeClient')->with('error-login', 'Thông tin tài khoản hoặc mật khẩu chưa chính xác.Vui lòng kiểm tra lại.');
             }
@@ -90,7 +92,14 @@ class AccountsController extends Controller
         $request->validate($rules, $message);
 
         if ($request->MatKhau == $request->confirmMK) {
-            User::create($request->only('TenTK', 'MatKhau', 'Fullname', 'Email'));
+            User::create([
+                'Fullname' => $request->Fullname,
+                'Email' => $request->email,
+                'TenTK' => $request->TenTK,
+                'MatKhau' => $request->MatKhau,
+                'LoaiTK' => 'Người dùng',
+            ]);
+
             return redirect()->route('clients.homeClient')->with('msg-regis', 'Đăng kí thành công.');
         } else {
             return back()->with('err-regis', 'Thông tin không phù hợp. Đăng kí thất bại.');
@@ -101,14 +110,16 @@ class AccountsController extends Controller
 
     public function profile(Request $request)
     {
-        $info = DB::table('taikhoan')->where('MaTK', $request->id)->get();
-
+        // $info = DB::table('taikhoan')->where('MaTK', $request->id)->get();
+        $info = $this->account->getUserById($request->id);
         return view('clients.layout.users.profile', compact('info'));
     }
 
     public function getEditProfile($id)
     {
-        $profile = DB::table('taikhoan')->where('MaTK', $id)->get();
+        // $profile = DB::table('taikhoan')->where('MaTK', $id)->get();
+        $profile = $this->account->getUserById($id);
+
         return view('clients.layout.users.editprofile', compact('profile'));
     }
 
@@ -182,6 +193,18 @@ class AccountsController extends Controller
 
     public function cart()
     {
-        return view('clients.layout.users.cart');
+
+        $list_id_book = Session::get('cart');
+        // dd($list_id_book);
+        $list_book = [];
+        if (!empty($list_book)) {
+            foreach ($list_id_book as $key => $id) {
+                $list_book[] = Db::table('sach')->where('MaSach', $id)->get();
+            }
+            // Session::remove('cart');
+            // dd($list_book);
+            return view('clients.layout.users.cart', compact('list_book'));
+        }
+        return view('clients.layout.users.cart', compact('list_book'));
     }
 }

@@ -24,6 +24,7 @@
 		================================================== -->
     <script src="{{asset('assets/client/js/modernizr.js')}}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 </head>
 
@@ -40,7 +41,6 @@
     <!--header-wrap-->
     @yield('body')
     @include('clients/layout/block/footer')
-
     <script src="{{asset('assets/client/js/jquery-1.11.0.min.js')}}"></script>
     <script src="{{asset('assets/client/js/plugins.js')}}"></script>
     <script src="{{asset('assets/client/js/script.js')}}"></script>

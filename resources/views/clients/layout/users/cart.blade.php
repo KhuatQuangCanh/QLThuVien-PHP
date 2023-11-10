@@ -21,13 +21,24 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @if(empty($list_book))
+                            <tr>
+                                <td>Khoong co</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            @else
+                            @foreach($list_book as $key => $book)
                             <tr>
                                 <td style="width: 5%;">
                                     <span><input type="checkbox" id="check_1"></span>
                                 </td>
                                 <td class="cart_product_img" for="check_1">
-                                    <a><img src="{{asset('assets/images/users/lamdi.jpg')}}" alt="Product" width="80px" height="90px"></a>
-                                    <h5>@@TenSach</h5>
+                                    <a><img src="{{asset('assets/images/users/lamdi.jpg')}}" alt="Product" width="80px"
+                                            height="90px"></a>
+                                    <h5>{{$book->TenSach}}</h5>
                                 </td>
                                 <td class="cart_product_desc">
                                     <span>@@Tình trạng</span>
@@ -35,7 +46,8 @@
                                 <td class="price">
                                     <div class="qty-btn">
                                         <div class="quantity" style="display: inline-flex;">
-                                            <input type="number" class="qty-text" id="qty" step="1" min="1" max="300" name="quantity" value="1">
+                                            <input type="number" class="qty-text" id="qty" step="1" min="1" max="300"
+                                                name="quantity" value="1">
                                             <p>Ngày</p>
                                         </div>
                                     </div>
@@ -44,6 +56,9 @@
                                     <a href="#" class="btn btn-danger">Xóa</a>
                                 </td>
                             </tr>
+                            @endforeach
+                            @endif
+
 
                         </tbody>
                     </table>
