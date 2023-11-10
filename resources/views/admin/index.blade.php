@@ -32,7 +32,7 @@
 
                 <!-- content-wrapper ends -->
                 <!-- partial:partials/_footer.html -->
-                @include('admin.layout.block.footer')
+                <!-- @include('admin.layout.block.footer') -->
                 <!-- partial -->
             </div>
             <!-- main-panel ends -->

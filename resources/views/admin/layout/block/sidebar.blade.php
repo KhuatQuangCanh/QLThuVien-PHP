@@ -29,7 +29,7 @@
             </a>
             <div class="collapse" id="general-pages">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="#">Danh mục Sách</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{route('admin.danhmucsach.index')}}">Danh mục Sách</a>
                     </li>
                     <li class="nav-item"> <a class="nav-link" href="#">Nhập sách</a></li>
                 </ul>
