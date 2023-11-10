@@ -30,7 +30,7 @@
                             @foreach($all_book as $key => $book)
                             <div class="col-md-3">
                                 <figure class="product-style">
-                                    <img src="{{asset('assets/images/'.$book->Anh)}}" alt="Books" class="product-item">
+                                    <img src="{{asset('assets/images/'.$book->AnhSach)}}" alt="Books" class="product-item">
                                     <!-- Blade Template -->
                                     <button type="button" class="add-to-cart" 
                                     data-product-id="{{ $book->MaSach }}" 
