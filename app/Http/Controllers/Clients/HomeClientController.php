@@ -24,12 +24,12 @@ class HomeClientController extends Controller
             ->orderBy('TenTL', 'asc')
             ->get();
         $all_book = DB::table('sach')
-            ->join('tacgia_sach', 'tacgia_sach.MaSach', '=', 'sach.MaSach')
-            ->join('tacgia', 'tacgia.MaTG', '=', 'tacgia_sach.MaTG')
+            ->join('sach_tap', 'sach_tap.MaSach', '=', 'sach.MaSach')
+            ->orderBy('sach.TenSach', 'asc')
             ->take(4)
-            ->orderBy('TenSach', 'asc')
             ->get();
         // dd($list_TL);
+        // dd($all_book[0]);
         return view('clients.layout.home', compact('list_TL', 'all_book'));
     }
     public function about()
@@ -44,11 +44,8 @@ class HomeClientController extends Controller
             ->get();
         $list_books = DB::table('sach')
             ->join('sach_tap', 'sach_tap.MaSach', '=', 'sach.MaSach')
-            ->join('tacgia_sach', 'tacgia_sach.Masach', '=', 'sach.MaSach')
-            ->join('tacgia', 'tacgia.MaTG', '=', 'tacgia_sach.MaTG')
             ->orderBy('sach.TenSach', 'asc')
             ->paginate(12); // You can adjust the number based on your needs
-
         return view('clients.layout.bookcase', compact('list_books', 'list_TL'));
     }
 

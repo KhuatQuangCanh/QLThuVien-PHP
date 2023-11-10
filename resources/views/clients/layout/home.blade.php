@@ -32,39 +32,48 @@
                                 <figure class="product-style">
                                     <img src="{{asset('assets/images/'.$book->Anh)}}" alt="Books" class="product-item">
                                     <!-- Blade Template -->
-                                    <button type="button" class="add-to-cart" data-product-id="{{ $book->MaSach }}" data-product-name="{{ $book->TenSach }}" data-product-price="{{ $book->GiaSach }}">
-                                        Add to Cart
-                                    </button>
-                                    
+                                    <button type="button" class="add-to-cart" 
+                                    data-product-id="{{ $book->MaSach }}" 
+                                    data-product-name="{{ $book->TenSach }}" 
+                                    data-product-idtap="{{ $book->MaTap }}" 
+                                    data-product-tap = "{{ $book->TenTap}}"
+                                    >Add to cart</button>
                                     <figcaption>
-                                        <h3>{{$book->TenSach}}</h3>
-                                        <p>{{$book->TenTG}}</p>
+                                        <h3>{{$book->TenSach}} {{$book->TenTap}}</h3>
+                                        <p>{{$book->TacGia}}</p>
                                         <div class="item-price">$ {{$book->GiaSach}}</div>
                                     </figcaption>
                                 </figure>
                             </div>
                             @endforeach
                             @endif
+                            <meta name="csrf-token" content="{{ csrf_token() }}">
+
                         </div>
                     </div>
                 </div>
                 <script>
+                    axios.defaults.headers.common['X-XSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
                     const baseUrl = '{{url('/')}}'
                     document.addEventListener('DOMContentLoaded', function() {
                         document.addEventListener('click', function(event) {
                             if (event.target.classList.contains('add-to-cart')) {
                                 const productId = event.target.getAttribute('data-product-id');
                                 const productName = event.target.getAttribute('data-product-name');
-
+                                const productIdtap = event.target.getAttribute('data-product-idtap');
+                                const productTap = event.target.getAttribute('data-product-tap');
                                 // Send Ajax request to add the product to the cart
                                 axios.post(baseUrl + '/book/add-to-cart', {
                                         product_id: productId,
                                         product_name: productName,
+                                        product_idtap:productIdtap,
+                                        product_tap:productTap,
                                     })
                                     .then(function(response) {
                                         alert(response.data.message);
                                     })
                                     .catch(function(error) {
+                                        alert(error.message);
                                         console.error('Error adding to cart:', error);
                                     });
                             }
