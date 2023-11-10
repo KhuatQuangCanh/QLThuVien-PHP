@@ -127,7 +127,7 @@ class AccountsController extends Controller
 
     public function postEditProfile(Request $request)
     {
-
+        // dd($request);
         $request->validate([
             'Fullname' => 'required',
         ], [
