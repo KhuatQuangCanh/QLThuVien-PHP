@@ -57,6 +57,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/template-table', [HomeAdminController::class, 'table'])->name('template-table');
     Route::prefix('/danhmucsach')->name('danhmucsach.')->group(function(){
         Route::get('',[AdminAdminBookController::class,'index'])->name('index');
+
         Route::get('/nhap-sach',[AdminAdminBookController::class,'getFormNhapSach'])->name('nhap-sach');
+        Route::post('/nhap-sach',[AdminAdminBookController::class,'postFormNhapSach'])->name('post-nhap-sach');
+
+        Route::get('/edit-sach/{id}',[AdminAdminBookController::class,'getEditSach'])->name('get-edit-sach');
+        Route::post('/edit-sach/{id}',[AdminAdminBookController::class,'postEditSach'])->name('post-edit-sach');
+
+        Route::get('/xoa-sach/{id}',[AdminAdminBookController::class,'postDeleteBook'])->name('post-xoa-sach');
     });
 });

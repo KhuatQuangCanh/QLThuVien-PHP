@@ -14,7 +14,7 @@
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.ico')}}" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 
 <body>
