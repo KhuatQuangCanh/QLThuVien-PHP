@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use App\Models\User;
-use Illuminate\Support\Facades\Storage;
 
 class AccountsController extends Controller
 {
@@ -193,8 +192,9 @@ class AccountsController extends Controller
 
     public function cart()
     {
-
+        // Session::remove('cart');
         $list_id_book = Session::get('cart');
+        // dd($list_id_book);
         // dd($list_id_book);
         $list_book = [];
         if (!empty($list_book)) {

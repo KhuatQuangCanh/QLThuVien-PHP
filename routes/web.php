@@ -3,9 +3,10 @@
 use App\Http\Controllers\Admin\HomeAdminController;
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\Clients\BookController;
-use App\Http\Controllers\Clients\CartController;
 use App\Http\Controllers\Clients\HomeClientController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,7 +45,18 @@ Route::prefix('')->name("clients.")->group(function () {
         Route::get('/tim-sach/{id}', [BookController::class, 'getBookById'])->name('getBookById');
         Route::get('/tim-sach/the-loai/{idTL}', [BookController::class, 'getBooksByGenre'])->name('getBooksByGenre');
         Route::get('/tu-sach/tim-sach/the-loai/{idTL}', [BookController::class, 'getBooksByGenreForBookCase'])->name('getBooksByGenreForBookCase');
-        Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('addtocart');
+        Route::post('add-to-cart', function (Request $request) {
+            $productId = $request->input('product_id');
+            $productName = $request->input('product_name');
+            $cart = Session::get('cart');
+            if (in_array($productId, $cart)) {
+                return response()->json(['message' => $productName . ' bạn đã thêm trong giỏ từ trước ! Vui lòng kiểm tra lại !']);
+            }
+            Session::remove('cart');
+            $cart[] = $productId;
+            Session::put('cart', $cart);
+            return response()->json(['message' => 'Đã thêm ' . $productName . ' vào giỏ thành công !']);
+        })->name('addtocart');
     });
 });
 Route::prefix('admin')->name('admin.')->group(function () {
