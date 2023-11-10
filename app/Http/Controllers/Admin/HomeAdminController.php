@@ -12,7 +12,7 @@ class HomeAdminController extends Controller
     {
         return view('admin.layout.block.home');
     }
-
+    
     public function table()
     {
         return view('admin.layout.template-table');
