@@ -197,15 +197,31 @@ class AccountsController extends Controller
     {
         $list_id = Session::get('cart-id');
         $list_idtap = Session::get('cart-idtap');
-        dd($list_id,$list_idtap);
+        // dd($list_id,$list_idtap);
         $list_book = [];
-        if (!empty($list_id)) {
-            foreach ($list_id as $key => $id) {
-                $list_book[] = Db::table('sach')->where('MaSach', $id)->get();
+        if (!empty($list_idtap)) {
+            foreach ($list_idtap as $key => $idtap) {
+                $book = Db::table('sach')->join('sach_tap','sach_tap.MaSach','=','sach.MaSach')->where('MaTap', $idtap)->get();
+                // dd($book);
+                if(empty($list_id)){
+                    $list_book[] = $book->all();
+                }
+                else{
+                    if(in_array($book[0]->MaSach,$list_id) == false){
+                        $list_book[] = $book->all();
+                    }
+                }
+                
             }
-            // dd($list_book);   
-            return view('clients.layout.users.cart', compact('list_book'));
         }
-        return view('clients.layout.users.cart', compact('list_book'));
+        if(!empty($list_id)){
+            foreach($list_id as $key => $id){
+                $book = Db::table('sach')->where('MaSach','=',$id)->get();
+                $list_book[] = $book->all();
+            }
+        }
+        // dd($list_book);
+        return view('clients.layout.users.cart',compact('list_book'));
+
     }
 }
