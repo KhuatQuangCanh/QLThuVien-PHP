@@ -100,9 +100,23 @@ class BookController extends Controller
         }
     }
 
-    public function getBookById($MaSach)
+    public function getChitietSach(Request $request)
     {
-        $sach = DB::table('sach')->where('MaTap', $MaSach)->get();
-        return $sach;
+        if(isset($request->tap)){
+            $sach = DB::table('sach')
+            ->join('sach_tap','sach_tap.MaSach','=','sach.MaSach')
+            ->where('TenSach','=',$request->ten)
+            ->where('TenTap','=',$request->tap)
+            ->get();
+        }
+        else{
+            $sach = DB::table('sach')
+            ->where('TenSach','=',$request->ten)
+            ->get();
+        }
+        return view('clients.layout.books.detailbook',compact('sach'));
     }
+
+
+
 }

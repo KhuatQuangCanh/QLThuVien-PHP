@@ -20,10 +20,10 @@
             <div class="col-md-12">
 
                 <ul class="tabs">
-                    <a href="{{ route('clients.books.getBooksByGenreForBookCase', 'all') }}" style="text-decoration-line: none;">
-                        <li class="active tab" data-tab-target="all-genre">All Genre</li>
-                    </a>
                     @if(!empty($list_TL))
+                    <a href="{{ route('clients.books.getBooksByGenreForBookCase', 'all') }}" style="text-decoration-line: none;">
+                        <li class="tab" data-tab-target="all-genre">All Genre</li>
+                    </a>
                     @foreach($list_TL as $key => $theloai)
                     <a href="{{ route('clients.books.getBooksByGenreForBookCase',$theloai->TenTL) }}" style="text-decoration-line: none;">
                         <li class="tab">{{ $theloai->TenTL }}</li>
@@ -31,6 +31,7 @@
                     @endforeach
                     @endif
                 </ul>
+                <!-- Thêm thẻ script cho jQuery -->
 
                 <div class="tab-content">
                     <div id="all-genre" data-tab-content class="active">
@@ -104,10 +105,9 @@
                                 @for ($i = 1; $i <= $lastPage; $i++) <li class="{{ $i == $currentPage ? 'active' : '' }}">
                                     <a href="?page={{ $i }}">{{ $i }}</a>
                                     </li>
-                                @endfor
-                                @if ($currentPage < $lastPage)
-                                    <li><a href="?page={{ $currentPage + 1 }}">Next</a></li>
-                                @endif
+                                    @endfor
+                                    @if ($currentPage < $lastPage) <li><a href="?page={{ $currentPage + 1 }}">Next</a></li>
+                                        @endif
                             </ul>
                         </div>
                     </div>

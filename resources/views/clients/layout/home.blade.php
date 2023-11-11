@@ -36,7 +36,7 @@
                                     <button type="button" class="add-to-cart" data-product-id="{{ $book->MaSach }}" data-product-name="{{ $book->TenSach }}"
                                         >Add to cart</button>
                                     <figcaption>
-                                        <h3>{{$book->TenSach}}</h3>
+                                        <h3><a href="{{route('clients.books.chi-tiet-1',['ten'=>$book->TenSach])}}">{{$book->TenSach}}</a></h3>
                                         <p>{{$book->TacGia}}</p>
                                         <div class="item-price">$ {{$book->GiaSach}}</div>
                                     </figcaption>
@@ -53,10 +53,13 @@
                                         @endif
                                         >Add to cart</button>
                                     <figcaption>
-                                        <h3>{{$book->TenSach}}
+                                        <h3>
                                             @if($book->existsEpisode == 1 && isset($book->TenTap)==true)
-                                            {{$book->TenTap}}
-                                            @endif</h3>
+                                            <a href="{{route('clients.books.chi-tiet-2',['ten'=>$book->TenSach,'tap'=>$book->TenTap])}}">
+                                            {{$book->TenSach}} {{$book->TenTap}}
+                                            </a>
+                                            @endif
+                                        </h3>
                                         <p>{{$book->TacGia}}</p>
                                         <div class="item-price">$ {{$book->GiaSach}}</div>
                                     </figcaption>

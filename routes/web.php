@@ -51,6 +51,8 @@ Route::prefix('')->name("clients.")->group(function () {
 
     Route::prefix('/book')->name('books.')->group(function () {
         Route::get('/danh-muc-sach', [BookController::class, 'getAllBook'])->name('index');
+        Route::get('/chitiet-sach/{ten}', [BookController::class, 'getChitietSach'])->name('chi-tiet-1');
+        Route::get('/chitiet-sachs/{ten}/{tap}', [BookController::class, 'getChitietSach'])->name('chi-tiet-2');
         Route::get('/tim-sach/{id}', [BookController::class, 'getBookById'])->name('getBookById');
         Route::get('/tim-sach/the-loai/{idTL}', [BookController::class, 'getBooksByGenreForHome'])->name('getBooksByGenre');
         Route::get('/tu-sach/tim-sach/the-loai/{idTL}', [BookController::class, 'getBooksByGenreForBookCase'])->name('getBooksByGenreForBookCase');
