@@ -29,6 +29,7 @@
                             @if(!empty($all_book))
                             @foreach($all_book as $key => $book)
                             <div class="col-md-3">
+
                                 <figure class="product-style" >
                                     @if(isset($book->existsEpisode) &&  $book->existsEpisode== 0)
                                     <img src="{{asset('storage/books/'.$book->AnhSach)}}" alt="Books" class="product-item">

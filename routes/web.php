@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\HomeAdminController;
+use App\Http\Controllers\Admin\QLyGiaoDichController;
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\Admin\AdminBookController as AdminAdminBookController;
 use App\Http\Controllers\Admin\BookController as AdminBookController;
@@ -71,4 +72,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('/xoa-sach/{id}',[AdminAdminBookController::class,'postDeleteBook'])->name('post-xoa-sach');
     });
+    Route::prefix('/order')->name('order.')->group(function(){
+        Route::get('',[QLyGiaoDichController::class,'getViewOrder'])->name('get-view-order');
+        Route::post('delete-order/{orderId}', [QLyGiaoDichController::class, 'deleteOrder'])->name('delete.order');
+        Route::post('/{orderId}', [QLyGiaoDichController::class, 'updateStatus'])->name('update-status');
+    });
+    Route:: get('/borrow', [QLyGiaoDichController::class,'getViewBorrow'])-> name('get-view-borrow');
+    Route:: get('/history', [QLyGiaoDichController::class, 'getViewHistory'])-> name('get-view-history');
+
+    Route::get('orderDetal/{orderId}',[QLyGiaoDichController::class, 'getViewOrderDetal'])->name('get-View-OrderDetal');
 });
