@@ -50,7 +50,7 @@
                                         data-product-idtap="{{ $book->MaTap }}"
                                         @endif
                                         @if(isset($book->TenTap)==true)
-                                        data-product-idtap="{{ $book->TenTap }}"
+                                        data-product-tap="{{ $book->TenTap }}"
                                         @endif
                                         @endif
                                         >Add to cart</button>
