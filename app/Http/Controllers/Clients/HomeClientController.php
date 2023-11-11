@@ -72,28 +72,33 @@ class HomeClientController extends Controller
             ->get()
             ->toArray(); // Convert the collection to an array
         // dd($all_books);
-        $currentPage = request()->get('page', 1);
-        $totalItems = count($all_books);
-        $lastPage = ceil($totalItems / $perPage);
-
-        $offset = ($currentPage - 1) * $perPage;
-        $currentItems = array_slice($all_books, $offset, $perPage);
-
-        foreach ($currentItems as $key => $book) {
+        $lst_book =[];
+        foreach ($all_books as $key => $book) {
             if ($book->existsEpisode == 1) {
                 $book1 = DB::table('sach')
                     ->join('sach_tap', 'sach_tap.MaSach', '=', 'sach.MaSach')
                     ->get();
 
                 foreach ($book1 as $key1 => $item) {
-                    if (in_array($item, $list_books) == false) {
-                        $list_books[] = $item;
+                    if (in_array($item, $lst_book) == false) {
+                        $lst_book[] = $item;
                     }
                 }
             } else {
-                $list_books[] = $book;
+                $lst_book[] = $book;
             }
         }
+        
+        $currentPage = request()->get('page', 1);
+        $totalItems = count($lst_book);
+        $lastPage = ceil($totalItems / $perPage);
+
+        $offset = ($currentPage - 1) * $perPage;
+        $list_books = array_slice($lst_book, $offset, $perPage);
+            
+        // dd($list_books);
+
+        // dd($list_books);
         return view('clients.layout.bookcase', compact('list_books', 'list_TL', 'currentPage', 'lastPage'));
     }
 
