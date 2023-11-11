@@ -38,10 +38,8 @@ class CartController extends Controller
                 }
             } else {
                 $cart_idtap = Session::get('cart-idtap');
-                // return response()->json(['message' => 'Danh sach id tap: '.$cart_idtap]);
-
                 if (empty($cart_idtap)) {
-                    $cart_idtap_new = $productIdtap;
+                    $cart_idtap_new[] = $productIdtap;
                     Session::remove('cart-idtap');
                     Session::put('cart-idtap', $cart_idtap_new);
                     return response()->json(['message' => 'Đã thêm ' . $productName . ' ' . $productTap . ' vào giỏ!']);

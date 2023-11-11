@@ -197,7 +197,7 @@ class AccountsController extends Controller
     {
         $list_id = Session::get('cart-id');
         $list_idtap = Session::get('cart-idtap');
-
+        dd($list_id,$list_idtap);
         $list_book = [];
         if (!empty($list_id)) {
             foreach ($list_id as $key => $id) {
