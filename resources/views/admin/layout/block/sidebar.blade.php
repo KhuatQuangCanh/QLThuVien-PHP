@@ -61,10 +61,10 @@
             </a>
             <div class="collapse" id="ui-basic-2">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="#">Phiếu yêu cầu</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="#">Phiếu mượn</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{route('admin.order.get-view-order')}}">Đơn đặt</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{route('admin.get-view-borrow')}}">Đang mượn</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="#">Phiếu trả</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{route('admin.get-view-history')}}">Lịch sử</a>
                     </li>
                 </ul>
             </div>
