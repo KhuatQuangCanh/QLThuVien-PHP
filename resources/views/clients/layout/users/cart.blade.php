@@ -33,7 +33,7 @@
                             @foreach($book as $key1 => $item)
                             <tr>
                                 <td style="width: 5%;">
-                                    <span><input type="checkbox" id="check_1">{{$key++}}</span>
+                                    <span><input type="checkbox" id="check_1"></span>
                                 </td>
                                 <td class="cart_product_img" for="check_1">
                                     <a><img src="{{asset('assets/images/users/lamdi.jpg')}}" alt="Product" width="80px"
