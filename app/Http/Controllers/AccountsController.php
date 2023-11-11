@@ -112,9 +112,41 @@ class AccountsController extends Controller
 
     public function profile(Request $request)
     {
-        // $info = DB::table('taikhoan')->where('MaTK', $request->id)->get();
         $info = $this->account->getUserById($request->id);
-        return view('clients.layout.users.profile', compact('info'));
+        $check = Db::table('dondat')
+        ->join('chitietdondat','chitietdondat.MaDonDat','=','dondat.MaDonDat')
+        ->where('MaTK','=',$request->id)
+        ->get();
+
+        $dondat = [];
+        foreach($check as $key => $item){
+            if($item->MaTap == null){
+                $dondat1 = DB::table('dondat')
+                ->join('chitietdondat','chitietdondat.MaDonDat','=','dondat.MaDonDat')
+                ->join('sach','sach.MaSach','=','chitietdondat.MaSach')
+                ->where('dondat.MaDonDat','=',$item->MaDonDat)
+                ->get();
+                foreach($dondat1 as $k => $don){
+                    if(in_array($don,$dondat) == false){
+                        $dondat[] = $don;
+                    }
+                }
+            }
+            else{
+                $dondat2 = DB::table('dondat')
+                ->join('chitietdondat','chitietdondat.MaDonDat','=','dondat.MaDonDat')
+                ->join('sach','sach.MaSach','=','chitietdondat.MaSach')
+                ->join('sach_tap','sach_tap.MaTap','=','chitietdondat.MaTap')
+                ->where('dondat.MaDonDat','=',$item->MaDonDat)
+                ->get();
+                foreach($dondat2 as $key2 => $item2){
+                    if(in_array($item2,$dondat) == false){
+                        $dondat[] =$item2;
+                    }
+                }
+            }
+        }
+        return view('clients.layout.users.profile', compact('info','dondat'));
     }
 
     public function getEditProfile($id)

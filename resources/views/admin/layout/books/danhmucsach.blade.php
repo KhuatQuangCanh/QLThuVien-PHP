@@ -17,6 +17,9 @@
         @endif
         
         <div class="card-body">
+        <div class="card-title">
+            <h2>Danh mục sách</h2>
+        </div>
             <table class="table table-hover">
                 <thead>
                     <tr>
