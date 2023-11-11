@@ -44,9 +44,9 @@
             </a>
             <div class="collapse" id="ui-basic">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="#">Quản lý người
+                    <li class="nav-item"> <a class="nav-link" href="{{route('admin.nguoidung.index')}}">Quản lý người
                             dùng</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="#">Quản lý nhân
+                    <li class="nav-item"> <a class="nav-link" href="{{route('admin.nhanvien.index')}}">Quản lý nhân
                             viên</a>
                     </li>
                 </ul>
