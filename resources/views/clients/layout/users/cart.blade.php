@@ -13,7 +13,7 @@
                                 <th>Tất cả<input type="checkbox"></th>
                                 <th>Anh</th>
                                 <th>Tên sách</th>
-                                <th>Tình trạng</th>
+                                <th>Tập</th>
                                 <th>Thời gian mượn</th>
                                 <th></th>
                             </tr>
@@ -33,7 +33,7 @@
                             @foreach($book as $key1 => $item)
                             <tr>
                                 <td style="width: 5%;">
-                                    <span><input type="checkbox" id="check_1">{{$key++}}</span>
+                                    <span><input type="checkbox" id="check_1"></span>
                                 </td>
                                 <td class="cart_product_img" for="check_1">
                                     <a><img src="{{asset('assets/images/users/lamdi.jpg')}}" alt="Product" width="80px"
@@ -42,7 +42,13 @@
                                 </td>
                                 <td><h5>{{$item->TenSach}}</h5></td>
                                 <td class="cart_product_desc">
-                                    <span>@@Tình trạng</span>
+                                    <span>
+                                        @if(isset($item->TenTap) == true)
+                                            {{$item->TenTap}}
+                                        @else
+                                        Không có
+                                        @endif
+                                    </span>
                                 </td>
                                 <td class="price">
                                     <div class="qty-btn">

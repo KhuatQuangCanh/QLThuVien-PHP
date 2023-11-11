@@ -25,7 +25,7 @@
                     </a>
                     @if(!empty($list_TL))
                     @foreach($list_TL as $key => $theloai)
-                    <a href="{{ route('clients.books.getBooksByGenreForBookCase',$theloai->MaTL) }}" style="text-decoration-line: none;">
+                    <a href="{{ route('clients.books.getBooksByGenreForBookCase',$theloai->TenTL) }}" style="text-decoration-line: none;">
                         <li class="tab">{{ $theloai->TenTL }}</li>
                     </a>
                     @endforeach
@@ -40,16 +40,22 @@
                             <div class="col-3 col-lg-3 col-md-3 col-sm-3">
                                 <!-- Hiển thị thông tin sách -->
                                 <figure class="product-style">
-                                    <img src="{{asset('assets/images/'.$book->Anh)}}" alt="Books" class="product-item" width="150px" height="100px">
-                                    <button type="button" class="add-to-cart" 
-                                    data-product-id="{{ $book->MaSach }}" 
-                                    data-product-name="{{ $book->TenSach }}" 
-                                    data-product-idtap="{{ $book->MaTap }}" 
-                                    data-product-tap = "{{ $book->TenTap}}"
-                                    >Add to Cart</button>
-
+                                    @if(isset($book->AnhTap))
+                                    <img src="{{asset('storage/books/'.$book->AnhTap)}}" alt="Books" class="product-item" width="150px" height="100px">
+                                    @else
+                                    <img src="{{asset('storage/books/'.$book->AnhSach)}}" alt="Books" class="product-item" width="150px" height="100px">
+                                    @endif
+                                    <button type="button" class="add-to-cart" data-product-id="{{ $book->MaSach }}" data-product-name="{{ $book->TenSach }}" @if($book->existsEpisode == 1)
+                                        @if(isset($book->MaTap)==true)
+                                        data-product-idtap="{{ $book->MaTap }}"
+                                        @endif
+                                        @if(isset($book->TenTap)==true)
+                                        data-product-idtap="{{ $book->TenTap }}"
+                                        @endif
+                                        @endif
+                                        >Add to cart</button>
                                     <figcaption>
-                                        <h3>{{$book->TenSach}} {{$book->TenTap}}</h3>
+                                        <h3>{{$book->TenSach}} @if($book->existsEpisode == 1 && isset($book->TenTap)==true) {{$book->TenTap}} @endif</h3>
                                         <p>{{$book->TacGia}}</p>
                                         <div class="item-price">$ {{$book->GiaSach}}</div>
                                     </figcaption>
@@ -61,7 +67,7 @@
                         </div>
                         <script>
                             axios.defaults.headers.common['X-XSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                            
+
                             const baseUrl = '{{url('/')}}';
                             document.addEventListener('DOMContentLoaded', function() {
                                 document.addEventListener('click', function(event) {
@@ -75,8 +81,8 @@
                                         axios.post(baseUrl + '/book/add-to-cart', {
                                                 product_id: productId,
                                                 product_name: productName,
-                                                product_idtap:productIdtap,
-                                                product_tap:productTap,
+                                                product_idtap: productIdtap,
+                                                product_tap: productTap,
                                             })
                                             .then(function(response) {
                                                 alert(response.data.message);
@@ -91,31 +97,19 @@
                         </script>
                         <div class="pagination">
                             <ul>
-                                @if ($list_books->onFirstPage())
-                                <li class="disabled">&laquo; Previous</li>
-                                @else
-                                <li><a href="{{ $list_books->previousPageUrl() }}">&laquo; Previous</a></li>
+                                @if ($currentPage > 1)
+                                <li><a href="?page={{ $currentPage - 1 }}">Previous</a></li>
                                 @endif
 
-                                @foreach (range(1, $list_books->lastPage()) as $page)
-                                @if ($page == $list_books->currentPage())
-                                <li class="active">{{ $page }}</li>
-                                @else
-                                <li><a href="{{ $list_books->url($page) }}">{{ $page }}</a></li>
-                                @endif
-                                @endforeach
+                                @for ($i = 1; $i <= $lastPage; $i++) <li class="{{ $i == $currentPage ? 'active' : '' }}">
+                                    <a href="?page={{ $i }}" >{{ $i }}</a>
+                                    </li>
+                                    @endfor
 
-                                @if ($list_books->hasMorePages())
-                                <li><a href="{{ $list_books->nextPageUrl() }}">Next &raquo;</a></li>
-                                @else
-                                <li class="disabled">Next &raquo;</li>
-                                @endif
+                                    @if ($currentPage < $lastPage) <li><a href="?page={{ $currentPage + 1 }}">Next</a></li>
+                                        @endif
                             </ul>
                         </div>
-
-
-                        <!-- ... your existing code ... -->
-
                     </div>
                 </div>
 
