@@ -48,7 +48,12 @@ Route::prefix('')->name("clients.")->group(function () {
         Route::get('/tim-sach/{id}', [BookController::class, 'getBookById'])->name('getBookById');
         Route::get('/tim-sach/the-loai/{idTL}', [BookController::class, 'getBooksByGenreForHome'])->name('getBooksByGenre');
         Route::get('/tu-sach/tim-sach/the-loai/{idTL}', [BookController::class, 'getBooksByGenreForBookCase'])->name('getBooksByGenreForBookCase');
-        Route::post('add-to-cart', [CartController::class,'addToCart'])->name('addtocart');
+
+        Route::post('/add-to-cart', [CartController::class,'addToCart'])->name('addtocart');
+        
+        Route::post('/delete-from-cart',[CartController::class,'deleteFromCart'])->name('delete-from-cart');
+
+        Route::post('/xac-nhan-dat',[CartController::class,'xacNhanDat'])->name('xac-nhan-dat');
     });
 });
 Route::prefix('admin')->name('admin.')->group(function () {

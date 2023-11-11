@@ -38,10 +38,8 @@ class CartController extends Controller
                 }
             } else {
                 $cart_idtap = Session::get('cart-idtap');
-                // return response()->json(['message' => 'Danh sach id tap: '.$cart_idtap]);
-
                 if (empty($cart_idtap)) {
-                    $cart_idtap_new = $productIdtap;
+                    $cart_idtap_new[] = $productIdtap;
                     Session::remove('cart-idtap');
                     Session::put('cart-idtap', $cart_idtap_new);
                     return response()->json(['message' => 'Đã thêm ' . $productName . ' ' . $productTap . ' vào giỏ!']);
@@ -64,7 +62,41 @@ class CartController extends Controller
     }
 
 
-    public function deleteFromCart()
+    public function deleteFromCart(Request $request)
     {
+        $cart_id = Session::get('cart-id');
+        $cart_idtap = Session::get('cart-idtap');
+        if(isset($request->idTap)){
+            foreach($cart_idtap as $key => $item){
+                if($item == $request->idTap){
+                    unset($cart_idtap[$key]);
+                    Session::remove('cart-idtap');
+                    Session::put('cart-idtap', $cart_idtap);
+                    break;
+                }
+                $key++;
+            }
+        }
+        if(isset($request->idSach)){
+            if(!empty($cart_id)){
+                foreach($cart_id as $key => $item){
+                    if($item == $request->idSach){
+                        unset($cart_id[$key]);
+                        Session::remove('cart-id');
+                        Session::put('cart-id', $cart_id);
+                        break;
+                    }
+                    $key++;
+                }
+            }
+            
+        }
+        return redirect()->route('clients.user.cart')->with('msg-suc-cart','Xóa thành công '.$request->tenSach.' '.$request->tenTap.' khỏi giỏ!');
     }
+
+    public function xacNhanDat(Request $request){
+        dd($request->all());
+    }
+
+
 }
