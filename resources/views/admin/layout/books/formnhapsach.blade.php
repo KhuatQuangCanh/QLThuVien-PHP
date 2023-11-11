@@ -72,12 +72,12 @@
               <div class="form-group">
                 <div class="form-check form-check-inline">
                   <input type="radio" class="form-check-input" id="hasTap" name="tapOption" onclick="toggleInput()">
-                  <label class="form-check-label" for="hasTap">Sách có tập</label>
+                  <label class="form-check-label" for="hasTap">Sách không có tập</label>
                 </div>
 
                 <div class="form-check form-check-inline">
                   <input type="radio" class="form-check-input" id="noTap" name="tapOption" onclick="toggleInput()">
-                  <label class="form-check-label" for="noTap">Sách không có tập</label>
+                  <label class="form-check-label" for="noTap">Sách có tập</label>
                 </div>
               </div>
 
@@ -97,8 +97,8 @@
               </script>
 
 
-              <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
-              <button class="btn btn-light">Cancel</button>
+              <a type="submit" class="btn btn-gradient-primary me-2">Submit</a>
+              <a class="btn btn-light">Cancel</a>
 
             </div>
           </div>
