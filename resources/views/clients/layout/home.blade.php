@@ -17,7 +17,7 @@
                     </a>
                     @if(!empty($list_TL))
                     @foreach($list_TL as $key => $theloai)
-                    <a href="{{ route('clients.books.getBooksByGenre',$theloai->MaTL) }}" style="text-decoration-line: none;">
+                    <a href="{{ route('clients.books.getBooksByGenre',$theloai->TenTL) }}" style="text-decoration-line: none;">
                         <li class="tab">{{ $theloai->TenTL }}</li>
                     </a>
                     @endforeach
@@ -29,20 +29,40 @@
                             @if(!empty($all_book))
                             @foreach($all_book as $key => $book)
                             <div class="col-md-3">
-                                <figure class="product-style">
-                                    <img src="{{asset('assets/images/'.$book->AnhSach)}}" alt="Books" class="product-item">
-                                    <!-- Blade Template -->
-                                    <button type="button" class="add-to-cart" 
-                                    data-product-id="{{ $book->MaSach }}" 
-                                    data-product-name="{{ $book->TenSach }}" 
-                                    data-product-idtap="{{ $book->MaTap }}" 
-                                    data-product-tap = "{{ $book->TenTap}}"
-                                    >Add to cart</button>
+
+                                <figure class="product-style" >
+                                    @if(isset($book->existsEpisode) &&  $book->existsEpisode== 0)
+                                    <img src="{{asset('storage/books/'.$book->AnhSach)}}" alt="Books" class="product-item">
+                                    <button type="button" class="add-to-cart" data-product-id="{{ $book->MaSach }}" data-product-name="{{ $book->TenSach }}"
+                                        >Add to cart</button>
                                     <figcaption>
-                                        <h3>{{$book->TenSach}} {{$book->TenTap}}</h3>
+                                        <h3>{{$book->TenSach}}</h3>
                                         <p>{{$book->TacGia}}</p>
                                         <div class="item-price">$ {{$book->GiaSach}}</div>
                                     </figcaption>
+                                    @else 
+                                    <img src="{{asset('storage/books/'.$book->AnhTap)}}" alt="Books" class="product-item" >
+                                    <button type="button" class="add-to-cart" data-product-id="{{ $book->MaSach }}" data-product-name="{{ $book->TenSach }}"
+                                        @if($book->existsEpisode == 1)
+                                        @if(isset($book->MaTap)==true)
+                                        data-product-idtap="{{ $book->MaTap }}"
+                                        @endif
+                                        @if(isset($book->TenTap)==true)
+                                        data-product-tap="{{ $book->TenTap}}"
+                                        @endif
+                                        @endif
+                                        >Add to cart</button>
+                                    <figcaption>
+                                        <h3>{{$book->TenSach}}
+                                            @if($book->existsEpisode == 1 && isset($book->TenTap)==true)
+                                            {{$book->TenTap}}
+                                            @endif</h3>
+                                        <p>{{$book->TacGia}}</p>
+                                        <div class="item-price">$ {{$book->GiaSach}}</div>
+                                    </figcaption>
+                                    @endif
+                                    <!-- Blade Template -->
+                                    
                                 </figure>
                             </div>
                             @endforeach

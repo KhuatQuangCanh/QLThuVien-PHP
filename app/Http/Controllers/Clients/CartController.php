@@ -15,45 +15,88 @@ class CartController extends Controller
         try {
             $productId = $request->input('product_id');
             $productName = $request->input('product_name');
-            $productIdtap = $request->input('productIdtap');
+            $productIdtap = $request->input('product_idtap');
             $productTap = $request->input('product_tap');
 
-            $cart_id = Session::get('cart-id');
-            $cart_idtap = Session::get('cart-idtap');
-            // dd($cart_id, $cart_idtap);
-            if (empty($cart_idtap)) {
+            if ($productIdtap == null) {
+                $cart_id = Session::get('cart-id');
                 if (empty($cart_id)) {
+                    $cart_id_new[] = $productId;
                     Session::remove('cart-id');
-                    Session::remove('cart-idtap');
-                    $cart_id[] = $productId;
-                    $cart_idtap[] = $productIdtap;
-
-                    Session::put('cart-id', $cart_id);
-                    Session::put('cart-idtap', $cart_idtap);
-                    return response()->json(['message' => 'Đã thêm ' . $productName . ' vào giỏ thành công !']);
-                }
-            }
-
-            if (in_array($productId, $cart_id)) {
-                if (in_array($productIdtap, $cart_idtap)) {
-                    return response()->json(['message' => $productName . ' bạn đã thêm trong giỏ từ trước ! Vui lòng kiểm tra lại !']);
+                    Session::put('cart-id', $cart_id_new);
+                    return response()->json(['message' => 'Đã thêm ' . $productName . ' vào giỏ!']);
                 } else {
-                    return response()->json(['message' => $productName . '-' . $productTap . ' bạn đã thêm trong giỏ từ trước ! Vui lòng kiểm tra lại !']);
+                    foreach ($cart_id as $key => $item) {
+                        if ($item == $productId) {
+                            return response()->json(['message' => $productName . ' đã được thêm vào giỏ từ trước! Vui lòng kiểm tra lại!']);
+                        }
+                    }
+                    $cart_id[] = $productId;
+                    Session::remove('cart-id');
+                    Session::put('cart-id', $cart_id);
+                    return response()->json(['message' => 'Đã thêm ' . $productName . ' vào giỏ!']);
+                }
+            } else {
+                $cart_idtap = Session::get('cart-idtap');
+                if (empty($cart_idtap)) {
+                    $cart_idtap_new[] = $productIdtap;
+                    Session::remove('cart-idtap');
+                    Session::put('cart-idtap', $cart_idtap_new);
+                    return response()->json(['message' => 'Đã thêm ' . $productName . ' ' . $productTap . ' vào giỏ!']);
+                } else {
+                    foreach ($cart_idtap as $key => $item_tap) {
+                        if ($item_tap == $productIdtap) {
+                            return response()->json(['message' => $productName .' ' . $productTap . ' đã được thêm vào giỏ từ trước! Vui lòng kiểm tra lại!']);
+                        }
+                    }
+                    $cart_idtap[]=$productIdtap;
+                    Session::remove('cart-idtap');
+                    Session::put('cart-idtap', $cart_idtap);
+                    return response()->json(['message' => 'Đã thêm ' . $productName . ' ' . $productTap . ' vào giỏ!']);
                 }
             }
-
-            Session::remove('cart-id');
-            Session::remove('cart-idtap');
-
-            $cart_id[] = $productId;
-            $cart_idtap[] = $productIdtap;
-
-            Session::put('cart-id', $cart_id);
-            Session::put('cart-idtap', $cart_idtap);
-            return response()->json(['message' => 'Đã thêm ' . $productName . ' vào giỏ thành công !']);
         } catch (Exception $e) {
             Log::error('Error adding to cart: ' . $e->getMessage());
             return response()->json(['message' => 'Error adding to cart.'], 500);
         }
     }
+
+
+    public function deleteFromCart(Request $request)
+    {
+        $cart_id = Session::get('cart-id');
+        $cart_idtap = Session::get('cart-idtap');
+        if(isset($request->idTap)){
+            foreach($cart_idtap as $key => $item){
+                if($item == $request->idTap){
+                    unset($cart_idtap[$key]);
+                    Session::remove('cart-idtap');
+                    Session::put('cart-idtap', $cart_idtap);
+                    break;
+                }
+                $key++;
+            }
+        }
+        if(isset($request->idSach)){
+            if(!empty($cart_id)){
+                foreach($cart_id as $key => $item){
+                    if($item == $request->idSach){
+                        unset($cart_id[$key]);
+                        Session::remove('cart-id');
+                        Session::put('cart-id', $cart_id);
+                        break;
+                    }
+                    $key++;
+                }
+            }
+            
+        }
+        return redirect()->route('clients.user.cart')->with('msg-suc-cart','Xóa thành công '.$request->tenSach.' '.$request->tenTap.' khỏi giỏ!');
+    }
+
+    public function xacNhanDat(Request $request){
+        dd($request->all());
+    }
+
+
 }

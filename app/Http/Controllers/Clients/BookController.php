@@ -16,57 +16,87 @@ class BookController extends Controller
             ->get();
         return $list_book;
     }
-    public function getBooksByGenre($idTL)
+    public function getBooksByGenreForHome($idTL)
     {
         if ($idTL == 'all') {
-            $list_TL = DB::table('theloai')
-                ->take(5)
-                ->orderBy('TenTL', 'asc')
-                ->get();
-            $all_book = DB::table('sach')
-                ->join('sach_tap', 'sach_tap.MaSach', '=', 'sach.MaSach')
-                ->orderBy('TenSach', 'asc')
-                ->take(4)
-                ->get();
-            return view('clients.layout.home', compact('all_book', 'list_TL'));
+            return redirect()->route('clients.homeClient');
         } else {
             $list_TL = DB::table('theloai')
                 ->take(5)
                 ->orderBy('TenTL', 'asc')
                 ->get();
-            $all_book = DB::table('sach')
-                ->join('sach_tap', 'sach_tap.MaSach', '=', 'sach.MaSach')
-                ->where('sach.MaTL', '=', $idTL)
-                ->orderBy('TenSach', 'asc')
-                ->take(4)
-                ->get();
+
+            $theloai = DB::table('theloai')->where('TenTL','=',$idTL)->select(['MaTL'])->get();
+            $lst_sach = DB::table('sach')->where('sach.MaTL', '=',  $theloai[0]->MaTL)->get();
+            // dd($lst_sach);
+            $all_book = [];
+            foreach($lst_sach as $key => $sach){
+                
+                if ($sach->existsEpisode == 1) {
+                    $sach1 = DB::table('sach')
+                    ->join('sach_tap', 'sach_tap.MaSach', '=', 'sach.MaSach')
+                    ->where('sach.MaTL', '=', $theloai[0]->MaTL)
+                    ->orderBy('TenSach', 'asc')
+                    ->take(4)
+                    ->get();
+                    foreach($sach1 as $key => $book){
+                        $all_book[] = $book;
+                    }
+                    // dd($all_book);
+                } else {
+                    $all_book[] = DB::table('sach')
+                        ->where('sach.MaTL', '=', $theloai[0]->MaTL)
+                        ->orderBy('TenSach', 'asc')
+                        ->take(4)
+                        ->get();
+                        // dd($all_book);
+                }
+            }
+            
             return view('clients.layout.home', compact('all_book', 'list_TL'));
         }
     }
     public function getBooksByGenreForBookCase($idTL)
     {
         if ($idTL == 'all') {
-            $list_TL = DB::table('theloai')
-                ->take(4)
-                ->orderBy('TenTL', 'asc')
-                ->get();
-            $list_books = DB::table('sach')
-                ->join('sach_tap', 'sach_tap.MaSach', '=', 'sach.MaSach')
-                ->orderBy('TenSach', 'asc')
-                ->paginate(12);
-
-            return view('clients.layout.bookcase', compact('list_books', 'list_TL'));
+            return redirect()->route('clients.bookcase');
         } else {
+            $perPage = 12; // Number of items per page
+            $list_books = [];
+
             $list_TL = DB::table('theloai')
-                ->take(5)
                 ->orderBy('TenTL', 'asc')
                 ->get();
-            $list_books = DB::table('sach')
-                ->join('sach_tap', 'sach_tap.MaSach', '=', 'sach.MaSach')
-                ->where('sach.MaTL', '=', $idTL)
+            $theloai = DB::table('theloai')->where('TenTL','=',$idTL)->select(['MaTL'])->get();
+            // dd($theloai);
+            $all_books = DB::table('sach')
+                ->where('sach.MaTL', '=', $theloai[0]->MaTL)
                 ->orderBy('TenSach', 'asc')
-                ->paginate(12);
-            return view('clients.layout.bookcase', compact('list_books', 'list_TL'));
+                ->get()
+                ->toArray();
+            $currentPage = request()->get('page', 1);
+            $totalItems = count($all_books);
+            $lastPage = ceil($totalItems / $perPage);
+
+            $offset = ($currentPage - 1) * $perPage;
+            $currentItems = array_slice($all_books, $offset, $perPage);
+
+            foreach ($currentItems as $key => $book) {
+                if ($book->existsEpisode == 1) {
+                    $book1 = DB::table('sach')
+                        ->join('sach_tap', 'sach_tap.MaSach', '=', 'sach.MaSach')
+                        ->get();
+
+                    foreach ($book1 as $key1 => $item) {
+                        if (in_array($item, $list_books) == false) {
+                            $list_books[] = $item;
+                        }
+                    }
+                } else {
+                    $list_books[] = $book;
+                }
+            }
+            return view('clients.layout.bookcase', compact('list_books', 'list_TL', 'currentPage', 'lastPage'));
         }
     }
 

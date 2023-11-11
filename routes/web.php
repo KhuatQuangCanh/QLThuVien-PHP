@@ -47,9 +47,14 @@ Route::prefix('')->name("clients.")->group(function () {
     Route::prefix('/book')->name('books.')->group(function () {
         Route::get('/danh-muc-sach', [BookController::class, 'getAllBook'])->name('index');
         Route::get('/tim-sach/{id}', [BookController::class, 'getBookById'])->name('getBookById');
-        Route::get('/tim-sach/the-loai/{idTL}', [BookController::class, 'getBooksByGenre'])->name('getBooksByGenre');
+        Route::get('/tim-sach/the-loai/{idTL}', [BookController::class, 'getBooksByGenreForHome'])->name('getBooksByGenre');
         Route::get('/tu-sach/tim-sach/the-loai/{idTL}', [BookController::class, 'getBooksByGenreForBookCase'])->name('getBooksByGenreForBookCase');
-        Route::post('add-to-cart', [CartController::class,'addToCart'])->name('addtocart');
+
+        Route::post('/add-to-cart', [CartController::class,'addToCart'])->name('addtocart');
+        
+        Route::post('/delete-from-cart',[CartController::class,'deleteFromCart'])->name('delete-from-cart');
+
+        Route::post('/xac-nhan-dat',[CartController::class,'xacNhanDat'])->name('xac-nhan-dat');
     });
 });
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -58,7 +63,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/template-table', [HomeAdminController::class, 'table'])->name('template-table');
     Route::prefix('/danhmucsach')->name('danhmucsach.')->group(function(){
         Route::get('',[AdminAdminBookController::class,'index'])->name('index');
+
         Route::get('/nhap-sach',[AdminAdminBookController::class,'getFormNhapSach'])->name('nhap-sach');
+        Route::post('/nhap-sach',[AdminAdminBookController::class,'postFormNhapSach'])->name('post-nhap-sach');
+
+        Route::get('/edit-sach/{id}',[AdminAdminBookController::class,'getEditSach'])->name('get-edit-sach');
+        Route::post('/edit-sach/{id}',[AdminAdminBookController::class,'postEditSach'])->name('post-edit-sach');
+
+        Route::get('/xoa-sach/{id}',[AdminAdminBookController::class,'postDeleteBook'])->name('post-xoa-sach');
     });
     Route::prefix('/order')->name('order.')->group(function(){
         Route::get('',[QLyGiaoDichController::class,'getViewOrder'])->name('get-view-order');
