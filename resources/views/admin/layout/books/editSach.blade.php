@@ -72,7 +72,7 @@
 
                             <div class="form-group">
                                 <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" id="hasTap" name="khongtapOption" onclick="toggleInput()" @if($edit_sach[0]->existsEpisode == 0) checked @endif>
+                                    <input type="radio" class="form-check-input" id="hasTap" name="tapOption" onclick="toggleInput()" @if($edit_sach[0]->existsEpisode == 0) checked @endif>
                                     <label class="form-check-label" for="hasTap">Sách không có tập</label>
                                 </div>
 
