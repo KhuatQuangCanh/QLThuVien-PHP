@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
+use DateTime;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
@@ -95,7 +97,47 @@ class CartController extends Controller
     }
 
     public function xacNhanDat(Request $request){
-        dd($request->all());
+        $list_idSach = $request->idSach;
+        $list_idTap = $request->idTap;
+        // dd($list_idSach,$list_idTap);
+
+        $dataDonDat =[
+            'ThoiGianTao' => (new DateTime())->format('Y-m-d H:i:s'),
+            'TrangThaiDonDat' => 'Chờ xác nhận',
+            'MaTK' => Session::get('id')
+        ];
+        $id = DB::table('dondat')->insertGetId($dataDonDat);
+
+
+        if(!empty($list_idSach)){
+            foreach($list_idSach as $key => $idSach){
+                $dataChiTietDD = [
+                    'SoLuongSach'=>1,
+                    'MaDonDat' => $id,
+                    'MaSach'=>$idSach
+                ];
+                DB::table('chitietdondat')->insert($dataChiTietDD);
+            }
+        }
+        if(!empty($list_idTap)){
+            foreach($list_idTap as $key => $idTap){
+                $sach = DB::table('sach')->join('sach_tap','sach_tap.MaSach','=','sach.MaSach')->where('MaTap','=',$idTap)->get();
+                // dd($sach);
+                $dataChiTietDD = [
+                    'SoLuongSach'=>1,
+                    'MaDonDat' => $id,
+                    'MaSach'=>$sach[0]->MaSach,
+                    'MaTap' => $idTap
+                ];
+
+                DB::table('chitietdondat')->insert($dataChiTietDD);
+            }
+        }
+        
+        Session::remove('cart-id');
+        Session::remove('cart-idTap');
+        return redirect()->route('clients.user.profile',['id'=>Session::get('id')])->with('msg-order-succ','Đăt thành công. Vui lòng chờ xác nhận!');
+        
     }
 
 

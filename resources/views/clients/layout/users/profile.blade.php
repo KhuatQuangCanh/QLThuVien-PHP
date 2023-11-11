@@ -4,12 +4,18 @@
 @if(!empty($info))
 
 <section>
-    @if (Session::has('success-upload'))
-    <div class="alert alert-success">
-        {{Session('success-uploads')}}
-    </div>
-    @endif
+
     <div class="container" style="background-color: #EDEBE4; border: 1px solid #EDEBE4;">
+        @if (Session::has('success-upload'))
+        <div class="alert alert-success">
+            {{Session::get('success-uploads')}}
+        </div>
+        @endif
+        @if (Session::has('msg-order-succ'))
+        <div class="alert alert-success">
+            {{Session::get('msg-order-succ')}}
+        </div>
+        @endif
         <div class=" row" style=" margin: 20px 5px 30px 10px;background-color: #F3F2EC;border: 1px solid #EDEBE4;">
             <div style="margin: 10px;">
                 <div class="col-4 col-lg-4 col-sm-4">
@@ -147,19 +153,30 @@
                     <table class="table rounded" style="width: 100%;">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col">Ngày mượn</th>
+                                <th>Mã đơn</th>
+                                <th scope="col">Thời gian đăng kí</th>
                                 <th scope="col">Tên sách</th>
+                                <th scope="col">Tên tập</th>
                                 <th scope="col">Tình trạng</th>
-                                <th scope="col">Ngày trả</th>
+                                <th scope="col">Số lượng</th>
                             </tr>
                         </thead>
                         <tbody class="border">
+                            @foreach($dondat as $key => $item)
                             <tr>
-                                <td>1/1/2023</td>
-                                <td>Sách 1</td>
-                                <td>Đang mượn</td>
-                                <td>1/15/2023</td>
+                                <td>{{$item->MaDonDat}}</td>
+                                <td>{{$item->ThoiGianTao}}</td>
+                                <td>{{$item->TenSach}}</td>
+                                @if(isset($item->TenTap))
+                                <td>{{$item->TenTap}}</td>
+                                @else
+                                <td>Không có</td>
+                                @endif
+                                <td>{{$item->TrangThaiDonDat}}</td>
+                                <td style="text-align: justify;">{{$item->SoLuongSach}}</td>
                             </tr>
+                            @endforeach
+                            
 
                         </tbody>
                     </table>
@@ -167,7 +184,7 @@
             </div>
             <div class="row" style="background-color: #F3F2EC;margin: 20px 5px 30px 10px;">
                 <div class="col-lg-12">
-                    <h2>Đang mượn</h2>
+                    <h2>Đã duyệt</h2>
                 </div>
                 <div class="col-lg-12">
                     <table class="table rounded" style="width: 100%;">
@@ -191,32 +208,7 @@
                     </table>
                 </div>
             </div>
-            <div class="row" style="background-color: #F3F2EC;margin: 20px 5px 30px 10px;">
-                <div class="col-lg-12">
-                    <h2>Đã trả</h2>
-                </div>
-                <div class="col-lg-12">
-                    <table class="table rounded" style="width: 100%;">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">Ngày mượn</th>
-                                <th scope="col">Tên sách</th>
-                                <th scope="col">Tình trạng</th>
-                                <th scope="col">Ngày trả</th>
-                            </tr>
-                        </thead>
-                        <tbody class="border">
-                            <tr>
-                                <td>1/1/2023</td>
-                                <td>Sách 1</td>
-                                <td>Đang mượn</td>
-                                <td>1/15/2023</td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            
         </div>
 </section>
 @endif

@@ -52,7 +52,8 @@ Route::prefix('')->name("clients.")->group(function () {
 
         Route::post('/add-to-cart', [CartController::class,'addToCart'])->name('addtocart');
         
-        Route::post('/delete-from-cart',[CartController::class,'deleteFromCart'])->name('delete-from-cart');
+        Route::get('/delete-from-cart-1/{idSach}/{tenSach}/{idTap}/{tenTap}',[CartController::class,'deleteFromCart'])->name('delete-from-cart-1');
+        Route::get('/delete-from-cart-2/{idSach}/{tenSach}',[CartController::class,'deleteFromCart'])->name('delete-from-cart-2');
 
         Route::post('/xac-nhan-dat',[CartController::class,'xacNhanDat'])->name('xac-nhan-dat');
     });
