@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\HomeAdminController;
+use App\Http\Controllers\Admin\QLyGiaoDichController;
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\Admin\AdminBookController as AdminAdminBookController;
 use App\Http\Controllers\Admin\NguoidungController;
@@ -51,9 +52,14 @@ Route::prefix('')->name("clients.")->group(function () {
     Route::prefix('/book')->name('books.')->group(function () {
         Route::get('/danh-muc-sach', [BookController::class, 'getAllBook'])->name('index');
         Route::get('/tim-sach/{id}', [BookController::class, 'getBookById'])->name('getBookById');
-        Route::get('/tim-sach/the-loai/{idTL}', [BookController::class, 'getBooksByGenre'])->name('getBooksByGenre');
+        Route::get('/tim-sach/the-loai/{idTL}', [BookController::class, 'getBooksByGenreForHome'])->name('getBooksByGenre');
         Route::get('/tu-sach/tim-sach/the-loai/{idTL}', [BookController::class, 'getBooksByGenreForBookCase'])->name('getBooksByGenreForBookCase');
-        Route::post('add-to-cart', [CartController::class,'addToCart'])->name('addtocart');
+
+        Route::post('/add-to-cart', [CartController::class,'addToCart'])->name('addtocart');
+        
+        Route::post('/delete-from-cart',[CartController::class,'deleteFromCart'])->name('delete-from-cart');
+
+        Route::post('/xac-nhan-dat',[CartController::class,'xacNhanDat'])->name('xac-nhan-dat');
     });
 });
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -62,7 +68,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/template-table', [HomeAdminController::class, 'table'])->name('template-table');
     Route::prefix('/danhmucsach')->name('danhmucsach.')->group(function(){
         Route::get('',[AdminAdminBookController::class,'index'])->name('index');
+
+        Route::get('/nhap-sach',[AdminAdminBookController::class,'getFormNhapSach'])->name('nhap-sach');
+        Route::post('/nhap-sach',[AdminAdminBookController::class,'postFormNhapSach'])->name('post-nhap-sach');
+
+        Route::get('/edit-sach/{id}',[AdminAdminBookController::class,'getEditSach'])->name('get-edit-sach');
+        Route::post('/edit-sach/{id}',[AdminAdminBookController::class,'postEditSach'])->name('post-edit-sach');
+
+        Route::get('/xoa-sach/{id}',[AdminAdminBookController::class,'postDeleteBook'])->name('post-xoa-sach');
     });
+
     Route::prefix('/nguoidung')->name('nguoidung.')->group(function(){
         Route::get('',[NguoidungController::class,'index'])->name('index');
     });
@@ -76,4 +91,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('/xoa-nv/{id}',[AdminAdminBookController::class,'postDeleteNhanVien'])->name('post-xoa-nv');
     });
+
+    Route::prefix('/order')->name('order.')->group(function(){
+        Route::get('',[QLyGiaoDichController::class,'getViewOrder'])->name('get-view-order');
+        Route::post('delete-order/{orderId}', [QLyGiaoDichController::class, 'deleteOrder'])->name('delete.order');
+        Route::post('/{orderId}', [QLyGiaoDichController::class, 'updateStatus'])->name('update-status');
+    });
+    Route:: get('/borrow', [QLyGiaoDichController::class,'getViewBorrow'])-> name('get-view-borrow');
+    Route:: get('/history', [QLyGiaoDichController::class, 'getViewHistory'])-> name('get-view-history');
+
+    Route::get('orderDetal/{orderId}',[QLyGiaoDichController::class, 'getViewOrderDetal'])->name('get-View-OrderDetal');
 });

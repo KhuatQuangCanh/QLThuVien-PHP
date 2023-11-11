@@ -3,13 +3,13 @@
         <li class="nav-item nav-profile">
             <a href="#" class="nav-link">
                 <div class="nav-profile-image">
-                    <img src="{{asset('assets/admin/images/faces/face1.jpg')}}" alt="profile">
+                    <img src="{{ asset('storage/avatars/avatar-trang.jpg') }}" alt="profile">
                     <span class="login-status online"></span>
                     <!--change to offline or busy as needed-->
                 </div>
                 <div class="nav-profile-text d-flex flex-column">
-                    <span class="font-weight-bold mb-2">David Grey. H</span>
-                    <span class="text-secondary text-small">Project Manager</span>
+                    <span class="font-weight-bold mb-2">{{Session::get('fullname')}}</span>
+                    <span class="text-secondary text-small">{{Session::get('loaiTK')}}</span>
                 </div>
                 <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
             </a>
@@ -31,7 +31,7 @@
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item"> <a class="nav-link" href="{{route('admin.danhmucsach.index')}}">Danh mục Sách</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="#">Nhập sách</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{route('admin.danhmucsach.nhap-sach')}}">Nhập sách</a></li>
                 </ul>
             </div>
         </li>
@@ -61,10 +61,10 @@
             </a>
             <div class="collapse" id="ui-basic-2">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="#">Phiếu yêu cầu</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="#">Phiếu mượn</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{route('admin.order.get-view-order')}}">Đơn đặt</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{route('admin.get-view-borrow')}}">Đang mượn</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="#">Phiếu trả</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{route('admin.get-view-history')}}">Lịch sử</a>
                     </li>
                 </ul>
             </div>

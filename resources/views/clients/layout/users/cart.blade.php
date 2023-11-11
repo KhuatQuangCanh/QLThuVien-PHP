@@ -3,65 +3,88 @@
 @section('body')
 
 <section>
-    <div class="container" style="border: 1px solid red;">
+
+    <div class="container">
         <div class="row">
-            <div class="col-12 col-lg-12 col-sm-12 text-center mx-auto" style="border: 1px solid blue;">
-                <h2>Giỏ sách</h2>
-            </div>
-            <div class="col-12 col-lg-12 col-sm-12" style="border: 1px solid green;">
+            <div class="col-12 col-lg-12 col-sm-12" style="border: 1px solid rgb(228, 190, 201);">
                 <div class="cart-table clearfix">
-                    <table class="table table-responsive" style="width: 100%;">
-                        <thead>
-                            <tr>
-                                <th>Tất cả<input type="checkbox"></th>
-                                <th>Tên sách</th>
-                                <th>Tình trạng</th>
-                                <th>Thời gian mượn</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if(empty($list_book))
-                            <tr>
-                                <td>Khoong co</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            @else
-                            @foreach($list_book as $key => $book)
-                            <tr>
-                                <td style="width: 5%;">
-                                    <span><input type="checkbox" id="check_1"></span>
-                                </td>
-                                <td class="cart_product_img" for="check_1">
-                                    <a><img src="{{asset('assets/images/users/lamdi.jpg')}}" alt="Product" width="80px"
-                                            height="90px"></a>
-                                    <h5>{{$book->TenSach}}</h5>
-                                </td>
-                                <td class="cart_product_desc">
-                                    <span>@@Tình trạng</span>
-                                </td>
-                                <td class="price">
-                                    <div class="qty-btn">
-                                        <div class="quantity" style="display: inline-flex;">
-                                            <input type="number" class="qty-text" id="qty" step="1" min="1" max="300"
-                                                name="quantity" value="1">
-                                            <p>Ngày</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <a href="#" class="btn btn-danger">Xóa</a>
-                                </td>
-                            </tr>
-                            @endforeach
-                            @endif
+                    <!-- <form action="{{route('clients.books.xac-nhan-dat')}}" method="post"> -->
+                        @if(Session::get('msg-suc-cart'))
+                        <div class="alert alert-primary">
+                            {{Session::get('msg-suc-cart')}}
+                        </div>
+                        @endif
+                        <table class="table table-responsive" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center;">Anh</th>
+                                    <th>Tên sách</th>
+                                    <th>Tập</th>
+                                    <th>Nội dung</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if(empty($list_book) || $list_book == [])
+                                <tr>
+                                    <td>Bạn chưa chọn sách nào !</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                @else
+                                @foreach($list_book as $key => $book)
+                                @foreach($book as $key1 => $item)
+                                <tr>
 
+                                    <td class="cart_product_img" for="check_1" style="text-align: center;">
+                                        @if(isset($item->AnhTap))
+                                        <a><img src="{{asset('storage/books/'.$item->AnhTap)}}" alt="Product" width="80px" height="90px"></a>
+                                        @else
+                                        <a><img src="{{asset('storage/books/'.$item->AnhSach)}}" alt="Product" width="80px" height="90px"></a>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <h5>{{$item->TenSach}}</h5>
+                                    </td>
+                                    <td class="cart_product_desc">
+                                        <span>
+                                            @if(isset($item->TenTap))
+                                            {{$item->TenTap}}
+                                            @else
+                                            Không có
+                                            @endif
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {{ Str::limit($item->NoiDung, $limit = 68, $end = '...') }}
+                                    </td>
 
-                        </tbody>
-                    </table>
+                                    <td>
+                                        <form action="{{route('clients.books.delete-from-cart')}}" method="post">
+                                            @csrf
+
+                                            <input type="text" hidden value="{{$item->MaSach}}" name="idSach">
+                                            <input type="text" hidden value="{{$item->TenSach}}" name="tenSach">
+                                            @if(isset($item->MaTap) && isset($item->TenTap))
+                                            <input type="text" hidden value="{{$item->MaTap}}" name="idTap">
+                                            <input type="text" hidden value="{{$item->TenTap}}" name="tenTap">
+                                            @endif
+                                            <button onclick="return confirm('Bạn chắc chắn muốn xóa chứ?')" type="submit" class="btn-sm btn-danger">Xóa</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @endforeach
+                                @endforeach
+                                @endif
+                            </tbody>
+                        </table>
+                        <div>
+                            <button type="submit" class="btn-sm btn-secondary" @if(empty($list_book) || $list_book==[]) hidden @endif>Xác nhận đặt</button>
+                        </div>
+
+                    <!-- </form> -->
                 </div>
             </div>
         </div>

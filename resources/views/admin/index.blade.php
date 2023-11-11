@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Purple Admin</title>
+    <title>BookSaw</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{asset('assets/admin/vendors/mdi/css/materialdesignicons.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/admin/vendors/css/vendor.bundle.base.css')}}">
@@ -14,7 +14,7 @@
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.ico')}}" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 
 <body>
@@ -55,6 +55,8 @@
     <!-- Custom js for this page -->
     <script src="{{asset('assets/admin/js/dashboard.js')}}"></script>
     <script src="{{asset('assets/admin/js/todolist.js')}}"></script>
+    <script src="{{asset('assets/admin/js/file-upload.js')}}"></script>
+
     <!-- End custom js for this page -->
 </body>
 
