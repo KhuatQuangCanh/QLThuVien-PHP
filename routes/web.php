@@ -3,10 +3,15 @@
 use App\Http\Controllers\Admin\HomeAdminController;
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\Admin\AdminBookController as AdminAdminBookController;
+use App\Http\Controllers\Admin\NguoidungController;
+use App\Http\Controllers\Admin\NhanvienController;
+use App\Http\Controllers\Admin\ThemNguoiDungController;
+use App\Http\Controllers\Admin\SuaNguoiDungController;
 use App\Http\Controllers\Admin\BookController as AdminBookController;
 use App\Http\Controllers\Clients\BookController;
 use App\Http\Controllers\Clients\CartController;
 use App\Http\Controllers\Clients\HomeClientController;
+use App\Models\ThemNguoiDung;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -57,5 +62,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/template-table', [HomeAdminController::class, 'table'])->name('template-table');
     Route::prefix('/danhmucsach')->name('danhmucsach.')->group(function(){
         Route::get('',[AdminAdminBookController::class,'index'])->name('index');
+    });
+    Route::prefix('/nguoidung')->name('nguoidung.')->group(function(){
+        Route::get('',[NguoidungController::class,'index'])->name('index');
+    });
+    Route::prefix('/nhanvien')->name('nhanvien.')->group(function(){
+        Route::get('',[NhanVienController::class,'index'])->name('index');
+        Route::get('/them_nv',[NhanvienController::class,'getThemNhanVien'])->name('them_nv');
+        Route::post('/them_nv',[NhanvienController::class,'postThemNhanVien'])->name('post-them_nv');
+
+        Route::get('/edit_taikhoan/{id}',[NhanvienController::class,'getEditNhanVien'])->name('get-edit-nv');
+        Route::post('/edit_taikhoan/{id}',[NhanvienController::class,'postEditNhanVien'])->name('post-edit-nv');
+
+        Route::get('/xoa-nv/{id}',[AdminAdminBookController::class,'postDeleteNhanVien'])->name('post-xoa-nv');
     });
 });
