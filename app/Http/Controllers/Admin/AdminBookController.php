@@ -26,7 +26,7 @@ class AdminBookController extends Controller
     }
     public function postFormNhapSach(Request $request)
     {
-
+        // dd($request->all());
         $request->validate([
             'TenSach' => 'required',
             'NoiDung'  => 'required',
