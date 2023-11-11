@@ -102,12 +102,12 @@
                                 @endif
 
                                 @for ($i = 1; $i <= $lastPage; $i++) <li class="{{ $i == $currentPage ? 'active' : '' }}">
-                                    <a href="?page={{ $i }}" >{{ $i }}</a>
+                                    <a href="?page={{ $i }}">{{ $i }}</a>
                                     </li>
-                                    @endfor
-
-                                    @if ($currentPage < $lastPage) <li><a href="?page={{ $currentPage + 1 }}">Next</a></li>
-                                        @endif
+                                @endfor
+                                @if ($currentPage < $lastPage)
+                                    <li><a href="?page={{ $currentPage + 1 }}">Next</a></li>
+                                @endif
                             </ul>
                         </div>
                     </div>

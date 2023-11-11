@@ -135,7 +135,7 @@ class CartController extends Controller
         }
         
         Session::remove('cart-id');
-        Session::remove('cart-idTap');
+        Session::remove('cart-idtap');
         return redirect()->route('clients.user.profile',['id'=>Session::get('id')])->with('msg-order-succ','Đăt thành công. Vui lòng chờ xác nhận!');
         
     }
