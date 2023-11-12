@@ -40,26 +40,42 @@
                             @foreach($list_books as $key => $book)
                             <div class="col-3 col-lg-3 col-md-3 col-sm-3">
                                 <!-- Hiển thị thông tin sách -->
-                                <figure class="product-style">
-                                    @if(isset($book->AnhTap))
-                                    <img src="{{asset('storage/books/'.$book->AnhTap)}}" alt="Books" class="product-item" width="150px" height="100px">
-                                    @else
-                                    <img src="{{asset('storage/books/'.$book->AnhSach)}}" alt="Books" class="product-item" width="150px" height="100px">
-                                    @endif
-                                    <button type="button" class="add-to-cart" data-product-id="{{ $book->MaSach }}" data-product-name="{{ $book->TenSach }}" @if($book->existsEpisode == 1)
+                                <figure class="product-style" >
+                                    @if(isset($book->existsEpisode) &&  $book->existsEpisode== 0)
+                                    <img src="{{asset('storage/books/'.$book->AnhSach)}}" alt="Books" class="product-item">
+                                    <button type="button" class="add-to-cart" data-product-id="{{ $book->MaSach }}" data-product-name="{{ $book->TenSach }}"
+                                        >Add to cart</button>
+                                    <figcaption>
+                                        <h3><a href="{{route('clients.books.chi-tiet-1',['ten'=>$book->TenSach])}}">{{$book->TenSach}}</a></h3>
+                                        <p>{{$book->TacGia}}</p>
+                                        <div class="item-price">$ {{$book->GiaSach}}</div>
+                                    </figcaption>
+                                    @else 
+                                    <img src="{{asset('storage/books/'.$book->AnhTap)}}" alt="Books" class="product-item" >
+                                    <button type="button" class="add-to-cart" data-product-id="{{ $book->MaSach }}" data-product-name="{{ $book->TenSach }}"
+                                        @if($book->existsEpisode == 1)
                                         @if(isset($book->MaTap)==true)
                                         data-product-idtap="{{ $book->MaTap }}"
                                         @endif
                                         @if(isset($book->TenTap)==true)
-                                        data-product-tap="{{ $book->TenTap }}"
+                                        data-product-tap="{{ $book->TenTap}}"
                                         @endif
                                         @endif
                                         >Add to cart</button>
                                     <figcaption>
-                                        <h3>{{$book->TenSach}} @if($book->existsEpisode == 1 && isset($book->TenTap)==true) {{$book->TenTap}} @endif</h3>
+                                        <h3>
+                                            @if($book->existsEpisode == 1 && isset($book->TenTap)==true)
+                                            <a href="{{route('clients.books.chi-tiet-2',['ten'=>$book->TenSach,'tap'=>$book->TenTap])}}">
+                                            {{$book->TenSach}} {{$book->TenTap}} 
+                                            </a>
+                                            @endif
+                                        </h3>
                                         <p>{{$book->TacGia}}</p>
                                         <div class="item-price">$ {{$book->GiaSach}}</div>
                                     </figcaption>
+                                    @endif
+                                    <!-- Blade Template -->
+                                    
                                 </figure>
                             </div>
                             @endforeach

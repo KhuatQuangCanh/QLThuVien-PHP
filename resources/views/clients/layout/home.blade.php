@@ -56,7 +56,7 @@
                                         <h3>
                                             @if($book->existsEpisode == 1 && isset($book->TenTap)==true)
                                             <a href="{{route('clients.books.chi-tiet-2',['ten'=>$book->TenSach,'tap'=>$book->TenTap])}}">
-                                            {{$book->TenSach}} {{$book->TenTap}}
+                                            {{$book->TenSach}} {{$book->TenTap}} 
                                             </a>
                                             @endif
                                         </h3>
