@@ -65,21 +65,7 @@ class QLyNhanVienController extends Controller
     //     return back()->with('msg-err', 'Không thể xóa nhân viên này !');
     //   }
 
-      public function postDeleteNhanVien($id)
-      {
-          // Xác nhận xóa tài khoản nhân viên
-          $confirmed = request()->has('confirm');
-  
-          if ($confirmed) {
-              // Xóa tài khoản nhân viên dựa trên ID
-              DB::table('nhanvien')->where('MaTK', $id)->delete();
-  
-              return redirect()->route('admin.nhanvien.index')->with('success', 'Tài khoản nhân viên đã được xóa thành công.');
-          }
-  
-          return redirect()->route('admin.nhanvien.index')->with('error', 'Xóa tài khoản nhân viên đã bị hủy.');
-      }
-
+     
       
 
       public function postXoaNhanVien($id)
