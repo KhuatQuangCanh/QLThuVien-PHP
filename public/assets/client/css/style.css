@@ -2235,11 +2235,20 @@ footer#footer {
   background-color: F3F2EC;
   border: 1px solid #ccc;
   text-align: left;
+  width: 200px;
+  background-color: rgb(231, 226, 226);
+  padding: 10px; z-index: 999;
+  border-radius: 15px;
   /* Thêm các kiểu khác tùy ý */
 }
-
 a.dropdown-item:hover {
-  background-color: yellow;
+  /* background-color: #EDEBE4; */
+  color: blue;
+  border: 10px solid rgb(231, 226, 226);
+}
+.dropdown-item-1:hover, .dropdown-item-1:focus{
+  color: blue;
+  border: 5px solid #F3F2EC;
 }
 
 div.taikhoan {

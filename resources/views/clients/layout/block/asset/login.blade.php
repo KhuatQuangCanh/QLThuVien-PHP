@@ -51,10 +51,7 @@
                 </div>
 
 
-                <div class="define-forget">
-                    <p>Bạn chưa có tài khoản? </p>
-                    <a href="#">Đăng ký tài khoản.</a>
-                </div>
+                
             </div>
 
             <div class="auth-form__socials">

@@ -15,13 +15,28 @@
                             </form>
                         </div>
                     </div>
-
                     @if(!Empty(session('id')))
-                    <a href="{{route('clients.user.cart')}}" class="cart for-buy"><i class="icon icon-clipboard"></i><span> Cart:(0 $)</span></a>
+                    <a href="{{ route('clients.user.cart') }}" class="cart for-buy">
+                        <i class="icon icon-clipboard"></i>
+                        <span>
+                            My Cart (
+                            @if(Session::get('cart-id') != null && Session::get('cart-idtap') ==null )
+                            {{ count(Session::get('cart-id'))}}
+                            @elseif(Session::get('cart-id') == null && Session::get('cart-idtap') !=null )
+                            {{ count(Session::get('cart-idtap'))}}
+                            @elseif(Session::get('cart-id') != null && Session::get('cart-idtap') !=null )
+                            {{ count(Session::get('cart-id')) +  count(Session::get('cart-idtap')) }}
+                            @else
+                            0
+                            @endif
+                            )
+                        </span>
+                    </a>
+
                     <div class="taikhoan">
                         <a class="user-account for-buy" id="account-link"><i class="icon icon-user"></i><span>
                                 {{session('fullname')}} </span></a>
-                        <div id="account-dropdown" class="account-dropdown" style="width: 180px; background-color: white;">
+                        <div id="account-dropdown" class="account-dropdown">
                             <a href="{{route('clients.user.profile',session('id'))}}" class="dropdown-item">Thông tin
                                 tài khoản</a>
                             <a href="{{route('clients.user.logout')}}" class="dropdown-item">Đăng xuất</a>

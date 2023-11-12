@@ -6,14 +6,16 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="colored ">
-                    <h7 class="page-title"><p>Kết quả tìm kiếm sách: {{$tenSach}}</p></h7>
+                    <h7 class="page-title">
+                        <p>Kết quả tìm kiếm sách: {{$tenSach}}</p>
+                    </h7>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!--site-banner-->
-
+@if(!empty($list_books))
 <section id="popular-books" class="bookshelf">
     <div class="container">
         <div class="row">
@@ -22,7 +24,6 @@
                 <div class="tab-content">
                     <div id="all-genre" data-tab-content class="active">
                         <div class="row">
-                            @if(!empty($list_books))
                             @foreach($list_books as $key => $book)
                             <div class="col-3 col-lg-3 col-md-3 col-sm-3">
                                 <!-- Hiển thị thông tin sách -->
@@ -49,7 +50,6 @@
                                 </figure>
                             </div>
                             @endforeach
-                            @endif
                             <meta name="csrf-token" content="{{ csrf_token() }}">
                         </div>
                         <script>
@@ -112,4 +112,15 @@
     </div>
 
 </section>
+@else
+<section id="popular-books" class="bookshelf">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h7 class="page-title"><p>Không tìm thấy.</p></h7>
+            </div>
+        </div>
+</section>
+@endif
+
 @endsection

@@ -97,15 +97,24 @@ class CartController extends Controller
     }
 
     public function xacNhanDat(Request $request){
+
+        $request->validate([
+            'ThoiGianMuon'=> 'required'
+        ],[
+            'ThoiGianMuon.required' => 'Bạn cần điền thời gian mượn.',
+        ]);
+        // dd($request->all());
+
         $list_idSach = $request->idSach;
         $list_idTap = $request->idTap;
-        // dd($list_idSach,$list_idTap);
 
         $dataDonDat =[
             'ThoiGianTao' => (new DateTime())->format('Y-m-d H:i:s'),
             'TrangThaiDonDat' => 'Chờ xác nhận',
+            'ThoiGianMuon' => $request->ThoiGianMuon,
             'MaTK' => Session::get('id')
         ];
+        // dd($dataDonDat);
         $id = DB::table('dondat')->insertGetId($dataDonDat);
 
 

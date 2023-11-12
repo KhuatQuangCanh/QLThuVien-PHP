@@ -78,6 +78,18 @@
                                             @endif
                                         @endforeach
                                     @endforeach
+                                    <tr>
+                                        <td style="text-align: center;">Thời gian mượn</td>
+                                        <td>
+                                            <input class="define-input" type="number" name="ThoiGianMuon" style="margin-top: 15px; max-width: 80px;" min="1" max="14"> Ngày
+                                        </td>
+                                        <td>  @error('ThoiGianMuon')
+                                            <span style="color: red;">{{$message}}</span>
+                                            @enderror</td>
+                                        <td></td>
+                                        <td></td>
+                                       
+                                    </tr>
                                 @endif
                             </tbody>
                         </table>
