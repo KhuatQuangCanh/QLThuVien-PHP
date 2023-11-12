@@ -23,15 +23,14 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>Mã tài khoản</th>
-                        <!--  <th>Tên tài khoản</th>
-                            <th>Mật khẩu</th> 
+                          
+                         <th>Tên tài khoản</th>
                             <th>Địa chỉ</th>
                             <th>SDT</th>  
                         <th>Họ và tên</th>
                         <th>Email</th>
                             <th>Ngày sinh</th> 
-                            <th>Loại tài khoản</th> -->
+                            <th>Loại tài khoản</th>
                             <th>Active</th>
                         </tr>
                     </thead>
@@ -39,15 +38,14 @@
                         @if(!empty($list))
                         @foreach($list as $key => $item)
                         <tr>
-                            <td>{{$item->MaTK}}</td>
-                    <!--  <td>{{$item->TenTK}}</td>
-                            <td>{{$item->MatKhau}}</td>
+                        
+                            <td>{{$item->TenTK}}</td>
                             <td>{{$item->DiaChi}}</td>
                             <td>{{$item->SDT}}</td>
                             <td>{{$item->Fullname}}</td>
                             <td>{{$item->Email}}</td>
                             <td>{{$item->Dob}}</td> 
-                            <td>{{$item->LoaiTK}}</td> -->
+                            <td>{{$item->LoaiTK}}</td>
                             <td>
                             <a href="{{route('admin.nhanvien.sua-thong-tin-nhan-vien',['id'=>$item->MaTK])}}" type="button" class="btn-sm btn-info btn-fw">Sửa</a>
                             <a onclick="return confirm('Bạn chắc chắn muốn xóa nhân viên này?')" href="{{ route('admin.nhanvien.post-xoa-nv', ['id' => $item->MaTK]) }}" type="button" class="btn-sm btn-danger btn-fw">Xóa</a>
