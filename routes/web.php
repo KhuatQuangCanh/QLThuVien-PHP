@@ -98,11 +98,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::prefix('/order')->name('order.')->group(function(){
         Route::get('',[QLyGiaoDichController::class,'getViewOrder'])->name('get-view-order');
-        Route::post('delete-order/{orderId}', [QLyGiaoDichController::class, 'deleteOrder'])->name('delete.order');
-        Route::post('/{orderId}', [QLyGiaoDichController::class, 'updateStatus'])->name('update-status');
+       
+        Route::post('update-status/{orderId}',  [QLyGiaoDichController::class, 'updateStatus'])->name('update-status');
+        Route::post('delete/{orderId}',  [QLyGiaoDichController::class, 'deleteOrder'])->name('delete');
     });
     Route:: get('/borrow', [QLyGiaoDichController::class,'getViewBorrow'])-> name('get-view-borrow');
     Route:: get('/history', [QLyGiaoDichController::class, 'getViewHistory'])-> name('get-view-history');
 
-    Route::get('orderDetal/{orderId}',[QLyGiaoDichController::class, 'getViewOrderDetal'])->name('get-View-OrderDetal');
+    Route::get('orderDetail/{orderId}',[QLyGiaoDichController::class, 'getViewOrderDetail'])->name('get-View-OrderDetail');
 });
