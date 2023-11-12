@@ -101,12 +101,50 @@ class HomeClientController extends Controller
         // dd($list_books);
         return view('clients.layout.bookcase', compact('list_books', 'list_TL', 'currentPage', 'lastPage'));
     }
-
-
-
-
     public function contact()
     {
         return view('clients.layout.contact');
     }
+
+    public function timSach(Request $request)
+    {
+        // dd($request->all());
+        $tenSach=$request['tenSach'];
+        $token = $request['_token'];
+
+        $perPage = 12;
+        $list_books = [];
+        $ketqua = [];
+        $list_sach = DB::table('sach')
+        ->where('TenSach', 'like', '%' . $request['tenSach'] . '%')
+            ->get();
+
+        foreach ($list_sach as $key => $sach) {
+            if ($sach->existsEpisode == 1) {
+                $sach1 = DB::table('sach')
+                        ->join('sach_tap','sach_tap.MaSach','=','sach.MaSach')
+                        ->where('sach.MaSach','=',$sach->MaSach)
+                        ->get();
+                foreach($sach1 as $k => $item){
+                    if(in_array($item,$ketqua) == false){
+                        $ketqua[] = $item;
+                    }
+                }
+            } else {
+                if(in_array($sach,$ketqua) == false){
+                    $ketqua[] = $sach;
+                }
+            }
+        }
+
+        $currentPage = request()->get('page', 1);
+        $totalItems = count($ketqua);
+        $lastPage = ceil($totalItems / $perPage);
+
+        $offset = ($currentPage - 1) * $perPage;
+        $list_books = array_slice($ketqua, $offset, $perPage);
+
+        return view('clients.layout.books.ketquatim',compact('list_books', 'currentPage', 'lastPage','tenSach','token'));
+    }
+    
 }
