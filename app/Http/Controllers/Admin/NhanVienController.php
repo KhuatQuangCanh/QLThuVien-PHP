@@ -193,7 +193,7 @@ class NhanVienController extends Controller
                 DB::table('taikhoan')->where('MaTK', $id)->delete();
                         return back()->with('msg-suc', 'Xóa thành công !');
             }
-            return back()->with('msg-err', 'Không thể xóa sách này !');
+            return back()->with('msg-err', 'Không thể xóa nhân viên này !');
           }
     
 }
