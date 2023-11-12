@@ -29,8 +29,7 @@
                             <h3 class="my-3">{{ $info[0]->TenTK }}</h3>
                             <h2 class="text-muted">{{ $info[0]->Fullname }}</h2>
 
-                            <button id="button-changepass" class="btn btn-outline-primary" style="width: 150px;border-radius: 5px; height: 41.5px;">Đổi mật
-                                khẩu</button>
+                            <a id="button-changepass" class="btn btn-outline-primary" style="width: 200px;border-radius: 5px; height: 41.5px;  margin-bottom: 15px;" >Change Password</a>
                             @include('clients.layout.users.changepassword')
                             <script>
                                 const button_change = document.getElementById('button-changepass');
@@ -89,7 +88,7 @@
                                     </div>
                                     <div class="row custom-div">
                                         <div class="col-sm-3">
-                                            <label>Giới tính</label>
+                                            <label>Sex</label>
                                         </div>
                                         <div class="col-sm-9">
                                             <input type="text" value="{{$info[0]->GioiTinh}}" style="width: 100%;" disabled>
@@ -157,7 +156,7 @@
                                 <th scope="col">Thời gian đăng kí</th>
                                 <th scope="col">Tên sách</th>
                                 <th scope="col">Tên tập</th>
-                                <th scope="col">Tình trạng</th>
+                                <th scope="col">Tình trạng đơn</th>
                                 <th scope="col">Thời gian mượn</th>
                             </tr>
                         </thead>

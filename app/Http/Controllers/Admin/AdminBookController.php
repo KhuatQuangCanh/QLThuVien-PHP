@@ -11,13 +11,45 @@ class AdminBookController extends Controller
 
     public function index()
     {
-        $list = DB::table('sach')
-            // ->join('sach_tap','sach_tap.MaSach','=','sach.MaSach')
+        $perPage = 10;
+
+        $check = DB::table('sach')
             ->join('theloai', 'theloai.MaTL', '=', 'sach.MaTL')
             ->orderBy('TenSach', 'asc')
-            ->paginate(10);
+            ->get();
+        $ketqua = [];
+        $list = [];
+        foreach ($check as $key => $item) {
+            if ($item->existsEpisode == 1) {
+                $sach_tap = DB::table('sach_tap')->where('MaSach', '=', $item->MaSach)->get();
+                $item->Sotap = count($sach_tap);
+                foreach ($sach_tap as $k => $sach) {
+                    $k = 'Tap'.($k+1);
+                    $item->$k['MaTap'] = $sach->MaTap;
+                    $item->$k['TenTap'] = $sach->TenTap;
+                    $item->$k['SoTrangTap'] = $sach->SoTrangTap;
+                    $item->$k['NoiDungTap'] = $sach->NoiDungTap;
+                    $item->$k['SoLuongBS']= $sach->SoLuongBS;
+                }
+                if(in_array($item,$ketqua) == false){
+                    $ketqua[] =$item; 
+                }
+            }
+            else{
+                if(in_array($item,$ketqua) == false){
+                $ketqua[]=$item;
+                }
+            }
+        }
+
+        $currentPage = request()->get('page', 1);
+        $totalItems = count($ketqua);
+        $lastPage = ceil($totalItems / $perPage);
+
+        $offset = ($currentPage - 1) * $perPage;
+        $list = array_slice($ketqua, $offset, $perPage);
         // dd($list);
-        return view('admin.layout.books.danhmucsach', compact('list'));
+        return view('admin.layout.books.danhmucsach', compact('list','currentPage', 'lastPage'));
     }
     public function getFormNhapSach()
     {
@@ -67,7 +99,7 @@ class AdminBookController extends Controller
                 'GiaSach'  => $postdata['GiaSach'],
                 'SoLuong'  => NULL,
                 'AnhSach'  => $fileName,
-                'existsEpisode'=>true
+                'existsEpisode' => true
             ];
             DB::table('sach')->insert($data);
             return redirect()->route('admin.danhmucsach.index')->with('msg-suc', 'Thêm sách thành công');
@@ -82,7 +114,7 @@ class AdminBookController extends Controller
                 'GiaSach'  => $postdata['GiaSach'],
                 'SoLuong'  => $postdata['SoLuong'],
                 'AnhSach'  => $fileName,
-                'existsEpisode'=>false
+                'existsEpisode' => false
             ];
             DB::table('sach')->insert($data);
             return redirect()->route('admin.danhmucsach.index')->with('msg-suc', 'Thêm sách thành công');
@@ -91,7 +123,6 @@ class AdminBookController extends Controller
 
     public function getEditSach($id)
     {
-
         $list_Tl = DB::table('theloai')->get();
         $edit_sach = DB::table('sach')->join('theloai', 'theloai.MaTL', '=', 'sach.MaTL')->where('MaSach', $id)->get();
         return view('admin.layout.books.editSach', compact('list_Tl', 'edit_sach'));
@@ -120,7 +151,7 @@ class AdminBookController extends Controller
         ]);
         // dd($request);
         $postdata = $request->all();
-
+        // dd($postdata);
         if ($request->hasFile('AnhSach')) {
 
             $file = $request->file('AnhSach');
@@ -134,6 +165,7 @@ class AdminBookController extends Controller
                     'SoTrang'  => $postdata['SoTrang'],
                     'MaTL'  => $postdata['MaTL'],
                     'GiaSach'  => $postdata['GiaSach'],
+                    'SoLuong'  => Null,
                     'AnhSach'  => $fileName,
                 ];
                 DB::table('sach')->where('MaSach', $request->id)->update($data);
@@ -162,6 +194,7 @@ class AdminBookController extends Controller
                     'SoTrang'  => $postdata['SoTrang'],
                     'MaTL'  => $postdata['MaTL'],
                     'GiaSach'  => $postdata['GiaSach'],
+                    'SoLuong'  => Null
                 ];
                 DB::table('sach')->where('MaSach', $request->id)->update($data);
                 return redirect()->route('admin.danhmucsach.index')->with('msg-suc', 'Cập nhật thông tin sách thành công!');
@@ -215,5 +248,55 @@ class AdminBookController extends Controller
             return back()->with('msg-err', 'Không thể xóa sách này !');
         }
         return back()->with('msg-err', 'Không thể xóa sách này !');
+    }
+
+
+    public function getFormNhapSachTap($idSach)
+    {
+        // dd($idSach);
+        $sach = DB::table('sach')
+            ->join('theloai', 'theloai.MaTL', '=', 'sach.MaTL')
+            ->where('sach.MaSach', '=', $idSach)
+            ->get();
+        // dd($sach);
+        return view('admin.layout.books.formthemtap', compact('sach'));
+    }
+
+    public function postFormNhapSachTap(Request $request)
+    {
+        $request->validate([
+            'TenTap' => 'required',
+            'NoiDungTap'  => 'required',
+            'SoTrangTap'  => 'required|min:0',
+            'SoLuongBS'  => 'required|min:0',
+            'AnhTap'  => 'required',
+        ], [
+            'TenTap.required' => 'Bạn không thể để trống tến tập!',
+            'NoiDungTap.required' => 'Bạn hãy ghi nội dung mô tả cho tập này!',
+            'TacGia.required' => 'Bạn cần điền tác giả cho cuốn sách!',
+            'SoTrangTap.required' => 'Bạn chưa nhập số trang!',
+            'SoTrangTap.min' => 'Số trang phải lơn hơn 0!',
+            'SoLuongBS.required' => 'Bạn chưa nhập số lượng bản sao!',
+            'SoLuongBS.min' => 'Số lượng phải lơn hơn 0!',
+            'AnhTap.required' => 'Bạn cần chọn ảnh cho tập này!',
+        ]);
+        if ($request->hasFile('AnhSach')) {
+
+            $file = $request->file('AnhSach');
+            $fileName = $file->hashName();
+            $file->store('books', 'public');
+            $postdata = $request->all();
+
+            $data = [
+                'TenTap' => $postdata[0]->TenTap,
+                'NoiDungTap' => $postdata[0]->NoiDungTap,
+                'SoTrangTap' => $postdata[0]->SoTrangTap,
+                'SoLuongBS' => $postdata[0]->SoLuongBS,
+                'AnhTap' => $fileName
+            ];
+            DB::table('sach_tap')->insert($data);
+        }
+
+        return redirect()->route('admin.danhmucsach.index')->with('msg-suc', 'Thêm tập thành công!');
     }
 }

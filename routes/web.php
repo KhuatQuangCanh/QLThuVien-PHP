@@ -3,19 +3,13 @@
 use App\Http\Controllers\Admin\HomeAdminController;
 use App\Http\Controllers\Admin\QLyGiaoDichController;
 use App\Http\Controllers\AccountsController;
-use App\Http\Controllers\Admin\AdminBookController as AdminAdminBookController;
+use App\Http\Controllers\Admin\AdminBookController;
 use App\Http\Controllers\Admin\NguoidungController;
 use App\Http\Controllers\Admin\NhanvienController;
-use App\Http\Controllers\Admin\ThemNguoiDungController;
-use App\Http\Controllers\Admin\SuaNguoiDungController;
-use App\Http\Controllers\Admin\BookController as AdminBookController;
 use App\Http\Controllers\Clients\BookController;
 use App\Http\Controllers\Clients\CartController;
 use App\Http\Controllers\Clients\HomeClientController;
-use App\Models\ThemNguoiDung;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,15 +65,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/home', [HomeAdminController::class, 'index'])->name('home');
     Route::get('/template-table', [HomeAdminController::class, 'table'])->name('template-table');
     Route::prefix('/danhmucsach')->name('danhmucsach.')->group(function(){
-        Route::get('',[AdminAdminBookController::class,'index'])->name('index');
+        Route::get('',[AdminBookController::class,'index'])->name('index');
 
-        Route::get('/nhap-sach',[AdminAdminBookController::class,'getFormNhapSach'])->name('nhap-sach');
-        Route::post('/nhap-sach',[AdminAdminBookController::class,'postFormNhapSach'])->name('post-nhap-sach');
+        Route::get('/nhap-sach',[AdminBookController::class,'getFormNhapSach'])->name('nhap-sach');
+        Route::post('/nhap-sach',[AdminBookController::class,'postFormNhapSach'])->name('post-nhap-sach');
 
-        Route::get('/edit-sach/{id}',[AdminAdminBookController::class,'getEditSach'])->name('get-edit-sach');
-        Route::post('/edit-sach/{id}',[AdminAdminBookController::class,'postEditSach'])->name('post-edit-sach');
+        Route::get('/edit-sach/{id}',[AdminBookController::class,'getEditSach'])->name('get-edit-sach');
+        Route::post('/edit-sach/{id}',[AdminBookController::class,'postEditSach'])->name('post-edit-sach');
 
-        Route::get('/xoa-sach/{id}',[AdminAdminBookController::class,'postDeleteBook'])->name('post-xoa-sach');
+        Route::get('/xoa-sach/{id}',[AdminBookController::class,'postDeleteBook'])->name('post-xoa-sach');
+    
+        Route::get('/nhap-sach-tap/{idSach}',[AdminBookController::class,'getFormNhapSachTap'])->name('get-form-nhap-tap');
+        Route::post('/nhap-sach-tap/{idSach}',[AdminBookController::class,'postFormNhapSachTap'])->name('post-form-nhap-tap');
+    
     });
 
     Route::prefix('/nguoidung')->name('nguoidung.')->group(function(){
@@ -93,7 +91,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/edit_taikhoan/{id}',[NhanvienController::class,'getEditNhanVien'])->name('get-edit-nv');
         Route::post('/edit_taikhoan/{id}',[NhanvienController::class,'postEditNhanVien'])->name('post-edit-nv');
 
-        Route::get('/xoa-nv/{id}',[AdminAdminBookController::class,'postDeleteNhanVien'])->name('post-xoa-nv');
+        Route::get('/xoa-nv/{id}',[AdminBookController::class,'postDeleteNhanVien'])->name('post-xoa-nv');
     });
 
     Route::prefix('/order')->name('order.')->group(function(){
