@@ -35,6 +35,7 @@ Route::prefix('')->name("clients.")->group(function () {
     Route::get('/about', [HomeClientController::class, 'about'])->name('about');
     Route::get('/bookcase', [HomeClientController::class, 'bookcase'])->name('bookcase');
     Route::get('/contact', [HomeClientController::class, 'contact'])->name('contact');
+    Route::get('/tim-sach', [HomeClientController::class, 'timSach'])->name('tim-sach');
 
     Route::prefix('/user')->name('user.')->group(function () {
         Route::get('/profile/{id}', [AccountsController::class, 'profile'])->name('profile');
