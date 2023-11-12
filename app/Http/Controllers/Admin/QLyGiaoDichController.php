@@ -9,14 +9,16 @@ use Illuminate\Support\Facades\DB;
 class QLyGiaoDichController extends Controller
 {
     //
-    public function getViewOrder(){
-        $list = DB::table('dondat')
-        ->join('taikhoan','taikhoan.MaTk','=','dondat.MaTk')
-        ->orderBy('Fullname','asc')
+    public function getViewOrder()
+{
+    $list = DB::table('dondat')
+        ->join('taikhoan', 'taikhoan.MaTk', '=', 'dondat.MaTk')
+        ->orderByRaw('CONVERT(ThoiGianTao, DATE) DESC, CONVERT(ThoiGianTao, TIME) DESC') // Sắp xếp theo trường 'ThoiGianTao'
         ->paginate(8);
-        // dd($list);
-        return view('admin.layout.cart.order',compact('list'));
-    }
+
+    return view('admin.layout.cart.order', compact('list'));
+}
+
 
 
 
@@ -52,37 +54,75 @@ public function deleteOrder($orderId)
     
 
    
-    public function getViewOrderDetal($orderId) {
-        $item = DB::table('taikhoan')
-            ->join('dondat', 'taikhoan.MaTk', '=', 'dondat.MaTk')
-            // ->join('chitietdondat','chitietdondat.MaDonDat','=','dondat.MaDonDat')
-            // ->join('sach','sach.MaSach','=','chitietdondat.MaSach')
-            // ->join('sach_tap','sach_tap.MaSach','=','sach.MaSach')
-            ->where('dondat.MaDonDat', '=', $orderId)
-            ->orderBy('Fullname', 'asc')
-            ->first();
-        $list = DB::table('chitietdondat')
-            ->join('sach','sach.MaSach','=','chitietdondat.MaSach')
-            ->join('sach_tap','sach_tap.MaSach','=','sach.MaSach')
-            ->where('chitietdondat.MaDonDat', '=', $orderId)
-            ->orderBy('TenSach', 'asc')
-            ->get();
-            
-        return view('admin.layout.cart.orderDetal', compact('item','list'));
-    }
-    
-    public function updateStatus($orderId, Request $request)
+public function getViewOrderDetail($orderId)
 {
-    $trangthai = $request->input('trangthai');
+    $item = DB::table('taikhoan')
+        ->join('dondat', 'taikhoan.MaTk', '=', 'dondat.MaTk')
+        ->where('dondat.MaDonDat', '=', $orderId)
+        ->orderBy('Fullname', 'asc')
+        ->first();
 
-    // Cập nhật trạng thái đơn đặt
-    DB::table('dondat')
-        ->where('MaDonDat', $orderId)
-        ->update(['TrangThaiDonDat' => $trangthai]);
+        // existsEpisode
 
-    // Redirect hoặc trả về phản hồi thành công
-    return redirect()->back()->with('success', 'Cập nhật trạng thái thành công');
+        $a = DB::table('sach')
+    ->join('chitietdondat', 'chitietdondat.MaSach', '=', 'sach.MaSach')
+    ->where('chitietdondat.MaDonDat', '=', $orderId)
+    ->get();
+
+$isExistsEpisode = $a->contains('existsEpisode', 1);
+
+if ($isExistsEpisode) {
+    // Các điều kiện khi existsEpisode = 1
+    $list = DB::table('chitietdondat')
+        ->join('sach', 'sach.MaSach', '=', 'chitietdondat.MaSach')
+        ->join('sach_tap', 'sach_tap.MaSach', '=', 'sach.MaSach')
+        ->join('bansaosach', 'bansaosach.MaTap', '=', 'sach_tap.MaTap')
+        ->where('chitietdondat.MaDonDat', '=', $orderId)
+        ->orderBy('TenSach', 'asc')
+        ->get();
+} else {
+    // Các điều kiện khác khi existsEpisode khác 1
+    $list = DB::table('chitietdondat')
+        ->join('sach', 'sach.MaSach', '=', 'chitietdondat.MaSach')
+        ->join('bansaosach', 'bansaosach.MaSach', '=', 'sach.MaSach')
+        ->where('chitietdondat.MaDonDat', '=', $orderId)
+        ->orderBy('TenSach', 'asc')
+        ->get();
 }
+
+    return view('admin.layout.cart.orderDetail', compact('item', 'list'));
+}
+    
+    public function updateStatus($orderId, Request $request){
+        $trangthai = $request->input('trangthai');
+    
+        DB::table('dondat')
+            ->where('MaDonDat', $orderId)
+            ->update(['TrangThaiDonDat' => $trangthai]);
+    
+        if ($trangthai == 'Đang mượn') {
+            $maPhieu = DB::table('phieumuon')->insertGetId([
+                'NgayMuon' => date('Y-m-d H:i:s'),
+                'TrangThai' => 'Đang mượn',
+                'NgayHenTra' => date('Y-m-d H:i:s', strtotime('+7 days')),
+                'MaChiTiet' => DB::table('chitietdondat')
+                    ->where('MaDonDat', $orderId)
+                    ->value('MaChiTiet')
+            ]);
+    
+            DB::table('chitietdondat')
+                ->where('MaDonDat', $orderId)
+                ->update(['MaDonDat' => NULL]);
+    
+            DB::table('dondat')
+                ->where('MaDonDat', $orderId)
+                ->delete();
+    
+            return redirect()->back()->with('success', 'Cập nhật trạng thái và xóa đơn đặt hàng thành công');
+        }
+    
+        return redirect()->back()->with('success', 'Cập nhật trạng thái thành công');
+    }
 
     public function getViewBorrow(){
         $list =DB::table('phieumuon');
