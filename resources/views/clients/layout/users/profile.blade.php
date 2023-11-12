@@ -158,6 +158,7 @@
                                 <th scope="col">Tên tập</th>
                                 <th scope="col">Tình trạng đơn</th>
                                 <th scope="col">Thời gian mượn</th>
+                                <th scope="col">Hạn trả</th>
                             </tr>
                         </thead>
                         <tbody class="border">
@@ -173,6 +174,7 @@
                                 @endif
                                 <td>{{$item->TrangThaiDonDat}}</td>
                                 <td>@if($item->ThoiGianMuon){{$item->ThoiGianMuon}} Ngày @else Chưa có @endif</td>
+                                <td></td>
                             </tr>
                             @endforeach
                             

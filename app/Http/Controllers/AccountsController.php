@@ -28,6 +28,7 @@ class AccountsController extends Controller
     {
         Session::remove('fullname');
         Session::remove('id');
+        Session::remove('loaiTk');
         Auth::logout();
         return redirect()->route('clients.homeClient');
     }
@@ -117,6 +118,7 @@ class AccountsController extends Controller
         ->join('chitietdondat','chitietdondat.MaDonDat','=','dondat.MaDonDat')
         ->where('MaTK','=',$request->id)
         ->get();
+        // dd($check);
 
         $dondat = [];
         foreach($check as $key => $item){
@@ -124,11 +126,17 @@ class AccountsController extends Controller
                 $dondat1 = DB::table('dondat')
                 ->join('chitietdondat','chitietdondat.MaDonDat','=','dondat.MaDonDat')
                 ->join('sach','sach.MaSach','=','chitietdondat.MaSach')
-                ->where('dondat.MaDonDat','=',$item->MaDonDat)
+                ->where('sach.MaSach','=',$item->MaSach)
                 ->get();
+                // dd($dondat1);
                 foreach($dondat1 as $k => $don){
-                    if(in_array($don,$dondat) == false){
+                    if(empty($dondat)){
                         $dondat[] = $don;
+                    }
+                    else{
+                        if(in_array($don,$dondat) == false){
+                            $dondat[] = $don; 
+                        }
                     }
                 }
             }
@@ -137,15 +145,20 @@ class AccountsController extends Controller
                 ->join('chitietdondat','chitietdondat.MaDonDat','=','dondat.MaDonDat')
                 ->join('sach','sach.MaSach','=','chitietdondat.MaSach')
                 ->join('sach_tap','sach_tap.MaTap','=','chitietdondat.MaTap')
-                ->where('dondat.MaDonDat','=',$item->MaDonDat)
+                ->where('sach_tap.MaTap','=',$item->MaTap)
                 ->get();
+                // dd($dondat2);
                 foreach($dondat2 as $key2 => $item2){
+                    if(empty($dondat)){
+                        $dondat[] = $item2;
+                    }
                     if(in_array($item2,$dondat) == false){
                         $dondat[] =$item2;
                     }
                 }
             }
         }
+        // dd($dondat);
         return view('clients.layout.users.profile', compact('info','dondat'));
     }
 

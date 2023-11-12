@@ -424,7 +424,7 @@ class AdminBookController extends Controller
             return redirect()->route('admin.danhmucsach.index')->with('msg-suc', 'Đã xóa thôn thông tin tập!');
         } else {
             foreach ($bansaosach as $key => $item) {
-                if ($item[0]->MaPhieu != NULL) {
+                if ($item->MaPhieu != NULL) {
                     break;
                 }
             }

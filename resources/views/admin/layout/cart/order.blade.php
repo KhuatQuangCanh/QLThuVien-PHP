@@ -14,6 +14,7 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
+                        <th>Mã đơn đặt</th>
                         <th>Người đặt</th>
                         <th>Số điện thoại</th>
                         <th>Thời gian tạo</th>
@@ -26,6 +27,7 @@
                 @if(!empty($list))
                 @foreach($list as $key => $item)
                     <tr>
+                        <td>{{$item->MaDonDat}}</td>
                         <td>{{$item->Fullname}}</td>
                         <td>{{$item->SDT}}</td>
                         <td>{{$item->ThoiGianTao}}</td>
@@ -35,7 +37,7 @@
                             <select name="trangthai" class="btn-md">
                                 <option value="Chờ xác nhận" @if($item->TrangThaiDonDat == 'Chờ xác nhận') selected @endif>Chờ xác nhận</option>
                                 <option value="Đã chuẩn bị sách" @if($item->TrangThaiDonDat == 'Đã chuẩn bị sách') selected @endif>Đã chuẩn bị sách</option>
-                                <option value="Đang mượn" @if($item->TrangThaiDonDat == 'Đang mượn') selected @endif>Đang mượn</option>
+                                <option value="Đã nhận sách" @if($item->TrangThaiDonDat == 'Đã nhận sách') selected @endif>Đã nhận sách</option>
                             </select>
                             <button type="submit" class="btn btn-primary btn-sm">Cập nhật</button>
                         </form>
