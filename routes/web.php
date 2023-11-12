@@ -96,10 +96,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('/nhanvien/{id}', [QLyNhanVienController::class, 'editNhanVien'])->name('sua-thong-tin-nhan-vien');
         Route::post('/nhanvien/{id}', [QLyNhanVienController::class, 'updateNhanVien'])->name('cap-nhat-thong-tin-nhan-vien');
-
-        Route::get('/xoa-nv/{id}',[QLyNhanVienController::class,'postDeleteNhanVien'])->name('post-xoa');
        
-        Route::post('/xoa/{id}', [QLyNhanVienController::class,'postXoaNhanVien'])->name('post-xoa-nv');
+        Route::get('/xoa/{id}', [QLyNhanVienController::class,'postXoaNhanVien'])->name('post-xoa-nv');
     });
 
     Route::prefix('/order')->name('order.')->group(function(){
