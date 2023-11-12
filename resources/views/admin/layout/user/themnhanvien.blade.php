@@ -80,10 +80,7 @@
                         <input type="text" class="form-control" name="DiaChi" id="DiaChi" placeholder="Location">
                     </div>
 
-                    <div class="form-group">
-                        <label for="exampleTextarea1">Textarea</label>
-                        <textarea class="form-control" id="exampleTextarea1" name="exampleTextarea1" rows="4"></textarea>
-                    </div>
+              
 
                     <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
                     <button class="btn btn-light">Cancel</button>
@@ -92,40 +89,6 @@
                 </div>
               </div>
   
-    <!-- <form >
-        @csrf
-         -->
-        <!-- <label for="TenTK">Tên tài khoản:</label>
-        <input type="text" name="TenTK" id="TenTK" required><br> -->
-
-        <!-- <label for="MatKhau">Mật khẩu:</label>
-        <input type="password" name="MatKhau" id="MatKhau" required><br> -->
-
-        <!-- <label for="DiaChi">Địa chỉ:</label>
-        <input type="text" name="DiaChi" id="DiaChi"><br> -->
-
-        <!-- <label for="SDT">Số điện thoại:</label>
-        <input type="text" name="SDT" id="SDT"><br> -->
-
-       
-
-        <!-- <label for="Fullname">Họ và tên:</label>
-        <input type="text" name="Fullname" id="Fullname"><br> -->
-
-        <!-- <label for="Email">Email:</label>
-        <input type="email" name="Email" id="Email"><br> -->
-
-        <!-- <label for="Dob">Ngày sinh:</label>
-        <inputtype="date" name="Dob" id="Dob"><br>
-
-        <label for="AnhDaiDien">Ảnh đại diện:</label>
-        <input type="text" name="AnhDaiDien" id="AnhDaiDien"><br> -->
-
-        <!-- <label for="GioiTinh">Giới tính:</label>
-        <input type="text" name="GioiTinh" id="GioiTinh"><br> -->
-
-        <!-- <button type="submit">Lưu</button>
-    </form> -->
     @if(session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
