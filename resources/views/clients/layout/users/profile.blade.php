@@ -147,7 +147,7 @@
             </div>
             <div class="row" style="background-color: #F3F2EC;margin: 20px 5px 30px 10px;">
                 <div class="col-lg-12">
-                    <h2>Đang chờ xác nhận</h2>
+                    <h2>Danh sách mượn</h2>
                 </div>
                 <div class="col-lg-12">
                     <table class="table rounded" style="width: 100%;">
@@ -158,7 +158,7 @@
                                 <th scope="col">Tên sách</th>
                                 <th scope="col">Tên tập</th>
                                 <th scope="col">Tình trạng</th>
-                                <th scope="col">Số lượng</th>
+                                <th scope="col">Thời gian mượn</th>
                             </tr>
                         </thead>
                         <tbody class="border">
@@ -173,7 +173,7 @@
                                 <td>Không có</td>
                                 @endif
                                 <td>{{$item->TrangThaiDonDat}}</td>
-                                <td style="text-align: justify;">{{$item->SoLuongSach}}</td>
+                                <td>@if($item->ThoiGianMuon){{$item->ThoiGianMuon}} Ngày @else Chưa có @endif</td>
                             </tr>
                             @endforeach
                             
@@ -182,33 +182,6 @@
                     </table>
                 </div>
             </div>
-            <div class="row" style="background-color: #F3F2EC;margin: 20px 5px 30px 10px;">
-                <div class="col-lg-12">
-                    <h2>Đã duyệt</h2>
-                </div>
-                <div class="col-lg-12">
-                    <table class="table rounded" style="width: 100%;">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">Ngày mượn</th>
-                                <th scope="col">Tên sách</th>
-                                <th scope="col">Tình trạng</th>
-                                <th scope="col">Ngày trả</th>
-                            </tr>
-                        </thead>
-                        <tbody class="border">
-                            <tr>
-                                <td>1/1/2023</td>
-                                <td>Sách 1</td>
-                                <td>Đang mượn</td>
-                                <td>1/15/2023</td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            
         </div>
 </section>
 @endif

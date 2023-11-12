@@ -18,6 +18,7 @@ class BookController extends Controller
     }
     public function getBooksByGenreForHome($idTL)
     {
+        // dd($idTL);
         if ($idTL == 'all') {
             return redirect()->route('clients.homeClient');
         } else {
@@ -28,8 +29,9 @@ class BookController extends Controller
 
             $theloai = DB::table('theloai')->where('TenTL','=',$idTL)->select(['MaTL'])->get();
             $lst_sach = DB::table('sach')->where('sach.MaTL', '=',  $theloai[0]->MaTL)->get();
-            // dd($lst_sach);
-            $all_book = [];
+
+            $list = [];
+            $all_book=[];
             foreach($lst_sach as $key => $sach){
                 
                 if ($sach->existsEpisode == 1) {
@@ -37,22 +39,26 @@ class BookController extends Controller
                     ->join('sach_tap', 'sach_tap.MaSach', '=', 'sach.MaSach')
                     ->where('sach.MaTL', '=', $theloai[0]->MaTL)
                     ->orderBy('TenSach', 'asc')
-                    ->take(4)
                     ->get();
                     foreach($sach1 as $key => $book){
-                        $all_book[] = $book;
+                        $list[] = $book;
                     }
-                    // dd($all_book);
                 } else {
-                    $all_book[] = DB::table('sach')
+                    $list[] = DB::table('sach')
                         ->where('sach.MaTL', '=', $theloai[0]->MaTL)
                         ->orderBy('TenSach', 'asc')
-                        ->take(4)
                         ->get();
-                        // dd($all_book);
                 }
             }
-            
+            foreach($list as $key => $book){
+                foreach($book as $k => $item){
+                    if(count($all_book) >= 4){
+                        break;
+                    }
+                    $all_book[]=$item;
+                }
+            }
+            // dd($all_book);
             return view('clients.layout.home', compact('all_book', 'list_TL'));
         }
     }

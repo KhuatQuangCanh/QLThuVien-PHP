@@ -13,7 +13,7 @@
 
                 <ul class="tabs">
                     <a href="{{ route('clients.books.getBooksByGenre', 'all') }}" style="text-decoration-line: none;">
-                        <li class="active tab" data-tab-target="all-genre">All Genre</li>
+                        <li class="tab" data-tab-target="all-genre">All Genre</li>
                     </a>
                     @if(!empty($list_TL))
                     @foreach($list_TL as $key => $theloai)
