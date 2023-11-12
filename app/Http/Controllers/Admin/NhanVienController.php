@@ -88,10 +88,10 @@ class NhanVienController extends Controller
     {
 
         $list_Tl = DB::table('taikhoan')->get();
-        $edit_nv = DB::table('taikhoan')->Where('LoaiTK','=','Nhân viên')
+        $edit_taikhoan = DB::table('taikhoan')->Where('LoaiTK','=','Nhân viên')
         ->orWhere('LoaiTK', '=', 'Admin')
         ->orWhere('LoaiTK', '=', 'Admin,Nhân Viên');
-        return view('admin.layout.user.suaNhanVien', compact('list_Tl', 'edit_nv'));
+        return view('admin.layout.user.suaNhanVien', compact('list_Tl', 'edit_taikhoan'));
     }
     public function postEditNhanVien(Request $request){
         $request->validate([
