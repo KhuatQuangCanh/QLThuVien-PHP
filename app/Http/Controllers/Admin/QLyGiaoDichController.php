@@ -65,39 +65,32 @@ public function getViewOrderDetail($orderId)
         // existsEpisode
 
         $a = DB::table('sach')
-        ->join('chitietdondat', 'chitietdondat.MaSach', '=', 'sach.MaSach')
+    ->join('chitietdondat', 'chitietdondat.MaSach', '=', 'sach.MaSach')
+    ->where('chitietdondat.MaDonDat', '=', $orderId)
+    ->get();
+
+$isExistsEpisode = $a->contains('existsEpisode', 1);
+
+if ($isExistsEpisode) {
+    // Các điều kiện khi existsEpisode = 1
+    $list = DB::table('chitietdondat')
+        ->join('sach', 'sach.MaSach', '=', 'chitietdondat.MaSach')
+        ->join('sach_tap', 'sach_tap.MaSach', '=', 'sach.MaSach')
+        ->join('bansaosach', 'bansaosach.MaTap', '=', 'sach_tap.MaTap')
         ->where('chitietdondat.MaDonDat', '=', $orderId)
+        ->orderBy('TenSach', 'asc')
         ->get();
+} else {
+    // Các điều kiện khác khi existsEpisode khác 1
+    $list = DB::table('chitietdondat')
+        ->join('sach', 'sach.MaSach', '=', 'chitietdondat.MaSach')
+        ->join('bansaosach', 'bansaosach.MaSach', '=', 'sach.MaSach')
+        ->where('chitietdondat.MaDonDat', '=', $orderId)
+        ->orderBy('TenSach', 'asc')
+        ->get();
+}
 
-    $isExistsEpisode = $a->contains('existsEpisode', 1);
-
-    if ($isExistsEpisode) {
-        // Các điều kiện khi existsEpisode = 1
-        $list = DB::table('chitietdondat')
-            ->join('sach', 'sach.MaSach', '=', 'chitietdondat.MaSach')
-            ->join('sach_tap', 'sach_tap.MaSach', '=', 'sach.MaSach')
-            ->where('chitietdondat.MaDonDat', '=', $orderId)
-            ->orderBy('TenSach', 'asc')
-            ->get();
-
-        $listBanSaoSach = DB::table('bansaosach')
-            ->whereIn('MaSach', $list->pluck('MaSach'))
-            ->whereIn('MaTap', $list->pluck('MaTap'))
-            ->get();
-    } else {
-        // Các điều kiện khác khi existsEpisode khác 1
-        $list = DB::table('chitietdondat')
-            ->join('sach', 'sach.MaSach', '=', 'chitietdondat.MaSach')
-            ->where('chitietdondat.MaDonDat', '=', $orderId)
-            ->orderBy('TenSach', 'asc')
-            ->get();
-
-        $listBanSaoSach = DB::table('bansaosach')
-            ->whereIn('MaSach', $list->pluck('MaSach'))
-            ->get();
-    }
-
-    return view('admin.layout.cart.orderDetail', compact('item', 'list', 'listBanSaoSach'));
+    return view('admin.layout.cart.orderDetail', compact('item', 'list'));
 }
     
     public function updateStatus($orderId, Request $request){
