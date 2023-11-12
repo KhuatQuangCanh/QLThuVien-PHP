@@ -30,19 +30,18 @@
                         <td>{{$item->SDT}}</td>
                         <td>{{$item->ThoiGianTao}}</td>
                         <td>
-                            <form action="{{ route('admin.order.update-status', ['orderId' => $item->MaDonDat]) }}" method="POST" class="btn-md">
-                                @csrf
-                                <select name="trangthai" class="btn-md">
-                                    <option value="0" @if($item->TrangThaiDonDat == 0) selected @endif>Đang chờ</option>
-                                    <option value="1" @if($item->TrangThaiDonDat == 1) selected @endif>Đã chuẩn bị sách</option>
-                                    <option value="2" @if($item->TrangThaiDonDat == 2) selected @endif>Đang mượn</option>
-                                </select>
-                                <button type="submit" class="btn btn-primary btn-sm">Cập nhật</button>
-                            </form>
+                        <form action="{{ route('admin.order.update-status', ['orderId' => $item->MaDonDat]) }}" method="POST" class="btn-md">
+                            @csrf
+                            <select name="trangthai" class="btn-md">
+                                <option value="Chờ xác nhận" @if($item->TrangThaiDonDat == 'Chờ xác nhận') selected @endif>Chờ xác nhận</option>
+                                <option value="Đã chuẩn bị sách" @if($item->TrangThaiDonDat == 'Đã chuẩn bị sách') selected @endif>Đã chuẩn bị sách</option>
+                                <option value="Đang mượn" @if($item->TrangThaiDonDat == 'Đang mượn') selected @endif>Đang mượn</option>
+                            </select>
+                            <button type="submit" class="btn btn-primary btn-sm">Cập nhật</button>
+                        </form>
                         </td>
                         <td>
-                            <a href="{{ route('admin.get-View-OrderDetal', ['orderId' => $item->MaDonDat]) }}" class="btn-sm btn-info btn-fw">xem</a>
-                            <a href="{{ route('admin.order.delete.order', ['orderId' => $item->MaDonDat]) }}" class="btn-sm btn-danger btn-fw">xóa</a>
+                            <a href="{{ route('admin.get-View-OrderDetail', ['orderId' => $item->MaDonDat]) }}" class="btn-sm btn-info btn-fw">xem</a>
                         </td>
                     </tr>
                 @endforeach
