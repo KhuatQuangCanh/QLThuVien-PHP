@@ -17,7 +17,7 @@ class CheckRuleAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Session::get('LoaiTk') && Session::get('LoaiTk') != NULL) {
+        if (Session::get('LoaiTk') && (Session::get('LoaiTk') == 'Admin,Nhân viên' || Session::get('LoaiTk')=='Admin' || Session::get('LoaiTk')=='Nhân viên')) {
             return next($request);
         }
         return redirect()->route('clients.homeClient')->with('err-rule', 'Bạn không có quyền truy cập. Hãy liên hệ với quả quản lý để biết thêm thông tin chi tiết.');
