@@ -6,172 +6,132 @@
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">Thêm nhân viên mới</h4>
+        
         <hr>
       </div>
     </div>
   </div>
-  <form class="forms-sample" action="{{route('admin.nhanvien.post-nhap-nv')}}" method="post" enctype="multipart/form-data">
-        <div class="col-12 col-lg-12 col-sm-12" style="margin-top:-50px ;">
-            <div class="row">
-                <div class="col-6 col-lg-6 col-sm-12 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="exampleInputName1">Mã tài khoản</label>
-                                <input name="MaTK" type="text" class="form-control" id="exampleInputName1" placeholder="Nhập mã tài khoản ..." value="{{$edit_taikhoan[0]->MaTK}}">
-                                @error('MaTK')
-                                <span style="color: red;">{{$message}}</span>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail3">Tên tài khoản</label>
-                                <input name="TenTK" type="text" class="form-control" id="exampleInputName1" placeholder="Nhập tên tài khoản ..." value="{{$edit_taikhoan[0]->TenTK}}">
-                                @error('TenTK')
-                                <span style="color: red;">{{$message}}</span>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail3">FullName</label>
-                                <input name="Fullname" type="text" class="form-control" id="exampleInputName1" placeholder="Nhập fullname ..." value="{{$edit_taikhoan[0]->Fullname}}">
-                                @error('Fullname')
-                                <span style="color: red;">{{$message}}</span>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmai33">Mật khẩu</label>
-                                <input name="MatKhau" class="form-control" id="exampleInputEmai33"  placeholder="Nhập mật khẩu ..." value="{{$edit_taikhoan[0]->MatKhau}}">
-                                @error('MatKhau')
-                                <span style="color: red;">{{$message}}</span>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail3">Địa chỉ</label>
-                                <input name="DiaChi" type="text" class="form-control" id="exampleInputName1" placeholder="Nhập địa chỉ ..." value="{{$edit_taikhoan[0]->DiaChi}}">
-                                @error('DiaChi')
-                                <span style="color: red;">{{$message}}</span>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword4">PhoneNumber</label>
-                                <input name="SDT" type="number" class="form-control" id="exampleInputPassword4" placeholder="Nhập số điện thoại ..." value="{{$edit_taikhoan[0]->SDT}}">
-                                @error('SDT')
-                                <span style="color: red;">{{$message}}</span>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword4">Email</label>
-                                <input name="Email" type="email" class="form-control" id="exampleInputPassword4" placeholder="Nhập email ..." value="{{$edit_taikhoan[0]->Email}}">
-                                @error('Email')
-                                <span style="color: red;">{{$message}}</span>
-                                @enderror
-                            </div>
+  <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">                    
+                  <form class="forms-sample" action="{{ route('admin.luu-thong-tin-tai-khoan') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
 
+                    <div class="form-group">
+                        <label for="Fullname">Name</label>
+                        <input type="text" name="Fullname" class="form-control" id="Fullname" placeholder="FullName">
+                    </div>
 
-                            <div class="form-group">
-                                <label for="exampleInputCity1">Ngày sinh</label>
-                                <input name="Dob" type="date" class="form-control" id="exampleInputCity1" placeholder="Location" value="{{$edit_taikhoan[0]->Dob}}">
-                                @error('Dob')
-                                <span style="color: red;">{{$message}}</span>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputCity1">Giới Tính</label>
-                                <input name="GioiTinh" type="text" class="form-control" id="exampleInputCity1" placeholder="Location" value="{{$edit_taikhoan[0]->GioiTinh}}">
-                                @error('GioiTinh')
-                                <span style="color: red;">{{$message}}</span>
-                                @enderror
-                            </div>
+                    <div class="form-group">
+                        <label for="Email">Email address</label>
+                        <input type="email" class="form-control" name="Email" id="Email" placeholder="Email">
+                    </div>
 
-                            <div class="form-group">
-                                <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" id="hasTap" name="nhanvienOption" onclick="toggleInput()" @if($edit_taikhoan[0]->existsEpisode == 0) checked @endif>
-                                    <label class="form-check-label" for="hasTap">Nhân viên</label>
-                                </div>
+                    <div class="form-group">
+                        <label for="TenTK">Tên tài khoản:</label>
+                        <input type="text" class="form-control" name="TenTK" id="TenTK" required placeholder="Name">
+                    </div>
 
-                                <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" id="noTap" name="adminOption" onclick="toggleInput()" @if($edit_taikhoan[0]->existsEpisode == 1) checked @endif>
-                                    <label class="form-check-label" for="noTap">Admin</label>
-                                </div>
-                            </div>
+                    <div class="form-group">
+                        <label for="MatKhau">Password</label>
+                        <input type="password" class="form-control" name="MatKhau" id="MatKhau" placeholder="Password">  
+                    </div>
 
+                    <div class="form-group">
+                        <label for="SDT">Số điện thoại:</label>
+                        <input type="text" class="form-control" name="SDT" id="SDT" placeholder="SDT">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="exampleSelectGender">Gender</label>
+                        <select class="form-control" name="GioiTinh" id="GioiTinh">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        </select>
+                    </div>
 
-                            <script>
-                                function toggleInput() {
-                                    var inputElement = document.getElementById('exampleInputCypher1');
-                                    var hasTapRadio = document.getElementById('hasTap');
-                                    var noTapRadio = document.getElementById('noTap');
+                    <div class="form-group">
+                        <label for="LoaiTK">Loại tài khoản:</label>
+                        <select name="LoaiTK" id="LoaiTK">
+                        <option value="Admin">Admin</option>
+                        <option value="Nhân viên">Nhân viên</option>
+                        <option value="Người dùng">Người dùng</option>
+                        </select>
+                    </div>
 
-                                    if (hasTapRadio.checked) {
-                                        inputElement.disabled = false;
-                                    } else if (noTapRadio.checked) {
-                                        inputElement.disabled = true;
-                                        inputElement.value = '';
-                                    }
-                                }
-                            </script>
+                    <div class="form-group">
+                        <label for="Dob">Ngày sinh:</label>
+                        <input type="date" name="Dob" id="Dob">
+                    </div>                    
 
-
-                            <button onclick="return confirm('Bạn chắc chắn thêm nhân viên,admin chứ?')" type="submit" class="btn btn-gradient-primary me-2">Create</button>
-                            <a href="{{route('admin.nhanvien.index')}}" class="btn btn-light">Cancel</a>
-
+                    <div class="form-group">
+                        <label>File upload</label>
+                        <input type="file" name="img" class="file-upload-default">
+                        <div class="input-group col-xs-12">
+                        <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
+                        <span class="input-group-append">
+                            <button class="file-upload-browse btn btn-gradient-primary" type="button">Upload</button>
+                        </span>
                         </div>
                     </div>
-                </div>
-                <div class="col-6 col-lg-6 col-sm-12 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
 
-                            <div class="form-group">
-                                <label>Ảnh đại diện</label>
-                                <input type="file" name="AnhSach" class="file-upload-default" id="upload-input">
-                                <div class="input-group col-xs-12">
-                                    <input type="text" class="form-control file-upload-info" disabled placeholder="Ảnh đại diện ...">
-                                    <span class="input-group-append">
-                                        <button class="file-upload-browse btn btn-gradient-primary" type="button">Tải ảnh</button>
-                                    </span>
-                                </div>
-                                @error('AnhDaiDien')
-                                <span style="color: red;">{{$message}}</span>
-                                @enderror
-                            </div>
-
-                            <!-- Image preview container -->
-                            <div id="image-preview-container">
-                                <img id="image-preview" src="{{ asset('storage/user/' . $edit_taikhoan[0]->AnhDaiDien) }}" alt="Image Preview" style="max-width: 100%; max-height: 400px;">
-                            </div>
-
-                            <script>
-                                $(document).ready(function() {
-                                    // Handle file input change event
-                                    $('#upload-input').change(function() {
-                                        // Get the selected file
-                                        var file = this.files[0];
-
-                                        if (file) {
-                                            // Create a FileReader
-                                            var reader = new FileReader();
-
-                                            // Set a callback function to update the image preview when the file is loaded
-                                            reader.onload = function(e) {
-                                                $('#image-preview').attr('src', e.target.result).show();
-                                            };
-
-                                            // Read the file as a data URL
-                                            reader.readAsDataURL(file);
-                                        }
-                                    });
-                                });
-                            </script>
-
-
-                        </div>
+                    <div class="form-group">
+                        <label for="DiaChi">Địa chỉ:</</label>
+                        <input type="text" class="form-control" name="DiaChi" id="DiaChi" placeholder="Location">
                     </div>
-                </div>
 
-            </div>
-        </div>
+                    <div class="form-group">
+                        <label for="exampleTextarea1">Textarea</label>
+                        <textarea class="form-control" id="exampleTextarea1" name="exampleTextarea1" rows="4"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
+                    <button class="btn btn-light">Cancel</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+  
+    <!-- <form >
         @csrf
-    </form>
+         -->
+        <!-- <label for="TenTK">Tên tài khoản:</label>
+        <input type="text" name="TenTK" id="TenTK" required><br> -->
+
+        <!-- <label for="MatKhau">Mật khẩu:</label>
+        <input type="password" name="MatKhau" id="MatKhau" required><br> -->
+
+        <!-- <label for="DiaChi">Địa chỉ:</label>
+        <input type="text" name="DiaChi" id="DiaChi"><br> -->
+
+        <!-- <label for="SDT">Số điện thoại:</label>
+        <input type="text" name="SDT" id="SDT"><br> -->
+
+       
+
+        <!-- <label for="Fullname">Họ và tên:</label>
+        <input type="text" name="Fullname" id="Fullname"><br> -->
+
+        <!-- <label for="Email">Email:</label>
+        <input type="email" name="Email" id="Email"><br> -->
+
+        <!-- <label for="Dob">Ngày sinh:</label>
+        <inputtype="date" name="Dob" id="Dob"><br>
+
+        <label for="AnhDaiDien">Ảnh đại diện:</label>
+        <input type="text" name="AnhDaiDien" id="AnhDaiDien"><br> -->
+
+        <!-- <label for="GioiTinh">Giới tính:</label>
+        <input type="text" name="GioiTinh" id="GioiTinh"><br> -->
+
+        <!-- <button type="submit">Lưu</button>
+    </form> -->
+    @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
+
 
 </div>
 
