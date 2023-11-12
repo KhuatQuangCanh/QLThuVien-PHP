@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\HomeAdminController;
 use App\Http\Controllers\Admin\QLyGiaoDichController;
+use App\Http\Controllers\Admin\QLyNhanVienController;
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\Admin\AdminBookController;
 use App\Http\Controllers\Admin\NguoidungController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\Clients\BookController;
 use App\Http\Controllers\Clients\CartController;
 use App\Http\Controllers\Clients\HomeClientController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -89,24 +91,26 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::prefix('/nhanvien')->name('nhanvien.')->group(function(){
-        Route::get('',[NhanVienController::class,'index'])->name('index');
-        Route::get('/them_nv',[NhanvienController::class,'getThemNhanVien'])->name('them_nv');
-        Route::post('/them_nv',[NhanvienController::class,'postThemNhanVien'])->name('post-them_nv');
+        Route::get('',[QLyNhanVienController::class,'index'])->name('index');
+       
 
-        Route::get('/edit_taikhoan/{id}',[NhanvienController::class,'getEditNhanVien'])->name('get-edit-nv');
-        Route::post('/edit_taikhoan/{id}',[NhanvienController::class,'postEditNhanVien'])->name('post-edit-nv');
-
-        Route::get('/xoa-nv/{id}',[NhanVienController::class,'postDeleteNhanVien'])->name('post-xoa-nv');
+        Route::get('/nhanvien/{id}', [QLyNhanVienController::class, 'editNhanVien'])->name('sua-thong-tin-nhan-vien');
+        Route::post('/nhanvien/{id}', [QLyNhanVienController::class, 'updateNhanVien'])->name('cap-nhat-thong-tin-nhan-vien');
+       
+        Route::get('/xoa/{id}', [QLyNhanVienController::class,'postXoaNhanVien'])->name('post-xoa-nv');
     });
 
     Route::prefix('/order')->name('order.')->group(function(){
         Route::get('',[QLyGiaoDichController::class,'getViewOrder'])->name('get-view-order');
        
         Route::post('update-status/{orderId}',  [QLyGiaoDichController::class, 'updateStatus'])->name('update-status');
-        Route::post('delete/{orderId}',  [QLyGiaoDichController::class, 'deleteOrder'])->name('delete');
+       
     });
     Route:: get('/borrow', [QLyGiaoDichController::class,'getViewBorrow'])-> name('get-view-borrow');
     Route:: get('/history', [QLyGiaoDichController::class, 'getViewHistory'])-> name('get-view-history');
 
     Route::get('orderDetail/{orderId}',[QLyGiaoDichController::class, 'getViewOrderDetail'])->name('get-View-OrderDetail');
+    Route::get('/nhap-thong-tin-tai-khoan', [QLyNhanVienController::class, 'nhapThongTinTaiKhoan'])->name('nhap-thong-tin-tai-khoan');
+    Route::post('/luu-thong-tin-tai-khoan', [QLyNhanVienController::class, 'luuThongTinTaiKhoan'])->name('luu-thong-tin-tai-khoan');
+
 });
