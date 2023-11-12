@@ -5,7 +5,7 @@
   <div class="col-12 col-lg-12 col-sm-12 ">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Thêm mới tập</h4>
+        <h4 class="card-title">Chỉnh sửa thông tin cho tập</h4>
         <hr>
       </div>
     </div>
@@ -58,31 +58,31 @@
             <div class="card-title">
               <h4>Thông tin tập</h4>
             </div>
-            <form method="post" action="{{route('admin.danhmucsach.post-form-nhap-tap',['idSach'=>$sach[0]->MaSach])}}" enctype="multipart/form-data">
+            <form method="post" action="{{route('admin.danhmucsach.post-form-sua-tap',['idTap'=>$sach[0]->MaTap])}}" enctype="multipart/form-data">
               <div class="form-group">
                 <label for="exampleInputName1">Tên Tập</label>
-                <input name="TenTap" type="text" class="form-control" id="exampleInputName1" placeholder="Nhập tên tập ..." value="{{old('TenTap')}}">
+                <input name="TenTap" type="text" class="form-control" id="exampleInputName1" placeholder="Nhập tên tập ..." value="{{$sach[0]->TenTap}}">
                 @error('TenTap')
                 <span style="color: red;">{{$message}}</span>
                 @enderror
               </div>
               <div class="form-group">
                 <label for="exampleInputEmail3">Nội dung của cuốn sách</label>
-                <textarea name="NoiDungTap" class="form-control" id="exampleInputEmail3" cols="30" rows="10" placeholder="Nhập nội dung ...">{{old('NoiDungTap')}}</textarea>
+                <textarea name="NoiDungTap" class="form-control" id="exampleInputEmail3" cols="30" rows="10" placeholder="Nhập nội dung ...">{{$sach[0]->NoiDungTap}}</textarea>
                 @error('NoiDungTap')
                 <span style="color: red;">{{$message}}</span>
                 @enderror
               </div>
               <div class="form-group">
                 <label for="exampleInputPassword4">Số trang sách của tập</label>
-                <input name="SoTrangTap" type="number" class="form-control" id="exampleInputPassword4" placeholder="Nhập số trang ..." value="{{old('SoTrangTap')}}">
+                <input name="SoTrangTap" type="number" class="form-control" id="exampleInputPassword4" placeholder="Nhập số trang ..." value="{{$sach[0]->SoTrangTap}}">
                 @error('SoTrangTap')
                 <span style="color: red;">{{$message}}</span>
                 @enderror
               </div>
               <div class="form-group">
                 <label for="exampleInputPassword4">Số lượng bản sao</label>
-                <input name="SoLuongBS" type="number" class="form-control" id="exampleInputPassword4" placeholder="Nhập số lượng bản sao ..." value="{{old('SoLuongBS')}}">
+                <input name="SoLuongBS" type="number" class="form-control" id="exampleInputPassword4" placeholder="Nhập số lượng bản sao ..." value="{{$sach[0]->SoLuongBS}}">
                 @error('SoLuongBS')
                 <span style="color: red;">{{$message}}</span>
                 @enderror
@@ -102,14 +102,14 @@
               </div>
 
               <div class="form-group">
-                <button type="submit" class="btn btn-gradient-primary me-2">Submit</button>
+                <button type="submit" class="btn btn-gradient-primary me-2">Cập nhật</button>
                 <a href="{{route('admin.danhmucsach.index')}}" class="btn btn-light">Cancel</a>
               </div>
               @csrf
             </form>
             <!-- Image preview container -->
             <div id="image-preview-container">
-              <img id="image-preview-1" src="#" alt="Image Preview" style="max-width: 100%; max-height: 400px; display: none;">
+              <img id="image-preview-1" src="{{asset('storage/books/'.$sach[0]->AnhTap)}}" alt="Image Preview" style="max-width: 100%; max-height: 400px;">
             </div>
 
             <script>
