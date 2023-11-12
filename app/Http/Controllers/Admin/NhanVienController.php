@@ -186,12 +186,16 @@ class NhanVienController extends Controller
         
 }
           public function postDeleteNhanVien($id){
-            $nhanvien = DB::table('taikhoan')
-            ->where('taikhoan.MaTK', $id)
-            ->get();
-            if($nhanvien->isEmpty()){
-                DB::table('taikhoan')->where('MaTK', $id)->delete();
-                        return back()->with('msg-suc', 'Xóa thành công !');
+            $nhanvien1 = DB::table('taikhoan')
+                ->join('dondat', 'dondat.MaTK', '=', 'taikhoan.MaTK')
+                ->where('taikhoan.MaTK', $id)
+                ->get();
+            
+            if($nhanvien1->isEmpty()){
+                $nhanvien = DB::table('taikhoan')
+                ->where('taikhoan.MaTK', $id)
+                ->get();
+                 return back()->with('msg-suc', 'Xóa thành công !');
             }
             return back()->with('msg-err', 'Không thể xóa nhân viên này !');
           }
