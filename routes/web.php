@@ -91,7 +91,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/edit_taikhoan/{id}',[NhanvienController::class,'getEditNhanVien'])->name('get-edit-nv');
         Route::post('/edit_taikhoan/{id}',[NhanvienController::class,'postEditNhanVien'])->name('post-edit-nv');
 
-        Route::get('/xoa-nv/{id}',[AdminBookController::class,'postDeleteNhanVien'])->name('post-xoa-nv');
+        Route::get('/xoa-nv/{id}',[NhanVienController::class,'postDeleteNhanVien'])->name('post-xoa-nv');
     });
 
     Route::prefix('/order')->name('order.')->group(function(){
