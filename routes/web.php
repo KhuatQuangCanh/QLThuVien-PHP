@@ -77,12 +77,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
     
         Route::get('/nhap-sach-tap/{idSach}',[AdminBookController::class,'getFormNhapSachTap'])->name('get-form-nhap-tap');
         Route::post('/nhap-sach-tap/{idSach}',[AdminBookController::class,'postFormNhapSachTap'])->name('post-form-nhap-tap');
+
+        Route::get('/sua-sach-tap/{idTap}',[AdminBookController::class,'getFormSuaSachTap'])->name('get-form-sua-tap');
+        Route::post('/sua-sach-tap/{idTap}',[AdminBookController::class,'postFormSuaSachTap'])->name('post-form-sua-tap');
     
+        Route::get('/xoa-tap/{id}',[AdminBookController::class,'postXoaTap'])->name('post-xoa-tap');
     });
 
     Route::prefix('/nguoidung')->name('nguoidung.')->group(function(){
         Route::get('',[NguoidungController::class,'index'])->name('index');
     });
+
     Route::prefix('/nhanvien')->name('nhanvien.')->group(function(){
         Route::get('',[NhanVienController::class,'index'])->name('index');
         Route::get('/them_nv',[NhanvienController::class,'getThemNhanVien'])->name('them_nv');

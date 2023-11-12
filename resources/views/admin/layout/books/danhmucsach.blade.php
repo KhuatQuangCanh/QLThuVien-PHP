@@ -52,9 +52,9 @@
                         </td>
                         <td>{{$item->GiaSach}} $</td>
                         <td>{{$item->SoTrang}}</td>
-                        <td>{{$item->MaTL}}</td>
+                        <td>{{$item->TenTL}}</td>
                         <td>
-                            @if($item->SoLuong == NULL)
+                            @if($item->existsEpisode == 1)
                             <a href="{{route('admin.danhmucsach.get-form-nhap-tap',['idSach'=>$item->MaSach])}}" type="button" class="btn-sm btn-primary btn-fw">Thêm tập</a>
 
                             @endif
@@ -76,8 +76,8 @@
                             <td>{{$item->$a['SoTrangTap']}}</td>
                             <td></td>
                             <td>
-                            <a type="button" class="btn-sm btn-info btn-fw">Sửa</a>
-                            <a type="button" class="btn-sm btn-danger btn-fw">Xóa</a>
+                            <a href="{{route('admin.danhmucsach.get-form-sua-tap',['idTap'=>$item->$a['MaTap']])}}" type="button" class="btn-sm btn-info btn-fw">Sửa</a>
+                            <a onclick="return confirm('Bạn chắc chắn muốn xóa sách này?')" href="{{route('admin.danhmucsach.post-xoa-tap',['id'=>$item->$a['MaTap']])}}" type="button" class="btn-sm btn-danger btn-fw">Xóa</a>
                             </td>
                         </tr>
                         @endfor
