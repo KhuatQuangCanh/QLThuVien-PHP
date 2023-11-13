@@ -58,7 +58,7 @@ class AccountsController extends Controller
                 if ($user[0]->LoaiTK == 'Người dùng' || $user[0]->LoaiTK == NULL) {
                     return redirect()->route('clients.homeClient')->with('msg-login', 'Đăng nhập thành công.');
                 }
-                else{
+                else if($user[0]->LoaiTK == 'Admin,Nhân viên' || $user[0]->LoaiTK == 'Admin'  || $user[0]->LoaiTK == 'Nhân viên' ){
                     Session::put('loaiTk',$user[0]->LoaiTK);
                     return redirect()->route('admin.home')->with('msg-login', 'Đăng nhập thành công.');
                 }
