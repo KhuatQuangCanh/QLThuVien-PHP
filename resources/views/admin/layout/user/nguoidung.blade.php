@@ -11,14 +11,12 @@
                 <thead>
                     <tr>
                         <th>Mã tài khoản</th>
-                      <!--  <th>Tên tài khoản</th>
-                        <th>Mật khẩu</th> --> 
-                        <!--<th>Địa chỉ</th>
-                        <th>SDT</th>  -->
-                      <!--   <th>Họ và tên</th>
+                       <th>Tên tài khoản</th>
+                        <th>Địa chỉ</th>
+                        <th>SDT</th> 
+                        <th>Họ và tên</th>
                        <th>Email</th>
-                        <th>Ngày sinh</th> -->
-                        <th>Loại tài khoản</th>
+                        <th>Ngày sinh</th>
                         <th>Active</th>
                     </tr>
                 </thead>
@@ -27,14 +25,12 @@
                     @foreach($list as $key => $item)
                     <tr>
                         <td>{{$item->MaTK}}</td>
-                      <!--  <td>{{$item->TenTK}}</td>
-                        <td>{{$item->MatKhau}}</td>
+                       <td>{{$item->TenTK}}</td>                      
                         <td>{{$item->DiaChi}}</td>
                         <td>{{$item->SDT}}</td>
                         <td>{{$item->Fullname}}</td>
                         <td>{{$item->Email}}</td>
-                        <td>{{$item->Dob}}</td> -->
-                        <td>{{$item->LoaiTK}}</td>
+                        <td>{{$item->Dob}}</td>
                         <td>
                                <button type="button" class="btn-sm btn-danger btn-fw">Khóa tài khoản</button>
                         </td>
