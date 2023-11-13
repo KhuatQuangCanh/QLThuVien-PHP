@@ -18,7 +18,7 @@
                     <p class="suth-form-switch-btn" style="margin: 0 auto; text-align: center;">Đăng
                         nhập</p>
                 </div>
-                <form action="{{route('clients.user.post-login')}}" method="post">
+                <form action="{{route('clients.post-login')}}" method="post">
                     <div class="auth-form__form">
                         <div class="auth-form__group">
                             <label for="" style="text-align: left;">Tài khoản</label>

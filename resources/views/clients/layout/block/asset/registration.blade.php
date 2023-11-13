@@ -22,7 +22,7 @@
                             Đăng ký</p>
                     </div>
                 </div>
-                <form action="{{ route('clients.user.post-register') }}" method="post">
+                <form action="{{ route('clients.post-register') }}" method="post">
                     <div class="auth-form__form">
                         <div class="auth-form__group">
                             <label for="" style="text-align: left;">Họ tên</label>

@@ -33,7 +33,7 @@
                     <a class="dropdown-item" href="#">
                         <i class="mdi mdi-cached me-2 text-success"></i> Activity Log </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{route('clients.user.logout')}}">
+                    <a class="dropdown-item" href="{{route('clients.logout')}}">
                         <i class="mdi mdi-logout me-2 text-primary"></i> Signout </a>
                 </div>
             </li>
