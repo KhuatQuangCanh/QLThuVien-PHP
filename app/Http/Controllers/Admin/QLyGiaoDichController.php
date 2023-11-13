@@ -8,6 +8,7 @@ use DateTime;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 class QLyGiaoDichController extends Controller
 {
@@ -63,7 +64,6 @@ class QLyGiaoDichController extends Controller
             ->where('chitietdondat.MaDonDat', '=', $orderId)
             ->get()
             ->toArray();
-
         $list=[];
         foreach($dondat as $key => $item){
             if($item->MaTap == NULL){
@@ -71,6 +71,7 @@ class QLyGiaoDichController extends Controller
                     ->join('dondat','dondat.MaDonDat','=','chitietdondat.MaDonDat')
                     ->join('sach','sach.MaSach','=','chitietdondat.MaSach')
                     ->where('sach.MaSach','=',$item->MaSach)
+                    ->where('dondat.MaTK','=',$user[0]->MaTK)
                     ->get()
                     ->toArray();
                     foreach($ttsach as $k => $it1){
@@ -78,6 +79,7 @@ class QLyGiaoDichController extends Controller
                             $list[]= $it1;
                         }
                     }
+
             }
             else if($item->MaTap != NULL){
                 $ttsach = DB::table('chitietdondat')
@@ -85,6 +87,7 @@ class QLyGiaoDichController extends Controller
                 ->join('sach','sach.MaSach','=','chitietdondat.MaSach')
                 ->join('sach_tap', 'sach_tap.MaSach', '=', 'sach.MaSach')
                 ->where('sach_tap.MaTap','=',$item->MaTap)
+                ->where('dondat.MaTK','=',$user[0]->MaTK)
                 ->get()
                 ->toArray();
                 foreach ($ttsach as $k => $it1) {
@@ -100,10 +103,13 @@ class QLyGiaoDichController extends Controller
             if(count($phieumuon) == 0){
                 break;
             }
+            $item->PhieuMuon = $phieumuon[0];
             $bansao =DB::table('bansaosach')->where('MaPhieu','=',$phieumuon[0]->MaPhieu)->get()->toArray();
-            $item->MaBanSao=$bansao[0]->MaBanSaoSach;
+            if(count($bansao) > 0){
+                $item->MaBanSao=$bansao[0]->MaBanSaoSach;
+            }
         }
-
+        // dd($list);
         return view('admin.layout.cart.orderDetail', compact('user', 'list'));
     }
 
@@ -114,11 +120,12 @@ class QLyGiaoDichController extends Controller
         ->where('dondat.MaDonDat','=',$orderId)->get()->toArray();
 
         $trangthai = $request->input('trangthai');
-        
+
+        if($a[0]->TrangThaiDonDat == $trangthai){
+            return redirect()->route('admin.order.get-view-order');
+        }
+
         if($trangthai == 'Đã chuẩn bị sách'){
-            if($a[0]->TrangThaiDonDat == $trangthai){
-                return redirect()->route('admin.order.get-view-order');
-            }
             foreach($a as $key=> $item){
                 $id = DB::table('phieumuon')->insertGetId([
                     'NgayMuon'=>NULL,
@@ -137,6 +144,9 @@ class QLyGiaoDichController extends Controller
                             DB::table('bansaosach')->where('MaBanSaoSach','=',$item1->MaBanSaoSach)->update(['MaPhieu'=>$id]);
                             break;
                         }
+                        else{
+                            return redirect()->route('admin.order.get-view-order')->with('msg-order','Không đủ số lượng. Vui lòng kiểm tra lại!');
+                        }
                     }
                 }
                 else{
@@ -150,15 +160,19 @@ class QLyGiaoDichController extends Controller
                             DB::table('bansaosach')->where('MaBanSaoSach','=',$item1->MaBanSaoSach)->update(['MaPhieu'=>$id]);
                             break;
                         }
+                        else
+                        {
+                            return redirect()->route('admin.order.get-view-order')->with('msg-order','Không đủ số lượng. Vui lòng kiểm tra lại!');
+                        }
                     }
                 }
-            }
+            }   
             DB::table('dondat')->where('MaDonDat','=',$orderId)->update(['TrangThaiDonDat'=>$trangthai]);
         }
         else if($trangthai == 'Đã nhận sách'){
             foreach($a as $key => $item){
-                if($a[0]->TrangThaiDonDat == $trangthai){
-                    return redirect()->route('admin.order.get-view-order');
+                if($a[0]->TrangThaiDonDat == 'Chờ xác nhận'){
+                    return redirect()->route('admin.order.get-view-order')->with('msg-order','Đơn chưa được chuẩn bị sách. Vui lòng kiểm tra lại!');
                 }
                 DB::table('phieumuon')->where('MaChiTiet','=',$item->MaChiTiet)->update([
                     'NgayMuon' => (new DateTime())->format('Y-m-d H:i:s'),
@@ -166,14 +180,36 @@ class QLyGiaoDichController extends Controller
                     'NgayHenTra' => Carbon::parse(new DateTime())->addDays($item->ThoiGianMuon),
                 ]);
             }
+            DB::table('dondat')->where('MaDonDat','=',$orderId)->update(['TrangThaiDonDat'=>$trangthai]);
         }
-        return redirect()->route('admin.order.get-view-order');
+        else if($trangthai == 'Đã trả'){
+            // DB::table('dondat')->where('MaDonDat','=',$orderId)->update(['TrangThaiDonDat'=>$trangthai ]);
+            $a = Db::table('chitietdondat')
+                ->join('phieumuon','phieumuon.MaChiTiet','=','chitietdondat.MaChiTiet')
+                ->join('bansaosach','bansaosach.MaPhieu','=','phieumuon.MaPhieu')
+                ->where('chitietdondat.MaDonDat','=',$orderId)
+                ->get()
+                ->toArray();
+                
+            // dd($a);
+            DB::table('bansaosach')->where('MaBanSaoSach','=',$a[0]->MaBanSaoSach)->update(['MaPhieu'=> NULL ]);
+            DB::table('phieumuon')->where('MaPhieu','=',$a[0]->MaPhieu)->update(['TrangThai'=> $trangthai ,'MaBSKhiTra'=> $a[0]->MaBanSaoSach ,'NgayTra'=> (new DateTime())->format('Y-m-d H:i:s')]);
+            DB::table('dondat')->where('MaDonDat','=',$orderId)->update(['TrangThaiDonDat'=>$trangthai ]);
+        }
+
+
+        return redirect()->route('admin.order.get-view-order')->with('msg-order','Đã duỵệt đơn!');
     }
 
     public function getViewBorrow()
     {
-        $list = DB::table('phieumuon');
-
+        $list = DB::table('dondat')
+            ->join('taikhoan', 'taikhoan.MaTk', '=', 'dondat.MaTk')
+            ->join('chitietdondat','chitietdondat.MaDonDat','=','dondat.MaDonDat')
+            ->join('phieumuon','phieumuon.MaChiTiet','=','chitietdondat.MaChiTiet')
+            ->orderByRaw('CONVERT(ThoiGianTao, DATE) DESC, CONVERT(ThoiGianTao, TIME) DESC') // Sắp xếp theo trường 'ThoiGianTao'
+            ->paginate(100);
+        // dd($list);
         return view('admin.layout.cart.borrow', compact('list'));
     }
     public function getViewHistory()
