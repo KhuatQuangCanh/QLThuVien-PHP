@@ -5,87 +5,78 @@
 <div class="col-lg-6 grid-margin stretch-card" style="width: 100%;">
     <div class="card">
         <div class="card-body">
-            <h1>Danh sách đang mượn</h1>
-            <!-- <button type="button" class="btn btn-success btn-fw"><i class="bi bi-plus-square-fill"></i> Thêm
-                mới</button> -->
-
+            <h1>Danh sách phiếu mượn</h1>
+            @if(Session::has('msg-order'))
+            <div class="alert alert-warning">
+                {{Session::get('msg-order')}}
+            </div>
+            @endif
         </div>
         <div class="card-body">
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Thay</th>
-                        <th>Thế</th>
-                        <th>Các</th>
-                        <th>Trường</th>
-                        <th>Vào</th>
-                        <th>Chỗ</th>
-                        <th>Này</th>
-                        <th>Active</th>
+                        <th>Mã phiếu</th>
+                        <th>Mã đơn đặt</th>
+                        <th>Mã tài khoản</th>
+                        <th>Người đặt</th>
+                        <th>Số điện thoại</th>
+                        <th>Thời gian tạo</th>
+                        <th>Trạng thái phiếu mượn</th>
+
                     </tr>
                 </thead>
                 <tbody>
+                    @if(!empty($list))
+                    @foreach($list as $key => $item)
                     <tr>
-                        <td>Đổáaaaaaaaaaaaaaaaaaaaaaaaa</td>
-                        <td>Dữ</td>
-                        <td>Liệu</td>
-                        <td>Nhớ</td>
-                        <td>Làmqqqqqqqqqqqqqqqqqqqqqq</td>
-                        <td>Đẹp</td>
-                        <td>Ok!</td>
+                        <td>{{$item->MaPhieu}}</td>
+                        <td>{{$item->MaDonDat}}</td>
+                        <td>{{$item->MaTK}}</td>
+                        <td>{{$item->Fullname}}</td>
+                        <td>{{$item->SDT}}</td>
+                        <td>{{$item->ThoiGianTao}}</td>
                         <td>
-                            <button type="button" class="btn-sm btn-info btn-fw">Sửa</button>
-                            <button type="button" class="btn-sm btn-danger btn-fw">Xóa</button>
-
+                            <form class="btn-md">
+                                @csrf
+                                <select name="trangthai" class="btn-md" @if($item->TrangThai == 'Đang mượn') disabled @endif>
+                                    <option value="Chờ xác nhận" @if($item->TrangThai == 'Đang mượn') selected @endif>Đang mượn</option>
+                                    <option value="Đã chuẩn bị sách" @if($item->TrangThai == 'Đã trả') selected @endif>Đã trả</option>
+                                </select>
+                                
+                                <button type="submit" class="btn btn-primary btn-sm" @if($item->TrangThai == 'Đã trả') disabled @endif>Cập nhật</button>
+                            </form>
                         </td>
+                        
                     </tr>
-                    <tr>
-                        <td>Đổ</td>
-                        <td>Dữ</td>
-                        <td>Liệu</td>
-                        <td>Nhớ</td>
-                        <td>Làm</td>
-                        <td>Đẹp</td>
-                        <td>Ok!</td>
-                        <td>
-                            <button type="button" class="btn-sm btn-info btn-fw">Sửa</button>
-                            <button type="button" class="btn-sm btn-danger btn-fw">Xóa</button>
+                    @endforeach
+                    @endif
 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Đổ</td>
-                        <td>Dữ</td>
-                        <td>Liệu</td>
-                        <td>Nhớ</td>
-                        <td>Làm</td>
-                        <td>Đẹp</td>
-                        <td>Ok!</td>
-                        <td>
-                            <button type="button" class="btn-sm btn-info btn-fw">Sửa</button>
-                            <button type="button" class="btn-sm btn-danger btn-fw">Xóa</button>
-
-                        </td>
-                    </tr>
                 </tbody>
             </table>
-            <nav aria-label="Page navigation example" style="margin-top: 50px;">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
+            <div class="pagination">
+                <ul>
+                    @if ($list->onFirstPage())
+                    <li class="disabled">&laquo; Previous</li>
+                    @else
+                    <li><a href="{{ $list->previousPageUrl() }}">&laquo; Previous</a></li>
+                    @endif
+
+                    @foreach (range(1, $list->lastPage()) as $page)
+                    @if ($page == $list->currentPage())
+                    <li class="active">{{ $page }}</li>
+                    @else
+                    <li><a href="{{ $list->url($page) }}">{{ $page }}</a></li>
+                    @endif
+                    @endforeach
+
+                    @if ($list->hasMorePages())
+                    <li><a href="{{ $list->nextPageUrl() }}">Next &raquo;</a></li>
+                    @else
+                    <li class="disabled">Next &raquo;</li>
+                    @endif
                 </ul>
-            </nav>
+            </div>
         </div>
 
     </div>

@@ -29,7 +29,7 @@
                             <h3 class="my-3">{{ $info[0]->TenTK }}</h3>
                             <h2 class="text-muted">{{ $info[0]->Fullname }}</h2>
 
-                            <a id="button-changepass" class="btn btn-outline-primary" style="width: 200px;border-radius: 5px; height: 41.5px;  margin-bottom: 15px;" >Change Password</a>
+                            <a id="button-changepass" class="btn btn-outline-primary" style="width: 200px;border-radius: 5px; height: 41.5px;  margin-bottom: 15px;">Change Password</a>
                             @include('clients.layout.users.changepassword')
                             <script>
                                 const button_change = document.getElementById('button-changepass');
@@ -157,8 +157,10 @@
                                 <th scope="col">Tên sách</th>
                                 <th scope="col">Tên tập</th>
                                 <th scope="col">Tình trạng đơn</th>
+                                <th scope="col">Thời gian nhận</th>
                                 <th scope="col">Thời gian mượn</th>
                                 <th scope="col">Hạn trả</th>
+                                <th scope="col">Thời gian trả</th>
                             </tr>
                         </thead>
                         <tbody class="border">
@@ -172,12 +174,39 @@
                                 @else
                                 <td>Không có</td>
                                 @endif
+
                                 <td>{{$item->TrangThaiDonDat}}</td>
-                                <td>@if($item->ThoiGianMuon){{$item->ThoiGianMuon}} Ngày @else Chưa có @endif</td>
-                                <td></td>
+                                <td>
+                                    @if(isset($item->phieu) && $item->phieu[0]->NgayMuon)
+                                    {{$item->phieu[0]->NgayMuon}}
+                                    @else
+                                    Chưa có   
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(isset($item->ThoiGianMuon))
+                                    {{$item->ThoiGianMuon}} Ngày 
+                                    @else 
+                                    Chưa có 
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(isset($item->phieu) && $item->phieu[0]->NgayHenTra)
+                                    {{$item->phieu[0]->NgayHenTra}}
+                                    @else
+                                    Chưa có
+                                    @endif
+                                </td>
+                                <td>
+                                @if(isset($item->phieu) && $item->phieu[0]->NgayTra)
+                                    {{$item->phieu[0]->NgayTra}}
+                                @else
+                                    Chưa có
+                                @endif
+                            </td>
                             </tr>
                             @endforeach
-                            
+
 
                         </tbody>
                     </table>

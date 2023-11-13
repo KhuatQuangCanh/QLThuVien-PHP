@@ -127,13 +127,22 @@ class AccountsController extends Controller
                 ->join('chitietdondat','chitietdondat.MaDonDat','=','dondat.MaDonDat')
                 ->join('sach','sach.MaSach','=','chitietdondat.MaSach')
                 ->where('sach.MaSach','=',$item->MaSach)
+                ->where('MaTK','=',$request->id)
                 ->get();
                 // dd($dondat1);
                 foreach($dondat1 as $k => $don){
                     if(empty($dondat)){
+                        $phieumuon = DB::table('phieumuon')->where('MaChiTiet','=',$don->MaChiTiet)->get()->toArray();
+                        if(!empty($phieumuon)){
+                            $don->phieu= $phieumuon;
+                        }
                         $dondat[] = $don;
                     }
                     else{
+                        $phieumuon = DB::table('phieumuon')->where('MaChiTiet','=',$don->MaChiTiet)->get()->toArray();
+                        if(!empty($phieumuon)){
+                            $don->phieu= $phieumuon;
+                        }
                         if(in_array($don,$dondat) == false){
                             $dondat[] = $don; 
                         }
@@ -146,18 +155,30 @@ class AccountsController extends Controller
                 ->join('sach','sach.MaSach','=','chitietdondat.MaSach')
                 ->join('sach_tap','sach_tap.MaTap','=','chitietdondat.MaTap')
                 ->where('sach_tap.MaTap','=',$item->MaTap)
+                ->where('MaTK','=',$request->id)
                 ->get();
                 // dd($dondat2);
                 foreach($dondat2 as $key2 => $item2){
                     if(empty($dondat)){
+                        $phieumuon = DB::table('phieumuon')->where('MaChiTiet','=',$item2->MaChiTiet)->get()->toArray();
+                        if(!empty($phieumuon)){
+                            $item2->phieu= $phieumuon;
+                        }
                         $dondat[] = $item2;
+                    }else{
+                        $phieumuon = DB::table('phieumuon')->where('MaChiTiet','=',$item2->MaChiTiet)->get()->toArray();
+                        if(!empty($phieumuon)){
+                            $item2->phieu= $phieumuon;
+                        }
+                        if(in_array($item2,$dondat) == false){
+                            $dondat[] =$item2;
+                        }
                     }
-                    if(in_array($item2,$dondat) == false){
-                        $dondat[] =$item2;
-                    }
+                    
                 }
             }
         }
+
         // dd($dondat);
         return view('clients.layout.users.profile', compact('info','dondat'));
     }

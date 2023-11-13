@@ -31,6 +31,9 @@
                         <th>Mã Tập</th>
                         <th>Mã bản sao sách</th>
                         <th>Thời gian mượn</th>
+                        <th>Ngày nhận</th>
+                        <th>Ngày hẹn trả</th>
+                        <th>Thời gian trả</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,9 +59,30 @@
                             @endif
                         </td>
                         <td>
+                            @if(isset($item->MaBanSao))
                             {{$item->MaBanSao}}
+                            @elseif(isset($item->PhieuMuon->MaBSKhiTra))
+                            {{$item->PhieuMuon->MaBSKhiTra}}
+                            @else
+                            Chưa có
+                            @endif
                         </td>
+
                         <td>{{ $item->ThoiGianMuon }}</td>
+                        @if(isset($item->PhieuMuon) && $item->PhieuMuon->NgayTra && $item->PhieuMuon->NgayHenTra)
+                        <td>{{$item->PhieuMuon->NgayMuon}}</td>
+                        <td>{{$item->PhieuMuon->NgayHenTra}}</td>
+                        @else
+                        <td>Chưa có</td>
+                        <td>Chưa có</td>
+                        @endif
+                        <td>
+                        @if(isset($item->PhieuMuon) && $item->PhieuMuon->NgayTra)
+                        {{$item->PhieuMuon->NgayTra}}
+                        @else
+                        Chưa có
+                        @endif
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>

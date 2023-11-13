@@ -62,7 +62,6 @@
             <div class="collapse" id="ui-basic-2">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item"> <a class="nav-link" href="{{route('admin.order.get-view-order')}}">Đơn đặt</a></li>
-                    <li class="nav-item"> <a class="nav-link" href="{{route('admin.get-view-borrow')}}">Phiếu mượn</a>
                     </li>
                 
                 </ul>
