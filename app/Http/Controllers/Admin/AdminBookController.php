@@ -432,4 +432,52 @@ class AdminBookController extends Controller
         }
     }
 
+    public function timsach(Request $request){
+        // dd($request->all());
+
+        $tenSach=$request['tenSach'];
+        $token = $request['_token'];
+
+        $perPage = 12;
+
+        $check = DB::table('sach')
+            ->join('theloai', 'theloai.MaTL', '=', 'sach.MaTL')
+             ->where('TenSach', 'like', '%' . $tenSach . '%')
+            ->orderBy('TenSach', 'asc')
+            ->get();
+
+        $ketqua = [];
+        $list = [];
+        foreach ($check as $key => $item) {
+            if ($item->existsEpisode == 1) {
+                $sach_tap = DB::table('sach_tap')->where('MaSach', '=', $item->MaSach)->get();
+                $item->Sotap = count($sach_tap);
+                foreach ($sach_tap as $k => $sach) {
+                    $k = 'Tap'.($k+1);
+                    $item->$k['MaTap'] = $sach->MaTap;
+                    $item->$k['TenTap'] = $sach->TenTap;
+                    $item->$k['SoTrangTap'] = $sach->SoTrangTap;
+                    $item->$k['NoiDungTap'] = $sach->NoiDungTap;
+                    $item->$k['SoLuongBS']= $sach->SoLuongBS;
+                }
+                if(in_array($item,$ketqua) == false){
+                    $ketqua[] =$item; 
+                }
+            }
+            else{
+                if(in_array($item,$ketqua) == false){
+                $ketqua[]=$item;
+                }
+            }
+        }
+        $currentPage = request()->get('page', 1);
+        $totalItems = count($ketqua);
+        $lastPage = ceil($totalItems / $perPage);
+
+        $offset = ($currentPage - 1) * $perPage;
+        $list = array_slice($ketqua, $offset, $perPage);
+        return view('admin.layout.books.formketquatim',compact('list', 'currentPage', 'lastPage','tenSach','token'));
+
+    }
+
 }

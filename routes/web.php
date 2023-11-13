@@ -85,6 +85,8 @@ Route::prefix('admin')->middleware(['check.login','rule.admin'])->name('admin.')
         Route::post('/sua-sach-tap/{idTap}',[AdminBookController::class,'postFormSuaSachTap'])->name('post-form-sua-tap');
     
         Route::get('/xoa-tap/{id}',[AdminBookController::class,'postXoaTap'])->name('post-xoa-tap');
+
+        Route::get('/tim-sach',[AdminBookController::class,'timsach'])->name('tim-sach');
     });
 
     Route::prefix('/nguoidung')->name('nguoidung.')->group(function(){
