@@ -39,7 +39,7 @@
                         <div id="account-dropdown" class="account-dropdown">
                             <a href="{{route('clients.user.profile',session('id'))}}" class="dropdown-item">Thông tin
                                 tài khoản</a>
-                            <a href="{{route('clients.user.logout')}}" class="dropdown-item">Đăng xuất</a>
+                            <a href="{{route('clients.logout')}}" class="dropdown-item">Đăng xuất</a>
                         </div>
 
                     </div>
