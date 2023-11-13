@@ -8,14 +8,17 @@
             <span class="mdi mdi-menu"></span>
         </button>
         <div class="search-field d-none d-md-block">
-            <form class="d-flex align-items-center h-100" action="#">
+
+            <form class="d-flex align-items-center h-100" action="{{route('admin.danhmucsach.tim-sach')}}" method="get">
                 <div class="input-group" style="background-color:#02F7F3 ;border-radius: 10px; ">
                     <div class="input-group-prepend bg-transparent">
                         <i class="input-group-text border-0 mdi mdi-magnify"></i>
                     </div>
-                    <input type="text" class="form-control bg-transparent border-0" placeholder="Search ....">
+                    <input type="text" class="form-control bg-transparent border-0" placeholder="Tìm sách ...." name="tenSach">
                 </div>
+                @csrf
             </form>
+
         </div>
         <ul class="navbar-nav navbar-nav-right">
             <li class="nav-item nav-profile dropdown">
