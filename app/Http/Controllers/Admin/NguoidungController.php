@@ -11,6 +11,7 @@ class NguoidungController extends Controller
     public function index(){
         $list = DB::table('taikhoan')
         ->Where('LoaiTK','=','Người dùng')
+        ->orderBy('created_at', 'DESC')
         ->paginate(10);
         // dd($list);
         return view('admin.layout.user.nguoidung',compact('list'));
