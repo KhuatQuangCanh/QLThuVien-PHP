@@ -6,17 +6,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Taikhoan;
+use Illuminate\Support\Facades\Hash;
 
 class QLyNhanVienController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $list = DB::table('taikhoan')
-        // ->Where('LoaiTK','=','Nhân viên')
-        // ->orWhere('LoaiTK', '=', 'Admin')
-        // ->orWhere('LoaiTK', '=', 'Admin,Nhân Viên')
-        ->paginate(10);
+            // ->Where('LoaiTK','=','Nhân viên')
+            // ->orWhere('LoaiTK', '=', 'Admin')
+            // ->orWhere('LoaiTK', '=', 'Admin,Nhân Viên')
+            ->paginate(10);
         // dd($list);
-        return view('admin.layout.user.nhanvien',compact('list'));
+        return view('admin.layout.user.nhanvien', compact('list'));
     }
     public function nhapThongTinTaiKhoan()
     {
@@ -35,11 +37,11 @@ class QLyNhanVienController extends Controller
         $Dob = $request->input('Dob');
         $AnhDaiDien = $request->file('img'); // Lấy file ảnh đại diện
         $GioiTinh = $request->input('GioiTinh');
-    
+
         // Lưu thông tin vào cơ sở dữ liệu
         $data = [
             'TenTK' => $TenTK,
-            'MatKhau' => $MatKhau,
+            'MatKhau' => Hash::make($MatKhau),
             'DiaChi' => $DiaChi,
             'SDT' => $SDT,
             'LoaiTK' => $LoaiTK,
@@ -49,9 +51,9 @@ class QLyNhanVienController extends Controller
             'AnhDaiDien' => $AnhDaiDien,
             'GioiTinh' => $GioiTinh,
         ];
-    
+
         Taikhoan::create($data);
-    
+
         return redirect()->route('admin.nhanvien.index')->with('success', 'Thông tin tài khoản đã được lưu thành công.');
     }
     // public function postDeleteNhanVien($id){
@@ -65,68 +67,59 @@ class QLyNhanVienController extends Controller
     //     return back()->with('msg-err', 'Không thể xóa nhân viên này !');
     //   }
 
-     
-      
+    public function postXoaNhanVien($id)
+    {
+        DB::table('taikhoan')->where('MaTK', $id)->delete();
 
-      public function postXoaNhanVien($id)
-      {
-          DB::table('taikhoan')->where('MaTK', $id)->delete();
-      
-          return redirect()->route('admin.nhanvien.index')->with('success', 'Nhân viên đã được xóa thành công');
-      }
+        return redirect()->route('admin.nhanvien.index')->with('success', 'Nhân viên đã được xóa thành công');
+    }
 
+    public function editNhanVien($id)
+    {
+        $info = DB::table('taikhoan')
+            ->where('MaTK', $id)
+            ->first();
 
+        return view('admin.layout.user.editTK', compact('info'));
+    }
 
+    public function updateNhanVien(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'ten' => 'required',
+            'email' => 'required|email',
+            'TenTK' => 'required',
+            'MatKhau' => 'required',
+            'SDT' => 'required',
+            'GioiTinh' => 'required',
+            'LoaiTK' => 'required',
+            'Dob' => 'required',
+            'DiaChi' => 'required',
+            'img' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-      public function editNhanVien($id)
-        {
-            $info = DB::table('taikhoan')
-                ->where('MaTK', $id)
-                ->first();
+        $user = DB::table('taikhoan')->where('MaTK', $id);
 
-            return view('admin.layout.user.editTK', compact('info'));
+        $user->update([
+            'TenTK' => $request->input('TenTK'),
+            'MatKhau' => $request->input('MatKhau'),
+            'DiaChi' => $request->input('DiaChi'),
+            'SDT' => $request->input('SDT'),
+            'LoaiTK' => $request->input('LoaiTK'),
+            'Fullname' => $request->input('ten'),
+            'Email' => $request->input('email'),
+            'Dob' => $request->input('Dob'),
+            'GioiTinh' => $request->input('GioiTinh'),
+        ]);
+
+        if ($request->hasFile('img')) {
+            $image = $request->file('img');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+
+            $user->update(['AnhDaiDien' => $imageName]);
         }
 
-        public function updateNhanVien(Request $request, $id)
-        {
-            $validatedData = $request->validate([
-                'ten' => 'required',
-                'email' => 'required|email',
-                'TenTK' => 'required',
-                'MatKhau' => 'required',
-                'SDT' => 'required',
-                'GioiTinh' => 'required',
-                'LoaiTK' => 'required',
-                'Dob' => 'required',
-                'DiaChi' => 'required',
-                'img' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            ]);
-
-            $user = DB::table('taikhoan')->where('MaTK', $id);
-
-            $user->update([
-                'TenTK' => $request->input('TenTK'),
-                'MatKhau' => $request->input('MatKhau'),
-                'DiaChi' => $request->input('DiaChi'),
-                'SDT' => $request->input('SDT'),
-                'LoaiTK' => $request->input('LoaiTK'),
-                'Fullname' => $request->input('ten'),
-                'Email' => $request->input('email'),
-                'Dob' => $request->input('Dob'),
-                'GioiTinh' => $request->input('GioiTinh'),
-            ]);
-
-            if ($request->hasFile('img')) {
-                $image = $request->file('img');
-                $imageName = time() . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('images'), $imageName);
-
-                $user->update(['AnhDaiDien' => $imageName]);
-            }
-
-            return redirect()->route('admin.nhanvien.index')->with('success', 'Thông tin tài khoản đã được cập nhật thành công');
-        }
-
-    
-
+        return redirect()->route('admin.nhanvien.index')->with('success', 'Thông tin tài khoản đã được cập nhật thành công');
+    }
 }

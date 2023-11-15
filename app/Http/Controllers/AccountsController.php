@@ -101,6 +101,7 @@ class AccountsController extends Controller
                 'TenTK' => $request->TenTK,
                 'MatKhau' => $request->MatKhau,
                 'LoaiTK' => 'Người dùng',
+                'isLockAccount' => 0
             ]);
 
             return redirect()->route('clients.homeClient')->with('msg-regis', 'Đăng kí thành công.');

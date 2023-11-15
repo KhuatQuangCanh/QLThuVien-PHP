@@ -25,38 +25,44 @@ class BookController extends Controller
             $list_TL = DB::table('theloai')
                 ->take(5)
                 ->orderBy('TenTL', 'asc')
-                ->get();
-
-            $theloai = DB::table('theloai')->where('TenTL','=',$idTL)->select(['MaTL'])->get();
-            $lst_sach = DB::table('sach')->where('sach.MaTL', '=',  $theloai[0]->MaTL)->get();
-
+                ->get()
+                ->toArray();
+            $theloai = DB::table('theloai')->where('TenTL','=',$idTL)->select(['MaTL'])->get()->toArray();
+            $lst_sach = DB::table('sach')->where('sach.MaTL', '=',  $theloai[0]->MaTL)->get()->toArray();
             $list = [];
             $all_book=[];
+
             foreach($lst_sach as $key => $sach){
-                
                 if ($sach->existsEpisode == 1) {
                     $sach1 = DB::table('sach')
                     ->join('sach_tap', 'sach_tap.MaSach', '=', 'sach.MaSach')
                     ->where('sach.MaTL', '=', $theloai[0]->MaTL)
                     ->orderBy('TenSach', 'asc')
-                    ->get();
+                    ->get()
+                    ->toArray();
+                    // dd($sach1);
                     foreach($sach1 as $key => $book){
                         $list[] = $book;
                     }
-                } else {
-                    $list[] = DB::table('sach')
+                }
+                else if($sach->existsEpisode == 0){
+                    $sach2 = DB::table('sach')
                         ->where('sach.MaTL', '=', $theloai[0]->MaTL)
                         ->orderBy('TenSach', 'asc')
-                        ->get();
+                        ->get()
+                        ->toArray();
+                        // dd($sach2);
+                        foreach($sach2 as $key => $book){
+                            $list[] = $book;
+                        }
                 }
             }
+            // dd($list);
             foreach($list as $key => $book){
-                foreach($book as $k => $item){
                     if(count($all_book) >= 4){
                         break;
                     }
-                    $all_book[]=$item;
-                }
+                    $all_book[]=$book;
             }
             // dd($all_book);
             return view('clients.layout.home', compact('all_book', 'list_TL'));
@@ -72,7 +78,8 @@ class BookController extends Controller
 
             $list_TL = DB::table('theloai')
                 ->orderBy('TenTL', 'asc')
-                ->get();
+                ->get()
+                ->toArray();
             $theloai = DB::table('theloai')->where('TenTL','=',$idTL)->select(['MaTL'])->get();
             // dd($theloai);
             $all_books = DB::table('sach')

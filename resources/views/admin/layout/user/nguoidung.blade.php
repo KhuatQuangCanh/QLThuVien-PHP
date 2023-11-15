@@ -5,7 +5,11 @@
 <h3>Danh sách người dùng</h3>
 <div class="col-lg-6 grid-margin stretch-card" style="width: 100%;">
     <div class="card">
-        
+        @if(Session::has('msg'))
+        <div class="alert alert-primary">
+            {{Session::get('msg')}}
+        </div>
+        @endif
         <div class="card-body">
             <table class="table table-hover">
                 <thead>
@@ -17,6 +21,7 @@
                         <th>Họ và tên</th>
                        <th>Email</th>
                         <th>Ngày sinh</th>
+                        <th>IsLocked</th>
                         <th>Active</th>
                     </tr>
                 </thead>
@@ -31,8 +36,12 @@
                         <td>{{$item->Fullname}}</td>
                         <td>{{$item->Email}}</td>
                         <td>{{$item->Dob}}</td>
+                        <td style="text-align: center;">{{$item->isLockAccount}}</td>
                         <td>
-                               <button type="button" class="btn-sm btn-danger btn-fw">Khóa tài khoản</button>
+                            @if($item->isLockAccount == 1)
+                            <a onclick="return confirm('Bạn chắc chắn muốn mở khóa cho tài khoản này?')" href="{{route('admin.nguoidung.un-lock-account',['idAccount'=>$item->MaTK])}}" type="button" class="btn-sm btn-success btn-fw" style="text-decoration: none;">Mở khóa tài khoản</a>
+                            @endif
+                            <a @if($item->isLockAccount == 1) style="display: none;" @endif style="text-decoration: none;" onclick="return confirm('Bạn chắc chắn muốn khóa tài khoản này?')" href="{{route('admin.nguoidung.lock-account',['idAccount'=>$item->MaTK])}}" type="button" class="btn-sm btn-danger btn-fw">Khóa tài khoản</a>
                         </td>
                     </tr>
                     @endforeach

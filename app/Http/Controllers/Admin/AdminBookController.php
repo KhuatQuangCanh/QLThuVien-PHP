@@ -278,14 +278,13 @@ class AdminBookController extends Controller
     public function postFormNhapSachTap($idSach,Request $request)
     {
         $request->validate([
-            'TenTap' => 'required|unique:sach_tap',
+            'TenTap' => 'required',
             'NoiDungTap'  => 'required',
             'SoTrangTap'  => 'required|min:0',
             'SoLuongBS'  => 'required|min:0',
             'AnhTap'  => 'required',
         ], [
             'TenTap.required' => 'Bạn không thể để trống tến tập!',
-            'TenTap.unique' => 'Tên tập này đã tồn tại!',
             'NoiDungTap.required' => 'Bạn hãy ghi nội dung mô tả cho tập này!',
             'TacGia.required' => 'Bạn cần điền tác giả cho cuốn sách!',
             'SoTrangTap.required' => 'Bạn chưa nhập số trang!',
@@ -377,10 +376,9 @@ class AdminBookController extends Controller
             'SoLuongBS.min' => 'Số lượng phải lơn hơn 0!',
         ]);
         $postdata = $request->all();
-        // dd($request->all(),$idTap);
-        if ($request->hasFile('AnhSach')) {
+        if ($request->hasFile('AnhTap')) {
 
-            $file = $request->file('AnhSach');
+            $file = $request->file('AnhTap');
             $fileName = $file->hashName();
             $file->store('books', 'public');
 
@@ -391,6 +389,7 @@ class AdminBookController extends Controller
                 'SoLuongBS' => $postdata['SoLuongBS'],
                 'AnhTap' => $fileName
             ];
+            // dd(1);
         }
         else{
             $data = [
@@ -400,6 +399,8 @@ class AdminBookController extends Controller
                 'SoLuongBS' => $postdata['SoLuongBS'],
             ];
         }
+        // dd($request->all(),$idTap);
+
         DB::table('sach_tap')->where('MaTap','=',$idTap)->update($data);
         return redirect()->route('admin.danhmucsach.index')->with('msg-suc', 'Sửa thông tin tập thành công!');
     }

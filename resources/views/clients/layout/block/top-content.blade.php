@@ -1,7 +1,6 @@
 <div class="top-content">
     <div class="container">
         <div class="row">
-
             <div class="col-md-12">
                 <div class="right-element">
                     <div class="action-menu">
