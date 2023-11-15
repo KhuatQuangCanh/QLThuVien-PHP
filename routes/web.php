@@ -48,19 +48,19 @@ Route::prefix('')->name("clients.")->group(function () {
 
     });
 
-    Route::prefix('/book')->middleware(['check.login'])->name('books.')->group(function () {
+    Route::prefix('/book')->name('books.')->group(function () {
         Route::get('/chitiet-sach/{ten}', [BookController::class, 'getChitietSach'])->name('chi-tiet-1');
         Route::get('/chitiet-sachs/{ten}/{tap}', [BookController::class, 'getChitietSach'])->name('chi-tiet-2');
         Route::get('/tim-sach/{id}', [BookController::class, 'getBookById'])->name('getBookById');
         Route::get('/tim-sach/the-loai/{idTL}', [BookController::class, 'getBooksByGenreForHome'])->name('getBooksByGenre');
         Route::get('/tu-sach/tim-sach/the-loai/{idTL}', [BookController::class, 'getBooksByGenreForBookCase'])->name('getBooksByGenreForBookCase');
 
-        Route::post('/add-to-cart', [CartController::class,'addToCart'])->name('addtocart');
+        Route::post('/add-to-cart', [CartController::class,'addToCart'])->middleware(['check.login'])->name('addtocart');
         
-        Route::get('/delete-from-cart-1/{idSach}/{tenSach}/{idTap}/{tenTap}',[CartController::class,'deleteFromCart'])->name('delete-from-cart-1');
-        Route::get('/delete-from-cart-2/{idSach}/{tenSach}',[CartController::class,'deleteFromCart'])->name('delete-from-cart-2');
+        Route::get('/delete-from-cart-1/{idSach}/{tenSach}/{idTap}/{tenTap}',[CartController::class,'deleteFromCart'])->middleware(['check.login'])->name('delete-from-cart-1');
+        Route::get('/delete-from-cart-2/{idSach}/{tenSach}',[CartController::class,'deleteFromCart'])->middleware(['check.login'])->name('delete-from-cart-2');
 
-        Route::post('/xac-nhan-dat',[CartController::class,'xacNhanDat'])->name('xac-nhan-dat');
+        Route::post('/xac-nhan-dat',[CartController::class,'xacNhanDat'])->middleware(['check.login'])->name('xac-nhan-dat');
     });
 });
 Route::prefix('admin')->middleware(['check.login','rule.admin'])->name('admin.')->group(function () {
@@ -91,23 +91,20 @@ Route::prefix('admin')->middleware(['check.login','rule.admin'])->name('admin.')
 
     Route::prefix('/nguoidung')->name('nguoidung.')->group(function(){
         Route::get('',[NguoidungController::class,'index'])->name('index');
+        Route::get('/lock-account/{idAccount}',[NguoidungController::class,'LockAccount'])->name('lock-account');
+        Route::get('/un-lock-account/{idAccount}',[NguoidungController::class,'unLockAccount'])->name('un-lock-account');
     });
 
     Route::prefix('/nhanvien')->name('nhanvien.')->group(function(){
         Route::get('',[QLyNhanVienController::class,'index'])->name('index');
-       
-
         Route::get('/nhanvien/{id}', [QLyNhanVienController::class, 'editNhanVien'])->name('sua-thong-tin-nhan-vien');
         Route::post('/nhanvien/{id}', [QLyNhanVienController::class, 'updateNhanVien'])->name('cap-nhat-thong-tin-nhan-vien');
-       
         Route::get('/xoa/{id}', [QLyNhanVienController::class,'postXoaNhanVien'])->name('post-xoa-nv');
     });
 
     Route::prefix('/order')->name('order.')->group(function(){
         Route::get('',[QLyGiaoDichController::class,'getViewOrder'])->name('get-view-order');
-       
         Route::post('update-status/{orderId}',  [QLyGiaoDichController::class, 'updateStatus'])->name('update-status');
-       
     });
     Route:: get('/borrow', [QLyGiaoDichController::class,'getViewBorrow'])-> name('get-view-borrow');
     Route:: get('/history', [QLyGiaoDichController::class, 'getViewHistory'])-> name('get-view-history');

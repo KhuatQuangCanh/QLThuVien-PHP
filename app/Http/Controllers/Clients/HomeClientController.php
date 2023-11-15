@@ -28,7 +28,6 @@ class HomeClientController extends Controller
         $all_book = [];
         $lis_book = DB::table('sach')
             ->orderBy('TenSach', 'asc')
-            ->take(3)
             ->get()
             ->toArray();
         foreach ($lis_book as $key => $book) {
@@ -41,16 +40,21 @@ class HomeClientController extends Controller
                     if (in_array($item, $all_book) == false) {
                         $all_book[] = $item;
                     }
+                    if(count($all_book) == 4){
+                        return view('clients.layout.home', compact('list_TL', 'all_book'));
+                    }
                 }
             }
             else{
                 if (in_array($book, $all_book) == false){
                     $all_book[] = $book;
                 }
+                if(count($all_book) == 4){
+                    return view('clients.layout.home', compact('list_TL', 'all_book'));
+                }
             }
             
         }
-        // dd($all_book);
         return view('clients.layout.home', compact('list_TL', 'all_book'));
     }
     public function about()

@@ -8,14 +8,15 @@ use App\Http\Controllers\Controller;
 
 class NhanVienController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $list = DB::table('taikhoan')
-        ->Where('LoaiTK','=','Nhân viên')
-        ->orWhere('LoaiTK', '=', 'Admin')
-        ->orWhere('LoaiTK', '=', 'Admin,Nhân Viên')
-        ->paginate(10);
+            ->Where('LoaiTK', '=', 'Nhân viên')
+            ->orWhere('LoaiTK', '=', 'Admin')
+            ->orWhere('LoaiTK', '=', 'Admin,Nhân Viên')
+            ->paginate(10);
         // dd($list);
-        return view('admin.layout.user.nhanvien',compact('list'));
+        return view('admin.layout.user.nhanvien', compact('list'));
     }
     public function getThemNhanVien()
     {
@@ -32,7 +33,7 @@ class NhanVienController extends Controller
             'MatKhau'  => 'required|min:0',
             'DiaChi'  => 'required',
             'Email'  => 'required',
-            
+
         ], [
             'MaTK.required' => 'Bạn không thể để trống mã tài khoản!',
             'TenTK.required' => 'Bạn hãy nhập tên tài khoản!',
@@ -77,7 +78,7 @@ class NhanVienController extends Controller
                 'Dob'  => $postdata['Dob'],
                 'GioiTinh'  => $postdata['GioiTinh'],
                 'AnhDaiDien'  => $fileName,
-                'existsEpisode'=>false
+                'existsEpisode' => false
             ];
             DB::table('taikhoan')->insert($data);
             return redirect()->route('admin.nhanvien.index')->with('msg-suc', 'Thêm tài khoản mới thành công');
@@ -88,12 +89,13 @@ class NhanVienController extends Controller
     {
 
         $list_Tl = DB::table('taikhoan')->get();
-        $edit_taikhoan = DB::table('taikhoan')->Where('LoaiTK','=','Nhân viên')
-        ->orWhere('LoaiTK', '=', 'Admin')
-        ->orWhere('LoaiTK', '=', 'Admin,Nhân Viên');
+        $edit_taikhoan = DB::table('taikhoan')->Where('LoaiTK', '=', 'Nhân viên')
+            ->orWhere('LoaiTK', '=', 'Admin')
+            ->orWhere('LoaiTK', '=', 'Admin,Nhân Viên');
         return view('admin.layout.user.suaNhanVien', compact('list_Tl', 'edit_taikhoan'));
     }
-    public function postEditNhanVien(Request $request){
+    public function postEditNhanVien(Request $request)
+    {
         $request->validate([
             'MaTK' => 'required',
             'TenTk'  => 'required',
@@ -101,7 +103,7 @@ class NhanVienController extends Controller
             'MatKhau'  => 'required|min:0',
             'DiaChi'  => 'required',
             'Email'  => 'required',
-            
+
         ], [
             'MaTK.required' => 'Bạn không thể để trống mã tài khoản!',
             'TenTK.required' => 'Bạn hãy nhập tên tài khoản!',
@@ -160,50 +162,43 @@ class NhanVienController extends Controller
                     'LoaiTK'  => $postdata['LoaiTK'],
                     'Dob'  => $postdata['Dob'],
                     'GioiTinh'  => $postdata['GioiTinh'],
-                  
+
                 ];
                 DB::table('taikhoan')->where('MaTK', $request->id)->update($data);
                 return redirect()->route('admin.nhanvien.index')->with('msg-suc', 'Cập nhật thông tin nhân viên thành công!');
-            
-            if (isset($postdata['SoLuong']) == true) {
-                $data = [
-                    'MaTK' => $postdata['MaTK'],
-                    'TenTK'  => $postdata['TenTK'],
-                    'FullName'  => $postdata['FullName'],
-                    'MatKhau'  => $postdata['MatKhau'],
-                    'DiaChi'  => $postdata['DiaChi'],
-                    'SDT'  => $postdata['SDT'],
-                    'LoaiTK'  => $postdata['LoaiTK'],
-                    'Dob'  => $postdata['Dob'],
-                    'GioiTinh'  => $postdata['GioiTinh'],
-                  
-                ];
-                DB::table('taikhoan')->where('MaTK', $request->id)->update($data);
-                return redirect()->route('admin.nhanvien.index')->with('msg-suc', 'Cập nhật thông tin nhân viên thành công!');
+
+                if (isset($postdata['SoLuong']) == true) {
+                    $data = [
+                        'MaTK' => $postdata['MaTK'],
+                        'TenTK'  => $postdata['TenTK'],
+                        'FullName'  => $postdata['FullName'],
+                        'MatKhau'  => $postdata['MatKhau'],
+                        'DiaChi'  => $postdata['DiaChi'],
+                        'SDT'  => $postdata['SDT'],
+                        'LoaiTK'  => $postdata['LoaiTK'],
+                        'Dob'  => $postdata['Dob'],
+                        'GioiTinh'  => $postdata['GioiTinh'],
+
+                    ];
+                    DB::table('taikhoan')->where('MaTK', $request->id)->update($data);
+                    return redirect()->route('admin.nhanvien.index')->with('msg-suc', 'Cập nhật thông tin nhân viên thành công!');
+                }
             }
         }
     }
-        
-}
-          public function postDeleteNhanVien($id){
-            $nhanvien1 = DB::table('taikhoan')
-                ->join('dondat', 'dondat.MaTK', '=', 'taikhoan.MaTK')
+    public function postDeleteNhanVien($id)
+    {
+        $nhanvien1 = DB::table('taikhoan')
+            ->join('dondat', 'dondat.MaTK', '=', 'taikhoan.MaTK')
+            ->where('taikhoan.MaTK', $id)
+            ->get();
+
+        if ($nhanvien1->isEmpty()) {
+            $nhanvien = DB::table('taikhoan')
                 ->where('taikhoan.MaTK', $id)
                 ->get();
-            
-            if($nhanvien1->isEmpty()){
-                $nhanvien = DB::table('taikhoan')
-                ->where('taikhoan.MaTK', $id)
-                ->get();
-                 return back()->with('msg-suc', 'Xóa thành công !');
-            }
-            return back()->with('msg-err', 'Không thể xóa nhân viên này !');
-          }
-    
+            return back()->with('msg-suc', 'Xóa thành công !');
+        }
+        return back()->with('msg-err', 'Không thể xóa nhân viên này !');
+    }
 }
-
-
-
-    
-
-

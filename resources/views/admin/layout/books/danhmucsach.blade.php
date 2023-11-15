@@ -23,6 +23,7 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
+                        <th>Mã sách/tập</th>
                         <th>Tên sách</th>
                         <th>Tác giả</th>
                         <th>Nội dung</th>
@@ -37,6 +38,7 @@
                     @if(!empty($list))
                     @foreach($list as $key => $item)
                     <tr>
+                        <td>{{$item->MaSach}}</td>
                         <td>{{$item->TenSach}}</td>
                         <td>{{$item->TacGia}}</td>
                         <td>
@@ -69,6 +71,7 @@
                         @endphp
                         <tr>
                             <td></td>
+                            <td>{{$item->$a['MaTap']}}</td>
                             <td>{{$item->$a['TenTap']}}</td>
                             <td>{{ Str::limit($item->$a['NoiDungTap'], $limit = 68, $end = '...') }}</td>
                             <td>{{$item->$a['SoLuongBS']}}</td>

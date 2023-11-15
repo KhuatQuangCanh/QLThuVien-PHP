@@ -32,7 +32,8 @@ class User extends Authenticatable
         'Fullname',
         'Email',
         'Dob',
-        'GioiTinh'
+        'GioiTinh',
+        'isLockAccount'
 
     ];
 

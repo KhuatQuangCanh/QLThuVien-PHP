@@ -35,6 +35,7 @@
                 </ul>
             </div>
         </li>
+        @if( Session::has('loaiTk') && (Session::get('loaiTk') == 'Admin' || Session::get('loaiTk') == 'Admin,Nhân viên') )
         <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
                 aria-controls="ui-basic">
@@ -52,6 +53,7 @@
                 </ul>
             </div>
         </li>
+        @endif
         <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic-2" aria-expanded="false"
                 aria-controls="ui-basic-2">
@@ -74,12 +76,12 @@
                 <i class="mdi mdi-chart-bar menu-icon"></i>
             </a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link" href="{{route('admin.template-table')}}">
                 <span class="menu-title">Template table</span>
                 <i class="menu-icon bi bi-table" style="color: #BEABC2;"></i>
             </a>
-        </li>
+        </li> -->
 
     </ul>
 </nav>

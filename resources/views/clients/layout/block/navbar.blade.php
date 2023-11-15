@@ -1,7 +1,6 @@
 <header id="header">
     <div class="container">
         <div class="row">
-
             <div class="col-md-2">
                 <div class="main-logo">
                     <a href="{{route('clients.homeClient')}}"><img src="{{asset('assets/images/main-logo.png')}}" alt="logo"></a>
