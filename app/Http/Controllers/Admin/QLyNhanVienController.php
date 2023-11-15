@@ -13,9 +13,9 @@ class QLyNhanVienController extends Controller
     public function index()
     {
         $list = DB::table('taikhoan')
-            // ->Where('LoaiTK','=','Nhân viên')
-            // ->orWhere('LoaiTK', '=', 'Admin')
-            // ->orWhere('LoaiTK', '=', 'Admin,Nhân Viên')
+            ->Where('LoaiTK','=','Nhân viên')
+            ->orWhere('LoaiTK', '=', 'Admin')
+            ->orWhere('LoaiTK', '=', 'Admin,Nhân Viên')
             ->paginate(10);
         // dd($list);
         return view('admin.layout.user.nhanvien', compact('list'));

@@ -14,8 +14,8 @@ class NhanVienController extends Controller
             ->Where('LoaiTK', '=', 'Nhân viên')
             ->orWhere('LoaiTK', '=', 'Admin')
             ->orWhere('LoaiTK', '=', 'Admin,Nhân Viên')
-            ->paginate(10);
-        // dd($list);
+            ->paginate(15);
+        dd($list);
         return view('admin.layout.user.nhanvien', compact('list'));
     }
     public function getThemNhanVien()
